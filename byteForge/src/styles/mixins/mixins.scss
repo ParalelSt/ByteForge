@@ -1,6 +1,21 @@
+@use "@/styles/variables" as v;
+
 @mixin flexCenter {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+@mixin flexColLeft {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+}
+
+@mixin elementAccent {
+    &:hover {
+        cursor: pointer;
+        filter: drop-shadow(0 0 6px v.$accent);
+    }
+}

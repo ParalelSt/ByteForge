@@ -7,6 +7,11 @@
     box-sizing: border-box;   
 }
 
+html, body {
+    height: 100%;
+    min-height: 100%;
+}
+
 body {
     font-family: v.$font-body;
     background-color: v.$bg-color;
@@ -31,6 +36,16 @@ button {
     border: none;
     cursor: pointer;
     font-family: v.$font-display;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+}
+
+a:visited {
+    color: white;
+    text-decoration: none;
 }
 
 
