@@ -2,7 +2,7 @@ import "@/styles/sectionContainer.scss";
 
 type SectionContainerProps = {
   children: React.ReactNode;
-  className: string;
+  className?: string;
 };
 
 const SectionContainer = ({ children, className }: SectionContainerProps) => {

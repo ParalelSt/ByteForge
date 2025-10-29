@@ -1,10 +1,11 @@
-@use "@/styles/variables.scss" as v;
+@use "@/styles/mixins/mixins.scss" as mixins;
 
 .section-container {
-    display: flex;
-
-    background-color: v.$element-container-bg-color;
-    border-radius: 1rem;
+    @include mixins.flexCenter;
+    grid-column: 1 / -1;
 
     padding: 1.5rem;
+    border-radius: 0.3rem;
+
+    width: 100%;
 }
