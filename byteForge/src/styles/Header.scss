@@ -1,0 +1,29 @@
+@use '@/styles/mixins/mixins.scss';
+
+.header-container {
+    @include mixins.flexCenter;
+    grid-column: 1 / -1;
+
+    margin-top: 1em;
+
+    button {
+        @include mixins.flexCenter;
+
+        img, svg {
+            width: 2em;
+            height: 2em;
+        }
+    }
+
+    .logo {
+        margin: 0 auto;
+        transition: filter 0.3s ease;
+
+        font-size: --fs-display;
+
+        &:hover {
+            filter: drop-shadow(0 0 6px var(--accent));
+        }
+
+    }
+}

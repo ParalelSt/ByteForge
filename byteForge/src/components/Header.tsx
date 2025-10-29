@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
-import GIcon from "../assets/icons/GIcon.svg";
+import GIcon from "@/assets/icons/GIcon.svg";
+import "@/styles/Header.scss";
+import Navigation from "@/components/Navigation";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -17,11 +19,7 @@ const Header = () => {
         >
           {isOpen ? <FiX color="white" /> : <FiMenu color="white" />}
         </button>
-        <nav className="nav-links">
-          <a href="/shop"></a>
-          <a href="/about"></a>
-          <a href="/contact"></a>
-        </nav>
+        <Navigation></Navigation>
         <div className="logo">ByteForge</div>
         <button className="cart-btn" aria-label="Go to cart">
           <img src={GIcon} alt="Cart icon" />

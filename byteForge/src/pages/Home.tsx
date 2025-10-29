@@ -1,6 +1,4 @@
-import Header from "../components/Header";
-import "../styles/home.scss";
-
+import Header from "@/components/Header";
 const Home = () => {
   return (
     <>
