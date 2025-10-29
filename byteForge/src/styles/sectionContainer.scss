@@ -1,0 +1,10 @@
+@use "@/styles/variables.scss" as v;
+
+.section-container {
+    display: flex;
+
+    background-color: v.$element-container-bg-color;
+    border-radius: 1rem;
+
+    padding: 1.5rem;
+}
