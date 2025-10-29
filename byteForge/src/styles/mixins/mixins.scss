@@ -13,9 +13,17 @@
 
 }
 
-@mixin elementAccent {
+@mixin elementAccentDesktop {
     &:hover {
         cursor: pointer;
         filter: drop-shadow(0 0 6px v.$accent);
     }
 }
+
+@mixin elementAccent {
+    &:focus {
+        cursor: pointer;
+        filter: drop-shadow(0 0 6px v.$accent);
+    }
+}
+

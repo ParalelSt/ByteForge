@@ -8,9 +8,15 @@ const Navigation = ({ isOpen }: NavigationProps) => {
   return (
     <>
       <nav className={`nav-links ${isOpen ? "open" : ""}`}>
-        <a href="/shop">Shop</a>
-        <a href="/about">About</a>
-        <a href="/contact">Contact</a>
+        <a href="/shop">
+          <span>Shop</span>
+        </a>
+        <a href="/about">
+          <span>About</span>
+        </a>
+        <a href="/contact">
+          <span>Contact</span>
+        </a>
       </nav>
     </>
   );
