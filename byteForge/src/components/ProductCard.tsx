@@ -10,11 +10,13 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ image, name, price }: ProductCardProps) => {
+  /* Temporary - will remove the placeholder items */
+
   return (
     <CardContainer className="product-card">
       <img src={image} alt="product image" />
-      <h3 className="name">{name}</h3>
-      <p className="price">{price}</p>
+      <h3 className="name">{name ? name : "Product name"}</h3>
+      <p className="price">{price ? price : "Product price"}</p>
     </CardContainer>
   );
 };
