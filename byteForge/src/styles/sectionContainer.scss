@@ -1,7 +1,7 @@
-@use "@/styles/mixins/mixins.scss" as mixins;
+@use "@/styles/mixins/mixins" as m;
 
 .section-container {
-    @include mixins.flexCenter;
+    @include m.flexCenter;
     grid-column: 1 / -1;
 
     padding: 1.5rem;

@@ -1,14 +1,19 @@
 import ProductCard from "./ProductCard";
-import SectionContainer from "./SectionContainer";
+import "@/styles/featuredProducts.scss";
 
 const FeaturedProducts = () => {
   return (
-    <>
-      <SectionContainer className="featured-products-container">
-        <h2>FEATURED PRODUCTS</h2>
+    <div className="featured-products-container">
+      <h2>FEATURED PRODUCTS</h2>
+
+      {/* Temporary - will fix once I add the database */}
+
+      <div className="product-cards-container">
         <ProductCard></ProductCard>
-      </SectionContainer>
-    </>
+        <ProductCard></ProductCard>
+        <ProductCard></ProductCard>
+      </div>
+    </div>
   );
 };
 

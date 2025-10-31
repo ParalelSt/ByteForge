@@ -1,4 +1,4 @@
-@use "@/styles/mixins/mixins" as mixins;
+@use "@/styles/mixins/mixins" as m;
 @use "@/styles/variables" as v;
 
 .nav-links {
@@ -12,7 +12,7 @@
     padding: 3em 1em;
 
     &.open {
-        @include mixins.flexColLeft;
+        @include m.flexColLeft;
 
         width: 10rem;
 
@@ -29,7 +29,7 @@
         
         width: 100%;
 
-        @include mixins.elementAccent;
+        @include m.elementAccent;
         
         span {
             display: inline-block;

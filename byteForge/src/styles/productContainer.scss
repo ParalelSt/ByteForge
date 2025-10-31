@@ -1,3 +1,23 @@
+@use "@/styles/mixins/mixins" as m;
+
 .product-card {
-    width: ;
+    @include m.flexCenter;
+
+    /* width: 10rem;
+    height: 10rem; */
+    
+    background-color: white;
+
+    img {
+        width: 6.5rem;
+        height: 6.5rem;
+    }
+
+    .name {
+        
+    }
+
+    .price {
+        
+    }
 }

@@ -1,0 +1,16 @@
+@use "@/styles/mixins/mixins" as m;
+
+.featured-products-container {
+    @include m.flexCenter;
+    flex-direction: column;
+
+    grid-column: 1 / -1;
+
+    .product-cards-container {
+        @include m.flexCenter;
+
+        justify-content: space-between;
+
+        width: 100%;
+    }
+}
