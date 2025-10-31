@@ -1,4 +1,5 @@
 import "@/styles/navigation.scss";
+import { Link } from "react-router-dom";
 
 interface NavigationProps {
   isOpen?: boolean;
@@ -8,15 +9,15 @@ const Navigation = ({ isOpen }: NavigationProps) => {
   return (
     <>
       <nav className={`nav-links ${isOpen ? "open" : ""}`}>
-        <a href="/shop">
+        <Link to={"/shop"}>
           <span>Shop</span>
-        </a>
-        <a href="/about">
+        </Link>
+        <Link to={"/about"}>
           <span>About</span>
-        </a>
-        <a href="/contact">
+        </Link>
+        <Link to={"/contact"}>
           <span>Contact</span>
-        </a>
+        </Link>
       </nav>
     </>
   );

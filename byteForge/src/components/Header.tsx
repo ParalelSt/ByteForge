@@ -25,7 +25,9 @@ const Header = () => {
           ByteForge
         </Link>
         <button className="cart-btn" aria-label="Go to cart">
-          <img src={GIcon} alt="Cart icon" />
+          <Link to={"/cart"}>
+            <img src={GIcon} alt="Cart icon" />
+          </Link>
         </button>
       </header>
     </>
