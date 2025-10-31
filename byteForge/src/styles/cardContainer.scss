@@ -1,0 +1,7 @@
+@use "@/styles/mixins/mixins" as mixin;
+
+.card-container {
+    @include mixin.flexCenter;
+
+    border-radius: 1rem;
+}
