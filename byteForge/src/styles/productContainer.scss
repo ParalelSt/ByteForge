@@ -14,22 +14,14 @@
     /* width: 10rem;
     height: 10rem; */
 
-    h2 {
-
-    }
-
-    h3 {
-        
-    }
-
     img {
         width: 6.5rem;
         height: 6.5rem;
-        background-color: #100f0f;
+        background-color: v.$section-bg;
 
         object-fit: cover;
 
-        border-radius: 0.25rem;
+        border-radius: 0.3rem;
     }
 
     .name, .price {

@@ -1,4 +1,5 @@
 @use "@/styles/mixins/mixins" as m;
+@use "@/styles/variables" as v;
 
 .featured-products-container {
     @include m.flexCenter;
@@ -6,11 +7,17 @@
 
     grid-column: 1 / -1;
 
+    h2 {
+        font-size: v.$fs-subheading-2;
+    }
+
     .product-cards-container {
         @include m.flexCenter;
 
         justify-content: space-between;
 
         width: 100%;
+
+        
     }
 }

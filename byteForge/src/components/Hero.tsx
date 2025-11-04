@@ -9,7 +9,7 @@ const Hero = () => {
       <SectionContainer className="hero-section">
         <h1>GEAR UP. GAME ON.</h1>
         <p>Performance-driven gaming gear for champions.</p>
-        <Link to={"/shop"}>Shop Now</Link>
+        <Link to={"/shop"}>SHOP NOW</Link>
       </SectionContainer>
     </>
   );
