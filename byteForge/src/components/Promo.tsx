@@ -1,6 +1,6 @@
 import "@/styles/promo.scss";
+import ShopNowBtn from "@/components/ShopNowBtn";
 import SectionContainer from "./SectionContainer";
-import { Link } from "react-router-dom";
 
 const Promo = () => {
   return (
@@ -18,9 +18,7 @@ const Promo = () => {
         </SectionContainer>
       </div>
       <div className="promo-container-bottom">
-        <Link className="shop-now-btn" to={"/shop/promo"}>
-          SHOP NOW
-        </Link>
+        <ShopNowBtn link="/shop/promo" />
       </div>
     </div>
   );

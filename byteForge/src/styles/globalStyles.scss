@@ -14,10 +14,12 @@
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-html, body {
-    height: 100%;
+/* Commented out for testing - bg color wasn't showing correctly on phone */
+
+/* html, body {
+    height: 100vh;
     min-height: 100%;
-}
+} */
 
 body{
     font-family: v.$font-body;

@@ -55,13 +55,13 @@
             }
 
             .promo-title {
-                font-size: v.$fs-subheading-2;
+                font-size: v.$fs-subheading;
 
                 color: v.$accent;
             }
 
             .promo-text {
-                font-size: v.$fs-small;
+                font-size: v.$fs-body;
 
 
                 max-height: 100%;
@@ -77,16 +77,5 @@
         @include m.flexCenter;
 
         width: 100%;
-
-        a {
-            padding: 0.5rem 1rem;
-
-            font-size: v.$fs-body;
-            color: v.$accent;
-
-            border: 1px solid v.$accent;
-            border-radius: 0.3rem;
-        }
-
     }
 }

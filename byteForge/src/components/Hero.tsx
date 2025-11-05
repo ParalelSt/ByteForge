@@ -1,7 +1,6 @@
 import "@/styles/hero.scss";
-
-import SectionContainer from "./SectionContainer";
-import { Link } from "react-router-dom";
+import ShopNowBtn from "@/components/ShopNowBtn";
+import SectionContainer from "@/components/SectionContainer";
 
 const Hero = () => {
   return (
@@ -9,7 +8,7 @@ const Hero = () => {
       <SectionContainer className="hero-section">
         <h1>GEAR UP. GAME ON.</h1>
         <p>Performance-driven gaming gear for champions.</p>
-        <Link to={"/shop"}>SHOP NOW</Link>
+        <ShopNowBtn link="/shop" />
       </SectionContainer>
     </>
   );
