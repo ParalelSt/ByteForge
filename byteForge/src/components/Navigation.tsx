@@ -20,19 +20,17 @@ const Navigation = ({ isOpen }: NavigationProps) => {
   }, [isOpen]);
 
   return (
-    <>
-      <nav className={`nav-links ${isOpen ? "open" : ""}`}>
-        <Link to={"/shop"}>
-          <span>Shop</span>
-        </Link>
-        <Link to={"/about"}>
-          <span>About</span>
-        </Link>
-        <Link to={"/contact"}>
-          <span>Contact</span>
-        </Link>
-      </nav>
-    </>
+    <nav className={`nav-links ${isOpen ? "open" : ""}`}>
+      <Link to={"/shop"}>
+        <span>Shop</span>
+      </Link>
+      <Link to={"/about"}>
+        <span>About</span>
+      </Link>
+      <Link to={"/contact"}>
+        <span>Contact</span>
+      </Link>
+    </nav>
   );
 };
 

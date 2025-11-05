@@ -4,13 +4,11 @@ import SectionContainer from "@/components/SectionContainer";
 
 const Hero = () => {
   return (
-    <>
-      <SectionContainer className="hero-section">
-        <h1>GEAR UP. GAME ON.</h1>
-        <p>Performance-driven gaming gear for champions.</p>
-        <ShopNowBtn link="/shop" />
-      </SectionContainer>
-    </>
+    <SectionContainer className="hero-section">
+      <h1>GEAR UP. GAME ON.</h1>
+      <p>Performance-driven gaming gear for champions.</p>
+      <ShopNowBtn link="/shop" />
+    </SectionContainer>
   );
 };
 
