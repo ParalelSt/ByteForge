@@ -1,0 +1,82 @@
+@use "@/styles/mixins/mixins" as m;
+@use "@/styles/variables" as v;
+
+.footer-container {
+    @include m.flexCenter;
+    justify-content: space-around;
+
+    grid-column: 1 / -1;
+    width: 100vw;
+
+    margin-left: calc(50% - 50vw);
+    
+    border-top: 1px solid v.$accent;
+
+    .footer-section {
+        @include m.flexCenter;
+
+        flex: 1;
+
+        padding: 0.5rem 1rem;
+
+        width: 100%;
+        height: 100%;
+
+        .footer-section-center-div {
+            display: flex;            
+            flex-direction: column;
+
+            gap: 0.5rem;
+
+            
+
+            height: 100%;
+
+            font-family: v.$font-body;
+            font-size: v.$fs-small;
+
+            h2 {
+            width: 100%;
+            font-size: v.$fs-small;
+        }
+
+            ul {
+                width: 100%;
+                list-style: none;
+            }
+
+            .socials-links {
+                display: flex;
+                justify-content: space-between;
+
+                gap: 0.5rem;
+
+                width: 100%;
+
+                .icon-container {
+                    @include m.flexCenter;
+
+                    padding: 0.125rem;
+
+                    border: 1px solid v.$accent;
+                    border-radius: 100%;
+
+                    .icon {
+                    @include m.flexCenter;
+                    
+                    color: v.$accent;
+
+                    width: 1.5rem;
+                    height: 1.5rem;
+                }
+                }
+            }
+        }
+    }
+
+    .footer-section-right {
+        h2 {
+            text-align: center;
+        }
+    }
+}
