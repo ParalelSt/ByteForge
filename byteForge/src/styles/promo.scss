@@ -62,13 +62,6 @@
 
             .promo-text {
                 font-size: v.$fs-body;
-
-
-                max-height: 100%;
-                
-                @media (max-width: 404px) {
-                    overflow: scroll;
-                }
             }
         }
     }
