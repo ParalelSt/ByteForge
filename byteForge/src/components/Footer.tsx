@@ -35,20 +35,23 @@ const Footer = () => {
 
       <div className="footer-section footer-section-right">
         <div className="footer-section-center-div">
-          <h2>FOOTER</h2>
+          <h2>SOCIALS</h2>
           <div className="socials-links">
             <div className="icon-container">
-              <Link to={""}>
+              <Link to={"https://instagram.com/byteforge"}>
                 <FaInstagram className="icon" />
               </Link>
             </div>
             <div className="icon-container">
-              <Link to={""} className="icon">
+              <Link to={"https://twitter.com/byteforge"} className="icon">
                 <FaXTwitter />
               </Link>
             </div>
             <div className="icon-container">
-              <Link to={""} className="icon">
+              <Link
+                to={"https://linkedin.com/company/byteforge"}
+                className="icon"
+              >
                 <FaLinkedinIn />
               </Link>
             </div>
