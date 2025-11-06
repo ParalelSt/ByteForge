@@ -1,6 +1,6 @@
 import "@/styles/footer.scss";
 import { Link } from "react-router-dom";
-import { FaInstagram } from "react-icons/fa";
+import { IoLogoInstagram } from "react-icons/io";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaLinkedinIn } from "react-icons/fa";
 
@@ -39,7 +39,7 @@ const Footer = () => {
           <div className="socials-links">
             <div className="icon-container">
               <Link to={"https://instagram.com/byteforge"}>
-                <FaInstagram className="icon" />
+                <IoLogoInstagram className="icon" />
               </Link>
             </div>
             <div className="icon-container">
@@ -49,7 +49,7 @@ const Footer = () => {
             </div>
             <div className="icon-container">
               <Link
-                to={"https://linkedin.com/company/byteforge"}
+                to={"https://linkedin.com/company/ByteForge"}
                 className="icon"
               >
                 <FaLinkedinIn />

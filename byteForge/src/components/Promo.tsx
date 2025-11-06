@@ -6,13 +6,20 @@ const Promo = () => {
   return (
     <div className="promo-container">
       <div className="promo-container-top">
-        <img src="" alt="promo-image" className="promo-image" />
+        <img
+          src="./src/assets/Logitech_G502.avif"
+          alt="promo-image"
+          className="promo-image"
+        />
       </div>
       <SectionContainer className="promo-container-bottom">
         <h2 className="promo-title">PROMO SECTION</h2>
         <p className="promo-text">
           Lorem ipsum adispiscing amet ofenim erodit. Lorem ipsum adispiscing
-          amet ofenim
+          amet ofenim text-align: center; text-align: center; text-align:
+          center; text-align: center; text-align: center; text-align: center;
+          text-align: center; text-align: center; text-align: center;
+          text-align: center;
         </p>
         <ShopNowBtn link="/shop/promo" />
       </SectionContainer>
