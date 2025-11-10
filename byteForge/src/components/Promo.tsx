@@ -15,11 +15,8 @@ const Promo = () => {
       <SectionContainer className="promo-container-bottom">
         <h2 className="promo-title">PROMO SECTION</h2>
         <p className="promo-text">
-          Lorem ipsum adispiscing amet ofenim erodit. Lorem ipsum adispiscing
-          amet ofenim text-align: center; text-align: center; text-align:
-          center; text-align: center; text-align: center; text-align: center;
-          text-align: center; text-align: center; text-align: center;
-          text-align: center;
+          Promo gear, apparel etcPromo gear, apparel etc Promo gear, apparel etc
+          Promo gear, apparel etc
         </p>
         <ShopNowBtn link="/shop/promo" />
       </SectionContainer>

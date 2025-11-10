@@ -51,6 +51,8 @@
         .promo-text {
             font-size: v.$fs-body;
 
+            min-height: 5rem;
+
             overflow: hidden;
         }
     }
