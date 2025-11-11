@@ -20,7 +20,7 @@ const Navigation = ({ isOpen }: NavigationProps) => {
   }, [isOpen]);
 
   return (
-    <nav className={`nav-links ${isOpen ? "open" : ""}`}>
+    <nav className="nav-links">
       <Link to={"/shop"}>
         <span>Shop</span>
       </Link>

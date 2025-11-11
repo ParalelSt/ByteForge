@@ -1,9 +1,12 @@
+import "@/styles/productContainer.scss";
+
 interface ProductContainerProps {
   image?: string;
   name?: string;
   alt?: string;
   price?: number;
   count?: number;
+  id?: string;
 }
 
 const ProductContainer = ({
@@ -12,6 +15,7 @@ const ProductContainer = ({
   alt,
   price,
   count,
+  id,
 }: ProductContainerProps) => {
   return (
     <div className="product-container">

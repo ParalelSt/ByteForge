@@ -1,21 +1,22 @@
 import { FiX } from "react-icons/fi";
 import SectionContainer from "./SectionContainer";
 import ProductContainer from "./ProductContainer";
+import "@/styles/cart.scss";
 
 const Cart = () => {
   return (
-    <div className="cart">
-      <SectionContainer className="cart-container">
-        <div className="cart-container-top">
-          <h2>YOUR CART</h2>
-          <FiX color="white" className="icon" />
-          <div className="cart-container-middle">
-            <ProductContainer></ProductContainer>
-          </div>
-          <div className="cart-container-bottom"></div>
-        </div>
-      </SectionContainer>
-    </div>
+    <SectionContainer className="cart-section">
+      <div className="cart-container-top">
+        <h2>YOUR CART</h2>
+        <FiX color="white" className="icon" />
+      </div>
+      <div className="cart-container-middle">
+        <ProductContainer />
+        <ProductContainer />
+        <ProductContainer />
+      </div>
+      <div className="cart-container-bottom"></div>
+    </SectionContainer>
   );
 };
 

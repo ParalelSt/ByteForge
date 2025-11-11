@@ -4,30 +4,37 @@ import GIcon from "@/assets/icons/GIcon.svg";
 import "@/styles/header.scss";
 import Navigation from "@/components/Navigation";
 import { Link } from "react-router-dom";
+import Cart from "./Cart";
 
 const Header = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [hamburgerOpen, setHamburgerOpen] = useState<boolean>(false);
+  const [cartOpen, setCartOpen] = useState<boolean>(false);
 
   return (
     <header className="header-container">
       <button
         className="menu-toggle"
         onClick={() => {
-          setIsOpen(!isOpen);
+          setHamburgerOpen(!hamburgerOpen);
         }}
         aria-label="Toggle navigation"
       >
-        {isOpen ? <FiX color="white" /> : <FiMenu color="white" />}
+        {hamburgerOpen ? <FiX color="white" /> : <FiMenu color="white" />}
       </button>
-      <Navigation isOpen={isOpen}></Navigation>
+      {hamburgerOpen && <Navigation isOpen={hamburgerOpen}></Navigation>}
       <Link className="logo" to={"/"}>
         ByteForge
       </Link>
-      <button className="cart-btn" aria-label="Go to cart">
-        <Link to={"/cart"}>
-          <img src={GIcon} alt="Cart icon" />
-        </Link>
+      <button
+        className="cart-btn"
+        aria-label="Go to cart"
+        onClick={() => {
+          setCartOpen(!cartOpen);
+        }}
+      >
+        <img src={GIcon} alt="Cart icon" />
       </button>
+      {cartOpen && <Cart />}
     </header>
   );
 };

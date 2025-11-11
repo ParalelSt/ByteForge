@@ -1,5 +1,5 @@
 import CardContainer from "./CardContainer";
-import "@/styles/productContainer.scss";
+import "@/styles/productCard.scss";
 
 interface ProductCardProps {
   /* For testing purposes - will remove the question marks once I implement a database*/

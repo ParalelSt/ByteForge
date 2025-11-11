@@ -1,0 +1,42 @@
+@use "@/styles/mixins/mixins" as m;
+@use "@/styles/variables" as v;
+
+.product-card {
+    @include m.flexCenter;
+    flex-direction: column;
+
+    gap: 0.25em;
+
+    width: 6.5rem;
+
+    padding: 0.5em 0;
+
+    /* width: 10rem;
+    height: 10rem; */
+
+    img {
+        width: 6.5rem;
+        height: 6.5rem;
+        background-color: v.$section-bg;
+
+        object-fit: cover;
+
+        border-radius: 0.3rem;
+    }
+
+    .name, .price {
+        text-align: center;
+    } 
+
+    .name {
+        font-size: v.$fs-body;
+    }
+
+    .price {
+        font-size: v.$fs-small;
+
+        color: v.$accent-2;
+    }
+
+    
+}

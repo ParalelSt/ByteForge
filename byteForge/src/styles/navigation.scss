@@ -3,24 +3,20 @@
 
 .nav-links {
     position: absolute;
-    display: none;
-
     left: -1rem;
     top: 0;
+
+    @include m.flexColLeft;
 
     margin-top: 3rem;
     padding: 3em 1em;
 
-    &.open {
-        @include m.flexColLeft;
+    width: 10rem;
 
-        width: 10rem;
+    height: 93vh;
+    z-index: 1000;
 
-        height: 93vh;
-        z-index: 1000;
-
-        background-color: v.$drop-down-bg-color;
-    }
+    background-color: v.$drop-down-bg-color;
 
     a {
         display: block;
