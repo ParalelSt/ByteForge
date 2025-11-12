@@ -1,4 +1,5 @@
 import "@/styles/productContainer.scss";
+import { FaMinus, FaPlus } from "react-icons/fa6";
 
 interface ProductContainerProps {
   image?: string;
@@ -23,14 +24,20 @@ const ProductContainer = ({
         <img src={image} alt={alt} className="product-image" />
       </div>
       <div className="cart-item-info">
-        <p className="cart-name">{name}</p>
+        <p className="cart-name">{name}Ball</p>
         <div className="product-count-container">
-          <button className="product-count-down">-</button>
-          <span className="count">{count}</span>
-          <button className="product-count-up">+</button>
+          <button className="product-count-down">
+            <FaMinus className="icon" />
+          </button>
+          <span className="count">{count}1</span>
+          <button className="product-count-up">
+            <FaPlus className="icon" />
+          </button>
         </div>
       </div>
-      <span className="product-price">{price}</span>
+      <div className="price-container">
+        <span className="product-price">{price}$99.99</span>
+      </div>
     </div>
   );
 };

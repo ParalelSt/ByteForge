@@ -2,13 +2,18 @@
 @use "@/styles/variables" as v;
 
 .header-container {
-    position: relative;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+
     @include mixins.flexCenter;
     grid-column: 1 / -1;
 
-    margin-top: 0.5em;
+    padding: 0.5rem 0;
 
-    z-index: 1000;
+    z-index: 10000;
+
+    background-color: v.$bg-color;
 
     button {
         @include mixins.flexCenter;

@@ -1,14 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 
-const useDropdown = (externalOpen?: boolean) => {
-  const [isOpen, setIsOpen] = useState<boolean>(externalOpen ?? false);
+const useDropdown = () => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const dropDownRef = useRef(null);
-
-  useEffect(() => {
-    if (externalOpen !== null) {
-      setIsOpen(externalOpen);
-    }
-  }, [externalOpen]);
 
   const toggleDropdown = setIsOpen((prev) => !prev);
   const openDropdown = setIsOpen(true);

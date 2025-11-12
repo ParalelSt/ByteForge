@@ -34,7 +34,7 @@ const Header = () => {
       >
         <img src={GIcon} alt="Cart icon" />
       </button>
-      {cartOpen && <Cart />}
+      {cartOpen && <Cart setCartOpen={setCartOpen} />}
     </header>
   );
 };
