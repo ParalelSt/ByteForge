@@ -30,6 +30,10 @@ body{
     text-decoration: none;
 }
 
+.dropdown-open {
+    overflow-y: hidden;
+}
+
 h1, h2, h3 {
     font-family: v.$font-body;
     font-weight: 400;

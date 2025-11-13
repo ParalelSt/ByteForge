@@ -30,6 +30,12 @@
 
     z-index: 1000;
 
+    .cart-content {
+        width: 100%;
+        height: 100%
+    }
+
+
     .cart-container-top, .cart-container-middle, .cart-container-bottom {
         @include m.flexCenter;
 

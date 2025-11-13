@@ -21,7 +21,12 @@ const Header = () => {
       >
         {hamburgerOpen ? <FiX color="white" /> : <FiMenu color="white" />}
       </button>
-      {hamburgerOpen && <Navigation isOpen={hamburgerOpen}></Navigation>}
+      {hamburgerOpen && (
+        <Navigation
+          isOpen={hamburgerOpen}
+          setIsOpen={setHamburgerOpen}
+        ></Navigation>
+      )}
       <Link className="logo" to={"/"}>
         ByteForge
       </Link>
@@ -34,7 +39,7 @@ const Header = () => {
       >
         <img src={GIcon} alt="Cart icon" />
       </button>
-      {cartOpen && <Cart setCartOpen={setCartOpen} />}
+      {cartOpen && <Cart cartOpen={cartOpen} setCartOpen={setCartOpen} />}
     </header>
   );
 };

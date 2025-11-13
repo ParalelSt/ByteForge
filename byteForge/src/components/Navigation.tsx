@@ -1,26 +1,45 @@
 import "@/styles/navigation.scss";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useRef, type SetStateAction } from "react";
 
 interface NavigationProps {
   isOpen?: boolean;
+  setIsOpen: React.Dispatch<SetStateAction<boolean>>;
 }
 
-const Navigation = ({ isOpen }: NavigationProps) => {
+const Navigation = ({ isOpen, setIsOpen }: NavigationProps) => {
+  const navRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = "hidden";
+      document.body.classList.add("dropdown-open");
     } else {
-      document.body.style.overflow = "auto";
+      document.body.classList.remove("dropdown-open");
     }
 
     return () => {
-      document.body.style.overflow = "auto";
+      document.body.classList.remove("dropdown-open");
     };
   }, [isOpen]);
 
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleClickOutside = (e: MouseEvent) => {
+      if (navRef.current && !navRef.current.contains(e.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen, setIsOpen]);
+
   return (
-    <nav className="nav-links">
+    <nav className="nav-links" ref={navRef}>
       <Link to={"/shop"}>
         <span>Shop</span>
       </Link>
