@@ -3,17 +3,20 @@ import "@/styles/globalStyles.scss";
 import Home from "@/pages/Home";
 import Shop from "./pages/Shop";
 import { CartProvider } from "./components/context/CartContext";
+import { ProductProvider } from "./components/context/ProductContext";
 
 function App() {
   return (
-    <CartProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/shop" element={<Shop />}></Route>
-        </Routes>
-      </Router>
-    </CartProvider>
+    <ProductProvider>
+      <CartProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Home />}></Route>
+            <Route path="/shop" element={<Shop />}></Route>
+          </Routes>
+        </Router>
+      </CartProvider>
+    </ProductProvider>
   );
 }
 

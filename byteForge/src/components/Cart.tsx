@@ -4,6 +4,7 @@ import ProductContainer from "./ProductContainer";
 import "@/styles/cart.scss";
 import { useEffect } from "react";
 import { useCart } from "./context/CartContext";
+import { useProducts } from "./context/ProductContext";
 
 interface CartProps {
   cartOpen: boolean;
@@ -23,9 +24,12 @@ const Cart = ({ cartOpen, setCartOpen }: CartProps) => {
     };
   }, [cartOpen]);
 
-  const { cart } = useCart();
+  const { cart, addItem } = useCart();
+  const { products } = useProducts();
   const subtotal = cart.reduce((sum, item) => {
-    return sum + item.price * item.quantity;
+    const product = products.find((p) => p.id === item.id);
+    if (!product) return sum;
+    return sum + product.price * item.quantity;
   }, 0);
 
   return (
@@ -44,17 +48,40 @@ const Cart = ({ cartOpen, setCartOpen }: CartProps) => {
             </button>
           </div>
           <div className="cart-container-middle">
-            {cart.map((item) => (
-              <ProductContainer
-                key={item.id}
-                id={item.id}
-                name={item.name}
-                price={item.price}
-                image={item.image}
-                count={item.quantity}
-                alt={item.alt}
-              />
-            ))}
+            <button
+              onClick={async () => {
+                const res = await fetch("http://localhost:3000/products");
+                const data = await res.json();
+
+                data.forEach((p: any) => {
+                  addItem({
+                    id: p.id,
+                    name: p.name,
+                    image: p.image,
+                    price: p.price,
+                    alt: p.name,
+                  });
+                });
+              }}
+            >
+              Load All Products
+            </button>
+            {cart.map((item) => {
+              const product = products.find((p) => p.id === item.id);
+              if (!product) return null;
+
+              return (
+                <ProductContainer
+                  key={item.id}
+                  id={product.id}
+                  name={product.name}
+                  price={product.price}
+                  image={product.image}
+                  count={item.quantity}
+                  alt={item.alt}
+                />
+              );
+            })}
           </div>
           <div className="cart-container-bottom">
             <div className="subtotal-container">
