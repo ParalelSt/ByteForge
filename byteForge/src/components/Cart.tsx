@@ -3,6 +3,7 @@ import SectionContainer from "./SectionContainer";
 import ProductContainer from "./ProductContainer";
 import "@/styles/cart.scss";
 import { useEffect } from "react";
+import { useCart } from "./context/CartContext";
 
 interface CartProps {
   cartOpen: boolean;
@@ -22,6 +23,11 @@ const Cart = ({ cartOpen, setCartOpen }: CartProps) => {
     };
   }, [cartOpen]);
 
+  const { cart } = useCart();
+  const subtotal = cart.reduce((sum, item) => {
+    return sum + item.price * item.quantity;
+  }, 0);
+
   return (
     <div className="background-overlay" onClick={() => setCartOpen(false)}>
       <SectionContainer className="cart-section">
@@ -38,22 +44,22 @@ const Cart = ({ cartOpen, setCartOpen }: CartProps) => {
             </button>
           </div>
           <div className="cart-container-middle">
-            <ProductContainer />
-            <ProductContainer />
-            <ProductContainer />
-            <ProductContainer />
-            <ProductContainer />
-            <ProductContainer />
-            <ProductContainer />
-            <ProductContainer />
-            <ProductContainer />
-            <ProductContainer />
-            <ProductContainer />
+            {cart.map((item) => (
+              <ProductContainer
+                key={item.id}
+                id={item.id}
+                name={item.name}
+                price={item.price}
+                image={item.image}
+                count={item.quantity}
+                alt={item.alt}
+              />
+            ))}
           </div>
           <div className="cart-container-bottom">
             <div className="subtotal-container">
               <span className="subtotal">Subtotal:</span>
-              <span className="subtotal-number">$199.98</span>
+              <span className="subtotal-number">{subtotal}</span>
             </div>
             <div className="checkout-btn-container">
               <button className="checkout-btn">CHECKOUT</button>

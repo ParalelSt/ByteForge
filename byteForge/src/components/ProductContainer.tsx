@@ -1,13 +1,14 @@
 import "@/styles/productContainer.scss";
-import { FaMinus, FaPlus } from "react-icons/fa6";
+import { FaMinus, FaPlus, FaTrash } from "react-icons/fa6";
+import { useCart } from "./context/CartContext";
 
 interface ProductContainerProps {
-  image?: string;
-  name?: string;
-  alt?: string;
-  price?: number;
-  count?: number;
-  id?: string;
+  image: string;
+  name: string;
+  alt: string;
+  price: number;
+  count: number;
+  id: string;
 }
 
 const ProductContainer = ({
@@ -18,6 +19,8 @@ const ProductContainer = ({
   count,
   id,
 }: ProductContainerProps) => {
+  const { increase, decrease, removeItem } = useCart();
+
   return (
     <div className="product-container">
       <div className="product-image-container">
@@ -26,17 +29,20 @@ const ProductContainer = ({
       <div className="cart-item-info">
         <p className="cart-name">{name}Ball</p>
         <div className="product-count-container">
-          <button className="product-count-down">
+          <button className="product-count-down" onClick={() => decrease(id)}>
             <FaMinus className="icon" />
           </button>
-          <span className="count">{count}1</span>
-          <button className="product-count-up">
+          <span className="count">{count}</span>
+          <button className="product-count-up" onClick={() => increase(id)}>
             <FaPlus className="icon" />
+          </button>
+          <button className="product-count-up" onClick={() => removeItem(id)}>
+            <FaTrash className={"icon trash-icon"} />
           </button>
         </div>
       </div>
       <div className="price-container">
-        <span className="product-price">{price}$99.99</span>
+        <span className="product-price">{price}</span>
       </div>
     </div>
   );
