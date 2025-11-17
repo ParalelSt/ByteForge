@@ -5,8 +5,8 @@ const Shop = () => {
   return (
     <>
       <div className="container">
-        <Header></Header>
-        <Footer></Footer>
+        <Header />
+        <Footer />
       </div>
     </>
   );

@@ -1,0 +1,22 @@
+@use "@/styles/mixins/mixins" as m;
+@use "@/styles/variables" as v;
+
+.contact-content-container {
+    @include m.flexCenter;
+    flex-direction: column;
+
+    grid-column: 1/-1;
+
+    .contact-content-container-top, .contact-content-container-bottom {
+        @include m.flexCenter;
+        flex-direction: column;
+    }
+
+    .contact-content-container-top {
+        h1, h2 {
+            text-align: center;
+        }
+    }
+
+    .contact-content-container-bottom {}
+}

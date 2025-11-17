@@ -5,6 +5,8 @@
     @include m.flexCenter;
     flex-direction: column;
 
+    padding-bottom: 0.575rem;
+
     gap: 1rem;
 
     grid-column: 1/-1;

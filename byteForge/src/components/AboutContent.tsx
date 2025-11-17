@@ -13,11 +13,6 @@ const AboutContent = () => {
       title: "Our Story",
       text: "Founded in 2020, ByteForge began as a passion project for gaming hardware and has evolved into a trusted source for quality, performance-focused gear.",
     },
-
-    /* {
-      title: "Our Vision",
-      text: "At ByteForge, our vision is to build a future where high-quality gaming gear is accessible to everyone. We aim to continuously improve our selection, refine our user experience, and bring innovative tech closer to gamers worldwide.",
-    }, */
   ];
 
   return (
