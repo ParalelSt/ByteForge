@@ -1,17 +1,23 @@
 import SectionContainer from "@/components/SectionContainer";
 import "@/styles/aboutContent.scss";
+import ShopNowBtn from "@/components/ShopNowBtn";
 
 const AboutContent = () => {
   const aboutPageText = [
     {
       title: "Who We Are",
-      text: "We provide high-quality gaming gear for gamers, creators, and tech enthusiasts. Our products are performance-driven and carefully curated to meet the needs of our community.",
+      text: "We offer high-quality, performance-driven gaming gear, curated with care to meet the needs of our community.",
     },
 
     {
       title: "Our Story",
-      text: "Founded in 2020, ByteForge was born out of a passion for gaming hardware. We set out to create a trusted source for cutting-edge gear. From our humble beginnings, we’ve grown into a thriving hub for gamers seeking quality and reliability.",
+      text: "Founded in 2020, ByteForge began as a passion project for gaming hardware and has evolved into a trusted source for quality, performance-focused gear.",
     },
+
+    /* {
+      title: "Our Vision",
+      text: "At ByteForge, our vision is to build a future where high-quality gaming gear is accessible to everyone. We aim to continuously improve our selection, refine our user experience, and bring innovative tech closer to gamers worldwide.",
+    }, */
   ];
 
   return (
@@ -39,6 +45,7 @@ const AboutContent = () => {
             </li>
           </ul>
         </SectionContainer>
+        <ShopNowBtn link="/shop" />
       </div>
     </>
   );

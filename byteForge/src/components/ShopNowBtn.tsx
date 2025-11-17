@@ -5,7 +5,7 @@ interface ShopNowBtnProps {
   link: string;
 }
 
-const ShowNowBtn = ({ link }: ShopNowBtnProps) => {
+const ShopNowBtn = ({ link }: ShopNowBtnProps) => {
   return (
     <Link to={link} className="shop-now-btn">
       SHOP NOW
@@ -13,4 +13,4 @@ const ShowNowBtn = ({ link }: ShopNowBtnProps) => {
   );
 };
 
-export default ShowNowBtn;
+export default ShopNowBtn;
