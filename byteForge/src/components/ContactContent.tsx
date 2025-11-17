@@ -3,7 +3,7 @@ import "@/styles/contactContent.scss";
 const ContactContent = () => {
   return (
     <>
-      <div className="contact-content-container">
+      <form className="contact-content-container">
         <div className="contact-content-container-top">
           <h1>CONTACT US</h1>
           <h2>
@@ -22,10 +22,14 @@ const ContactContent = () => {
             <input type="text" placeholder="Subject" />
           </div>
           <div className="input-container message-container">
-            <input type="text" placeholder="Message" />
+            <textarea placeholder="Message" />
+          </div>
+
+          <div className="send-button-container">
+            <button className="send-button">SEND</button>
           </div>
         </div>
-      </div>
+      </form>
     </>
   );
 };
