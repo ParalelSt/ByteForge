@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.4](https://github.com/ParalelSt/ByteForge/compare/v0.0.3...v0.0.4) (2025-11-17)
+
+
+### Features
+
+* added About page ([79da48d](https://github.com/ParalelSt/ByteForge/commit/79da48d50b41db2becc0c9f1be7b1077b57f37e9))
+* added backend, temp button for product testing ([3186fdc](https://github.com/ParalelSt/ByteForge/commit/3186fdc3c1a849d0518bfecf9346524e28bf972f))
+* added Cart functionality - increase, decrease, remove (addItem exists but currently isn't being used) ([6763492](https://github.com/ParalelSt/ByteForge/commit/6763492b97bc543c05088cd90ee17433caa02cb7))
+
+
+### Bug Fixes
+
+* fixed the state of count for product updating twice when clicking too fast ([7c8a3e3](https://github.com/ParalelSt/ByteForge/commit/7c8a3e3f3a624fbea5cbedd71e17bc97b02d1e81))
+* styling and text in about page cards ([1a8ee41](https://github.com/ParalelSt/ByteForge/commit/1a8ee41dcd1f0be17e748ef34d195b4dd4aa82cf))
+
 ### [0.0.3](https://github.com/ParalelSt/ByteForge/compare/v0.0.2...v0.0.3) (2025-11-13)
 
 
