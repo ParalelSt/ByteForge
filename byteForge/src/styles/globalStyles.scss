@@ -43,8 +43,8 @@ h1, h2, h3 {
 }
 
 .container {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  flex-direction: column;
   gap: 24px;
   padding: 0 1rem;
   margin: 0 auto;

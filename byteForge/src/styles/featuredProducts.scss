@@ -5,8 +5,6 @@
     @include m.flexCenter;
     flex-direction: column;
 
-    grid-column: 1 / -1;
-
     h2 {
         font-size: v.$fs-subheading-2;
     }

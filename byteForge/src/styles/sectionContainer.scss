@@ -2,7 +2,6 @@
 
 .section-container {
     @include m.flexCenter;
-    grid-column: 1 / -1;
 
     padding: 1.5rem;
     border-radius: 0.3rem;
