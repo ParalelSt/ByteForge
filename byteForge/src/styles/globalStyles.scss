@@ -51,6 +51,8 @@ h1, h2, h3 {
   max-width: v.$max-width;
   min-height: 100dvh;
   width: 100%;
+
+  overflow-x: hidden;
 }
 
 button {
