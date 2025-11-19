@@ -42,17 +42,25 @@ h1, h2, h3 {
     text-decoration: none;
 }
 
+.page {
+    display: flex;
+    flex-direction: column;
+
+    min-height: 100dvh;
+}
+
 .container {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  padding: 0 1rem;
-  margin: 0 auto;
-  max-width: v.$max-width;
-  min-height: 100dvh;
-  width: 100%;
 
-  overflow-x: hidden;
+  margin: 1rem auto;
+
+  padding: 0 1rem;
+
+  max-width: v.$max-width;
+  min-height: 100%;
+  width: 100%;
 }
 
 button {

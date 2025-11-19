@@ -40,13 +40,13 @@ const Navigation = ({ isOpen, setIsOpen }: NavigationProps) => {
 
   return (
     <nav className="nav-links" ref={navRef}>
-      <Link to={"/shop"}>
+      <Link to={"/shop"} onClick={() => setIsOpen(false)}>
         <span>Shop</span>
       </Link>
-      <Link to={"/about"}>
+      <Link to={"/about"} onClick={() => setIsOpen(false)}>
         <span>About</span>
       </Link>
-      <Link to={"/contact"}>
+      <Link to={"/contact"} onClick={() => setIsOpen(false)}>
         <span>Contact</span>
       </Link>
     </nav>

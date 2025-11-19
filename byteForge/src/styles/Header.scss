@@ -8,7 +8,10 @@
 
     @include mixins.flexCenter;
 
-    padding: 0.5rem 0;
+    padding: 0.5rem 1rem;
+    margin: 0 auto;
+    max-width: v.$max-width;
+    width: 100%;
 
     z-index: 10000;
 

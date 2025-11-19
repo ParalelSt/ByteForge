@@ -1,15 +1,5 @@
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
-
 const Shop = () => {
-  return (
-    <>
-      <div className="container">
-        <Header />
-        <Footer />
-      </div>
-    </>
-  );
+  return <></>;
 };
 
 export default Shop;
