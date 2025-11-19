@@ -16,10 +16,11 @@
 
 /* Commented out for testing - bg color wasn't showing correctly on phone */
 
-/* html, body {
+html, body {
     height: 100vh;
-    min-height: 100%;
-} */
+    min-height: 100vh;
+    min-height: 100dvh;
+}
 
 body{
     font-family: v.$font-body;
@@ -48,6 +49,7 @@ h1, h2, h3 {
   padding: 0 1rem;
   margin: 0 auto;
   max-width: v.$max-width;
+  min-height: 100dvh;
   width: 100%;
 }
 
