@@ -86,7 +86,7 @@ const Cart = ({ cartOpen, setCartOpen }: CartProps) => {
           <div className="cart-container-bottom">
             <div className="subtotal-container">
               <span className="subtotal">Subtotal:</span>
-              <span className="subtotal-number">{subtotal}</span>
+              <span className="subtotal-number">${subtotal.toFixed(2)}</span>
             </div>
             <div className="checkout-btn-container">
               <button className="checkout-btn">CHECKOUT</button>

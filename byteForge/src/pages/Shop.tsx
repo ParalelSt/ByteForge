@@ -1,5 +1,7 @@
+import ShopContent from "@/components/ShopContent";
+
 const Shop = () => {
-  return <></>;
+  return <ShopContent />;
 };
 
 export default Shop;

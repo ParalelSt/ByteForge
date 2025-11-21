@@ -1,0 +1,11 @@
+@use "@/styles/mixins/mixins" as m;
+/* @use "@/styles/variables" as v; */
+
+.shop-content-container {
+    position: relative;
+
+    @include m.flexCenter;
+    flex-direction: column;
+
+    width: 100%;
+}

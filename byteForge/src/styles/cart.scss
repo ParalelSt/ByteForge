@@ -90,6 +90,8 @@
         .subtotal-container {
             @include m.flexLeftCenter;
 
+            padding: 0.25rem 0;
+            
             width: 100%;
 
             .subtotal, .subtotal-number {

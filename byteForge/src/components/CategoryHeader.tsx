@@ -1,0 +1,35 @@
+import { CATEGORY_LABELS, type CategoryKey } from "@/api/categoryData";
+import "@/styles/categoryHeader.scss";
+import { RiArrowRightSLine } from "react-icons/ri";
+
+interface CategoryHeaderProps {
+  selectedCategory: CategoryKey | null;
+  selectedSubCategory: string | null;
+  onToggle: () => void;
+}
+
+const CategoryHeader = ({
+  selectedCategory,
+  selectedSubCategory,
+  onToggle,
+}: CategoryHeaderProps) => {
+  const displayValue = selectedSubCategory
+    ? selectedSubCategory
+    : selectedCategory
+    ? CATEGORY_LABELS[selectedCategory]
+    : "All products";
+
+  return (
+    <button className="category-header-container" onClick={onToggle}>
+      <div className="category-header-left">
+        <div className="category-header-label">CATEGORY</div>
+        <div className="category-header-value">{displayValue}</div>
+      </div>
+      <div className="category-header-right">
+        <RiArrowRightSLine />
+      </div>
+    </button>
+  );
+};
+
+export default CategoryHeader;

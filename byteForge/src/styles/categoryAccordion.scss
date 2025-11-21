@@ -1,0 +1,41 @@
+@use "@/styles/mixins/mixins" as m;
+@use "@/styles/variables" as v;
+
+.category-accordion-container {
+  @include m.flexColLeft;
+
+  gap: 0.5rem;
+
+  padding: 0.5rem 0;
+
+  width: 92.5%;
+
+  .category-accordion-item {
+    @include m.flexLeftCenter;
+
+    padding: 0.75rem;
+
+    width: 100%;
+
+    border: 1px solid v.$accent-2;
+    border-radius: 0.3rem;
+
+    color: white;
+
+    .arrow {
+      position: relative;
+      right: -0.5rem;
+
+      @include m.flexCenter;
+
+      margin-left: auto;
+
+      svg {
+        width: 1.5rem;
+        height: 1.5rem;
+
+        color: v.$border-color;
+      }
+    }
+  }
+}

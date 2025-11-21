@@ -21,7 +21,7 @@
         left: 50%;
         transform: translateX(-50%);
         height: 1px;
-        width: 100vw;               // Full viewport width, safely
+        width: 100vw;
         background-color: v.$accent;
 
         pointer-events: none;
