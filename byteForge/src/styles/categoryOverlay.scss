@@ -1,0 +1,94 @@
+@use "@/styles/mixins/mixins" as m;
+@use "@/styles/variables" as v;
+
+.overlay-container {
+  position: sticky;
+  top: 0rem;
+  @include m.flexColLeft;
+
+  padding: 0 0.5rem;
+
+  width: 100%;
+  height: 100%;
+
+  z-index: 1000;
+
+  border: 1px solid v.$accent;
+  border-radius: 0.3rem;
+
+  background-color: v.$bg-color;
+
+  .overlay-top {
+    @include m.flexColLeft;
+
+    width: 100%;
+
+    .overlay-btns {
+      @include m.flexCenter;
+
+      padding-bottom: 0;
+
+      width: 100%;
+
+      .overlay-back-btn,
+      .overlay-close-btn {
+        @include m.flexCenter;
+        color: white;
+
+        padding: 1rem 0.25rem;
+        padding-bottom: 0;
+      }
+
+      .overlay-back-btn {
+        font-size: v.$fs-body;
+
+        svg {
+          color: v.$accent; //Swap to slightly darker less saturated color for pop
+        }
+      }
+
+      .overlay-close-btn {
+        margin-left: auto;
+      }
+    }
+
+    .overlay-title-container {
+      @include m.flexCenter;
+
+      padding: 1rem;
+
+      width: 100%;
+
+      .overlay-title {
+        font-size: v.$fs-heading;
+        font-weight: 700;
+      }
+    }
+
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+
+  .overlay-list {
+    @include m.flexColLeft;
+
+    width: 100%;
+    height: 100%;
+
+    .overlay-list-item {
+      text-align: left;
+
+      padding: 1rem 0.5rem;
+
+      width: 100%;
+
+      border-top: 1px solid v.$accent;
+
+      color: white;
+
+      font-size: v.$fs-subheading-2;
+    }
+  }
+}
