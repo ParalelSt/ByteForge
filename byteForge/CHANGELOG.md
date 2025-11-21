@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.5](https://github.com/ParalelSt/ByteForge/compare/v0.0.4...v0.0.5) (2025-11-21)
+
+
+### Features
+
+* added category lists and ordering ([b913c19](https://github.com/ParalelSt/ByteForge/commit/b913c19e28cb223c16af7490d6e47cfd689c5fad))
+* added Contact page ([5eae762](https://github.com/ParalelSt/ByteForge/commit/5eae76260486304e868e607c4731abdd75c76e3d))
+
+
+### Bug Fixes
+
+* footer not appearing correctly when moving between routes when scrolled to the bottom on the home page ([4012754](https://github.com/ParalelSt/ByteForge/commit/4012754b6de699e891cde162cc8f7d7190ce5b2a))
+* footer properly positioned on About page ([847089c](https://github.com/ParalelSt/ByteForge/commit/847089c62ce159fe3938892902c0d550cb02ef73))
+* general layout styles, footer and header placement, now there is only one render of header and footer no matter what page you're on ([1b51ca7](https://github.com/ParalelSt/ByteForge/commit/1b51ca77040f0cc9e4d1ddbeff612e7cc892be57))
+* more footer styles ([df0f5da](https://github.com/ParalelSt/ByteForge/commit/df0f5da8bc43c3666d23d5d747d3887c3fb6779e))
+* more general style fixes ([dcb4a04](https://github.com/ParalelSt/ByteForge/commit/dcb4a0410afc3498a23430ea118ffcc073cd76bf))
+* more layout fixes, mostly footer related ([165fac7](https://github.com/ParalelSt/ByteForge/commit/165fac77b5066e9812d8f319da9e9161f6f88149))
+* promo styles related to footer placement ([804f82b](https://github.com/ParalelSt/ByteForge/commit/804f82bf3a90d4c272bace5c607a501399b60241))
+
 ### [0.0.4](https://github.com/ParalelSt/ByteForge/compare/v0.0.3...v0.0.4) (2025-11-17)
 
 
