@@ -2,45 +2,44 @@
 @use "@/styles/variables" as v;
 
 .category-header-container {
-   @include m.flexLeftCenter;
+  @include m.flexLeftCenter;
 
-   padding: 1.25rem;
-   border-radius: 0.3rem;
+  padding: 1.25rem;
+  border-radius: 0.5rem;
 
-    width: 100%;
+  width: 100%;
 
-    color: white;
+  color: white;
 
-    border: 1px solid v.$accent;
+  border: 1px solid v.$accent;
 
-    .category-header-left {
-        @include m.flexColLeft;
+  .category-header-left {
+    @include m.flexColLeft;
 
-        gap: 0.25rem;
+    gap: 0.25rem;
 
-        .category-header-label {
-            font-size: v.$fs-small;
-        }
-
-        .category-header-value {
-            font-size: v.$fs-body;
-        }
-
+    .category-header-label {
+      font-size: v.$fs-small;
     }
 
-    .category-header-right {
-        position: relative;
-        right: -0.5rem;
-
-        @include m.flexCenter;
-
-        margin-left: auto;
-
-        svg {
-            width: 1.75rem;
-            height: 1.75rem;
-
-            color: v.$border-color;
-        }
+    .category-header-value {
+      font-size: v.$fs-body;
     }
+  }
+
+  .category-header-right {
+    position: relative;
+    right: -0.5rem;
+
+    @include m.flexCenter;
+
+    margin-left: auto;
+
+    svg {
+      width: 1.75rem;
+      height: 1.75rem;
+
+      color: v.$border-color;
+    }
+  }
 }

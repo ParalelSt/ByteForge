@@ -42,6 +42,8 @@ const ShopContent = () => {
   const handleSelectSubCategory = (sub: string) => {
     setSelectedCategory(activeCategory);
     setSelectedSubCategory(sub);
+    setOverlayOpen(false);
+    setActiveCategory(null);
   };
 
   return (
