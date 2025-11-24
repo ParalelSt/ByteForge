@@ -2,41 +2,40 @@
 @use "@/styles/variables" as v;
 
 .product-card {
-    @include m.flexCenter;
-    flex-direction: column;
+  @include m.flexCenter;
+  flex-direction: column;
 
-    gap: 0.25em;
+  gap: 0.25em;
 
-    width: 6.5rem;
+  width: 6.5rem;
 
-    padding: 0.5em 0;
+  padding: 0.5em 0;
 
-    /* width: 10rem;
+  /* width: 10rem;
     height: 10rem; */
 
-    img {
-        width: 6.5rem;
-        height: 6.5rem;
-        background-color: v.$section-bg;
+  img {
+    width: 6.5rem;
+    height: 6.5rem;
+    background-color: v.$section-bg;
 
-        object-fit: cover;
+    object-fit: cover;
 
-        border-radius: 0.3rem;
-    }
+    border-radius: 0.3rem;
+  }
 
-    .name, .price {
-        text-align: center;
-    } 
+  .name,
+  .price {
+    text-align: center;
+  }
 
-    .name {
-        font-size: v.$fs-body;
-    }
+  .name {
+    font-size: v.$fs-body;
+  }
 
-    .price {
-        font-size: v.$fs-small;
+  .price {
+    font-size: v.$fs-small;
 
-        color: v.$accent-2;
-    }
-
-    
+    color: v.$accent-2;
+  }
 }

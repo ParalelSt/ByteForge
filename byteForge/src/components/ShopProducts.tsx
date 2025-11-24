@@ -28,28 +28,32 @@ const ShopProducts = () => {
       <h2>PRODUCTS</h2>
       <div className="product-grid">
         {products.map((p) => (
-          <div className="product-card">
+          <div className="shop-product-card">
             <div className="product-card-top">
-              <img src={p.image} alt={p.name} />
+              <img
+                src={`http://localhost:3000/images/product_images/${p.image}`}
+                alt={p.name}
+                className={"product-card-image"}
+              />
             </div>
             <div className="product-card-bottom">
               <h3>{p.name}</h3>
               <p>{p.price}</p>
+              <button
+                className="add-to-cart-btn"
+                onClick={() =>
+                  addItem({
+                    id: p.id,
+                    name: p.name,
+                    price: p.price,
+                    alt: p.name,
+                    image: p.image,
+                  })
+                }
+              >
+                Add to Cart
+              </button>
             </div>
-            <button
-              className="add-to-cart-btn"
-              onClick={() =>
-                addItem({
-                  id: p.id,
-                  name: p.name,
-                  price: p.price,
-                  alt: p.name,
-                  image: p.image,
-                })
-              }
-            >
-              Add to Cart
-            </button>
           </div>
         ))}
       </div>
