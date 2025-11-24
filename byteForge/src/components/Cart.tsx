@@ -48,24 +48,6 @@ const Cart = ({ cartOpen, setCartOpen }: CartProps) => {
             </button>
           </div>
           <div className="cart-container-middle">
-            <button
-              onClick={async () => {
-                const res = await fetch("http://localhost:3000/products");
-                const data = await res.json();
-
-                data.forEach((p: any) => {
-                  addItem({
-                    id: p.id,
-                    name: p.name,
-                    image: p.image,
-                    price: p.price,
-                    alt: p.name,
-                  });
-                });
-              }}
-            >
-              Load All Products
-            </button>
             {cart.map((item) => {
               const product = products.find((p) => p.id === item.id);
               if (!product) return null;

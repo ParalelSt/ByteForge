@@ -1,0 +1,14 @@
+@use "@/styles/mixins/mixins" as m;
+@use "@/styles/variables" as v;
+
+.shop-products-container {
+  @include m.flexCenter;
+  flex-direction: column;
+
+  width: 100%;
+  height: 100%;
+
+  .product-grid {
+    @include m.flexCenter;
+  }
+}

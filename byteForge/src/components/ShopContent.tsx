@@ -4,6 +4,7 @@ import CategoryHeader from "./CategoryHeader";
 import "@/styles/shopContent.scss";
 import CategoryOverlay from "./CategoryOverlay";
 import type { CategoryKey } from "@/api/categoryData";
+import ShopProducts from "./ShopProducts";
 
 const ShopContent = () => {
   const [accordionOpen, setAccordionOpen] = useState(false);
@@ -63,6 +64,7 @@ const ShopContent = () => {
         onClose={handleClose}
         onSelectSubCategory={handleSelectSubCategory}
       />
+      <ShopProducts />
     </div>
   );
 };
