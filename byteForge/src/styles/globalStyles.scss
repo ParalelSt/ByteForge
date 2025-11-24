@@ -1,11 +1,11 @@
 @use "@/styles/variables" as v;
 
 * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 
-    box-sizing: border-box;   
-    -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 *,
@@ -16,37 +16,39 @@
 
 /* Commented out for testing - bg color wasn't showing correctly on phone */
 
-html, body {
-    height: 100vh;
-    min-height: 100vh;
-    min-height: 100dvh;
+html,
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
 }
 
-body{
-    font-family: v.$font-body;
-    background-color: v.$bg-color;
-    color: v.$text-color;
+body {
+  font-family: v.$font-body;
+  background-color: v.$bg-color;
+  color: v.$text-color;
 
-    list-style-type: none;
-    text-decoration: none;
+  list-style-type: none;
+  text-decoration: none;
 }
 
 .dropdown-open {
-    overflow-y: hidden;
+  overflow-y: hidden;
 }
 
-h1, h2, h3 {
-    font-family: v.$font-body;
-    font-weight: 400;
+h1,
+h2,
+h3 {
+  font-family: v.$font-body;
+  font-weight: 400;
 
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .page {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
-    min-height: 100dvh;
+  min-height: 100dvh;
 }
 
 .container {
@@ -64,33 +66,32 @@ h1, h2, h3 {
 }
 
 button {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    font-family: v.$font-body;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: v.$font-body;
 }
 
 a {
-    color: white;
-    text-decoration: none;
-    font-family: v.$font-body;
+  color: white;
+  text-decoration: none;
+  font-family: v.$font-body;
 }
 
 a:visited {
-    color: white;
-    text-decoration: none;
+  color: white;
+  text-decoration: none;
 }
-
 
 @media (min-width: v.$tablet) {
-    .container {
-        grid-template-columns: repeat(8, 1fr);
-        padding: 0 2rem;
-    }
+  .container {
+    grid-template-columns: repeat(8, 1fr);
+    padding: 0 2rem;
+  }
 }
 @media (min-width: v.$desktop) {
-    .container {
-        grid-template-columns: repeat(12, 1fr);
-        padding: 0 4rem;
-    }
+  .container {
+    grid-template-columns: repeat(12, 1fr);
+    padding: 0 4rem;
+  }
 }
