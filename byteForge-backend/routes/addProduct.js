@@ -21,7 +21,7 @@ router.post("/add-product", upload.single("image"), async (req, res) => {
 
     const inputPath = req.file.path;
     const outputFilename = req.file.filename + ".png";
-    const outputPath = path.join("images", outputFilename);
+    const outputPath = path.join("images/product_images", outputFilename);
 
     // Remove background
     const response = await axios({

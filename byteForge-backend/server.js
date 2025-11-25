@@ -10,9 +10,17 @@ import productUpload from "./routes/uploadProducts.js";
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "http://192.168.1.105:5173",
+      "http://192.168.1.105",
+    ],
+  })
+);
 app.use(express.json());
-app.use("/images", express.static("images"));
+app.use("/images", express.static("images/product_images"));
 
 // Routes
 app.use("/products", productsRoute);
@@ -28,6 +36,6 @@ db.query("SELECT 1")
   .then(() => console.log("✅ Database connected successfully!"))
   .catch((err) => console.error("❌ Database connection failed:", err));
 
-app.listen(3000, () => {
+app.listen(3000, "0.0.0.0", () => {
   console.log("Server running at http://localhost:3000");
 });

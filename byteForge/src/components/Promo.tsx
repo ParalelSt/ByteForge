@@ -7,7 +7,7 @@ const Promo = () => {
     <div className="promo-container">
       <div className="promo-container-top">
         <img
-          src="./src/assets/Logitech_G502.avif"
+          src="./src/assets/Logitech_G502.png"
           alt="promo-image"
           className="promo-image"
         />

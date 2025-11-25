@@ -36,14 +36,15 @@ const ShopProducts = () => {
           <div className="shop-product-card" key={p.id}>
             <div className="product-card-top">
               <img
-                src={`http://localhost:3000/images/product_images/${p.image}`}
+                src={`http://192.168.1.105:3000/images/${p.image}`}
                 alt={p.name}
                 className={"product-card-image"}
               />
             </div>
             <div className="product-card-bottom">
               <h3>{p.name}</h3>
-              <p>{p.price}</p>
+              <p>{`$${p.price}`}</p>
+
               <button
                 className="add-to-cart-btn"
                 onClick={() =>

@@ -9,14 +9,14 @@ async function updateFilenames() {
   const db = await mysql.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
-    password: process.env.DB_PASS,
+    password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
   });
 
   console.log("Connected to database.");
 
   // Read image folder
-  const imageFiles = fs.readdirSync("images");
+  const imageFiles = fs.readdirSync("images/product_images");
 
   // Get all products
   const [products] = await db.query("SELECT id, image FROM products");
@@ -28,14 +28,18 @@ async function updateFilenames() {
     const baseName = image.replace(/\.\w+$/, ""); // remove extension
     const newFileName = baseName + ".png";
 
-    // Check if file exists in images/
-    if (imageFiles.includes(newFileName)) {
+    // Check if file exists in images/product_images/ (case-insensitive)
+    const matchedFile = imageFiles.find(
+      (file) => file.toLowerCase() === newFileName.toLowerCase()
+    );
+
+    if (matchedFile) {
       await db.query("UPDATE products SET image = ? WHERE id = ?", [
-        newFileName,
+        matchedFile,
         id,
       ]);
 
-      console.log(`✔ Updated product ${id}: ${image} → ${newFileName}`);
+      console.log(`✔ Updated product ${id}: ${image} → ${matchedFile}`);
     } else {
       console.log(`✖ NO MATCH for product ${id} (${image})`);
     }

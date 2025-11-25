@@ -31,7 +31,7 @@ export const ProductProvider = ({
       try {
         await new Promise((res) => setTimeout(res, 2000));
 
-        const res = await fetch("http://localhost:3000/products");
+        const res = await fetch("http://192.168.1.105:3000/products");
         if (!res.ok) throw new Error("Failed to fetch products");
         const data = await res.json();
         setProducts(data);

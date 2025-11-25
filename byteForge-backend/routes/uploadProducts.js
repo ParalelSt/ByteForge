@@ -16,7 +16,7 @@ router.post("/upload-product", upload.single("image"), async (req, res) => {
   try {
     const inputPath = req.file.path;
     const outputFilename = req.file.filename + ".png";
-    const outputPath = path.join("images", outputFilename);
+    const outputPath = path.join("images/product_images", outputFilename);
 
     const response = await axios({
       method: "post",
