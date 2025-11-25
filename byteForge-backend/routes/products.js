@@ -1,19 +1,17 @@
-const express = require("express");
+import express from "express";
+import db from "../db.js";
+
 const router = express.Router();
-const db = require("../db");
 
 // GET /products
-router.get("/", (req, res) => {
-  const sql = "SELECT * FROM products";
-
-  db.query(sql, (err, results) => {
-    if (err) {
-      console.error("Error fetching products:", err);
-      return res.status(500).json({ error: "Database error" });
-    }
-
+router.get("/", async (req, res) => {
+  try {
+    const [results] = await db.query("SELECT * FROM products");
     res.json(results);
-  });
+  } catch (err) {
+    console.error("Error fetching products:", err);
+    res.status(500).json({ error: "Database error" });
+  }
 });
 
-module.exports = router;
+export default router;

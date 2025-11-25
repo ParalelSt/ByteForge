@@ -29,6 +29,8 @@ export const ProductProvider = ({
   useEffect(() => {
     const load = async () => {
       try {
+        await new Promise((res) => setTimeout(res, 2000));
+
         const res = await fetch("http://localhost:3000/products");
         if (!res.ok) throw new Error("Failed to fetch products");
         const data = await res.json();

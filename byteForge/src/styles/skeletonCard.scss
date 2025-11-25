@@ -1,5 +1,8 @@
 @use "@/styles/variables" as v;
 
 .skeleton-card {
-  background-color: v.$bg-color;
+  background-color: white;
+
+  min-width: 10rem;
+  min-height: 12.5rem;
 }

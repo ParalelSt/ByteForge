@@ -8,11 +8,16 @@ const ShopProducts = () => {
   const { addItem } = useCart();
 
   if (loading) {
-    <div className="product-grid">
-      {Array.from({ length: 8 }).map((_, i) => (
-        <div className="product-card skeleton-card" key={i}></div>
-      ))}
-    </div>;
+    return (
+      <div className="shop-products-container">
+        <h2>PRODUCTS</h2>
+        <div className="product-grid">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div className="shop-product-card skeleton-card" key={i}></div>
+          ))}
+        </div>
+      </div>
+    );
   }
 
   if (error) {
@@ -28,7 +33,7 @@ const ShopProducts = () => {
       <h2>PRODUCTS</h2>
       <div className="product-grid">
         {products.map((p) => (
-          <div className="shop-product-card">
+          <div className="shop-product-card" key={p.id}>
             <div className="product-card-top">
               <img
                 src={`http://localhost:3000/images/product_images/${p.image}`}
