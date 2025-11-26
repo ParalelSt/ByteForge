@@ -36,7 +36,7 @@ const ShopProducts = () => {
           <div className="shop-product-card" key={p.id}>
             <div className="product-card-top">
               <img
-                src={`http://192.168.1.105:3000/images/${p.image}`}
+                src={`http://192.168.1.105:3000/images/product_images/${p.image}`}
                 alt={p.name}
                 className={"product-card-image"}
               />

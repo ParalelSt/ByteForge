@@ -43,8 +43,15 @@ app.use(
   })
 );
 app.use(express.json());
+
+// Static files with CORS headers
 app.use(
   "/images/product_images",
+  (req, res, next) => {
+    res.header("Cross-Origin-Resource-Policy", "cross-origin");
+    res.header("Access-Control-Allow-Origin", "*");
+    next();
+  },
   express.static(path.join(__dirname, "images/product_images"))
 );
 
