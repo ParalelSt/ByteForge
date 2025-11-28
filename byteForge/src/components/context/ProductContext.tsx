@@ -15,6 +15,7 @@ interface Product {
   description?: string;
   category: string;
   subcategory?: string;
+  featured?: boolean;
 }
 
 interface ProductContextValue {

@@ -124,6 +124,13 @@
                     font-size: v.$fs-body;
                 }
             }
+
+            .featured-badge {
+                color: #ffd700;
+                font-size: v.$fs-small;
+                font-weight: 600;
+                margin-left: 0.5rem;
+            }
         }
 
         .product-image {
@@ -180,6 +187,27 @@
 
                 &:active {
                     transform: translateY(0);
+                }
+
+                &.featured-btn {
+                    background: #333;
+                    border: 1px solid #555;
+                    
+                    &:hover {
+                        background: #444;
+                        box-shadow: 0 6px 16px rgba(255, 215, 0, 0.2);
+                    }
+
+                    &.active {
+                        background: linear-gradient(135deg, #ffd700, #ffed4e);
+                        color: #000;
+                        border-color: #ffd700;
+                        
+                        &:hover {
+                            background: linear-gradient(135deg, #ffed4e, #ffd700);
+                            box-shadow: 0 6px 16px rgba(255, 215, 0, 0.4);
+                        }
+                    }
                 }
 
                 &.edit-btn {

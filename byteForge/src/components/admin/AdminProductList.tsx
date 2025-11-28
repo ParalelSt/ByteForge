@@ -7,6 +7,7 @@ interface AdminProduct {
   description: string | null;
   price: number;
   image: string | null;
+  featured?: boolean;
 }
 
 interface AdminProductListProps {
@@ -70,7 +71,6 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
         throw new Error(data.error || "Failed to delete product");
       }
 
-      // Remove from local state
       setProducts((prev) => prev.filter((p) => p.id !== id));
     } catch (err: any) {
       console.error(err);
@@ -118,12 +118,39 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
         throw new Error(data.error || "Failed to update product");
       }
 
-      // Refresh products list
       await fetchProducts();
       handleCancelEdit();
     } catch (err: any) {
       console.error(err);
       alert(err.message ?? "Error updating product");
+    }
+  };
+
+  const handleToggleFeatured = async (id: number, currentFeatured: boolean) => {
+    try {
+      const res = await fetch(
+        `http://192.168.1.105:3000/admin/products/${id}/featured`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ featured: !currentFeatured }),
+        }
+      );
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to toggle featured status");
+      }
+
+      setProducts((prev) =>
+        prev.map((p) =>
+          p.id === id ? { ...p, featured: !currentFeatured } : p
+        )
+      );
+    } catch (err: any) {
+      console.error(err);
+      alert(err.message ?? "Error toggling featured status");
     }
   };
 
@@ -190,7 +217,10 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
               <div className="product-item">
                 <div className="product-info">
                   <strong>{p.name}</strong>
-                  <span className="price">– ${p.price}</span>
+                  <span className="price">${Number(p.price).toFixed(2)}</span>
+                  {p.featured && (
+                    <span className="featured-badge">⭐ Featured</span>
+                  )}
                 </div>
                 <img
                   src={
@@ -202,6 +232,16 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
                   className="product-image"
                 />
                 <div className="product-actions">
+                  <button
+                    onClick={() =>
+                      handleToggleFeatured(p.id, p.featured || false)
+                    }
+                    className={
+                      p.featured ? "featured-btn active" : "featured-btn"
+                    }
+                  >
+                    {p.featured ? "⭐ Featured" : "☆ Feature"}
+                  </button>
                   <button onClick={() => handleEdit(p)} className="edit-btn">
                     Edit
                   </button>

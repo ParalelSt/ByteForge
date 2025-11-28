@@ -202,4 +202,36 @@ router.delete("/admin/products/:id", async (req, res) => {
   }
 });
 
+/* 
+==============================
+  TOGGLE FEATURED STATUS
+==============================
+PATCH /admin/products/:id/featured
+==============================
+*/
+router.patch("/admin/products/:id/featured", async (req, res) => {
+  try {
+    const { featured } = req.body;
+    const productId = req.params.id;
+
+    if (typeof featured !== "boolean") {
+      return res.status(400).json({ error: "Featured must be a boolean" });
+    }
+
+    const [result] = await db.query(
+      "UPDATE products SET featured = ? WHERE id = ?",
+      [featured, productId]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+
+    res.json({ success: true, message: "Featured status updated", featured });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to update featured status" });
+  }
+});
+
 export default router;

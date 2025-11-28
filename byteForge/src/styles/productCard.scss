@@ -27,10 +27,15 @@
   .name,
   .price {
     text-align: center;
+    width: 100%;
   }
 
   .name {
     font-size: v.$fs-body;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0 0.25rem;
   }
 
   .price {
