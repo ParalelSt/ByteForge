@@ -9,6 +9,7 @@ import productsRoute from "./routes/products.js";
 import productUpload from "./routes/uploadProducts.js";
 import adminRoutes from "./routes/admin.js";
 import adminProducts from "./routes/adminProducts.js";
+import promosRoute from "./routes/promos.js";
 
 dotenv.config();
 
@@ -60,6 +61,7 @@ app.use("/products", productsRoute);
 app.use("/", productUpload);
 app.use("/", adminRoutes);
 app.use("/", adminProducts);
+app.use("/", promosRoute);
 
 // DB connection test
 db.query("SELECT 1")
