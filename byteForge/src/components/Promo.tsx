@@ -1,6 +1,6 @@
 import "@/styles/promo.scss";
 import ShopNowBtn from "@/components/ShopNowBtn";
-import SectionContainer from "./SectionContainer";
+import SectionContainer from "@/components/SectionContainer";
 
 const Promo = () => {
   return (

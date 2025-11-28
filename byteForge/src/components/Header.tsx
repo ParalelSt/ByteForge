@@ -4,7 +4,7 @@ import GIcon from "@/assets/icons/GIcon.svg";
 import "@/styles/header.scss";
 import Navigation from "@/components/Navigation";
 import { Link } from "react-router-dom";
-import Cart from "./Cart";
+import Cart from "@/components/Cart";
 
 const Header = () => {
   const [hamburgerOpen, setHamburgerOpen] = useState<boolean>(false);

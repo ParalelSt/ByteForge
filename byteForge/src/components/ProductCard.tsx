@@ -1,4 +1,4 @@
-import CardContainer from "./CardContainer";
+import CardContainer from "@/components/CardContainer";
 import "@/styles/productCard.scss";
 
 interface ProductCardProps {

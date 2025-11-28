@@ -1,11 +1,30 @@
-import { useCart } from "./context/CartContext";
-import { useProducts } from "./context/ProductContext";
+import { useCart } from "@/components/context/CartContext";
+import { useProducts } from "@/components/context/ProductContext";
 import "@/styles/shopProducts.scss";
 import "@/styles/skeletonCard.scss";
 
-const ShopProducts = () => {
+interface shopProductsProps {
+  category: string | null;
+  subcategory: string | null;
+}
+
+const ShopProducts = ({ category, subcategory }: shopProductsProps) => {
   const { products, loading, error } = useProducts();
   const { addItem } = useCart();
+
+  // Filter products by category and subcategory
+  const filteredProducts = products.filter((p) => {
+    // If no category selected, show all
+    if (!category) return true;
+
+    // If category doesn't match, filter out
+    if (p.category !== category) return false;
+
+    // If subcategory is selected, filter by it
+    if (subcategory && p.subcategory !== subcategory) return false;
+
+    return true;
+  });
 
   if (loading) {
     return (
@@ -32,7 +51,7 @@ const ShopProducts = () => {
     <div className="shop-products-container">
       <h2>PRODUCTS</h2>
       <div className="product-grid">
-        {products.map((p) => (
+        {filteredProducts.map((p) => (
           <div className="shop-product-card" key={p.id}>
             <div className="product-card-top">
               <img

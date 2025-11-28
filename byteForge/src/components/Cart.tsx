@@ -1,10 +1,10 @@
 import { FiX } from "react-icons/fi";
-import SectionContainer from "./SectionContainer";
-import ProductContainer from "./ProductContainer";
+import SectionContainer from "@/components/SectionContainer";
+import ProductContainer from "@/components/ProductContainer";
 import "@/styles/cart.scss";
 import { useEffect } from "react";
-import { useCart } from "./context/CartContext";
-import { useProducts } from "./context/ProductContext";
+import { useCart } from "@/components/context/CartContext";
+import { useProducts } from "@/components/context/ProductContext";
 
 interface CartProps {
   cartOpen: boolean;

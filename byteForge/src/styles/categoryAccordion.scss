@@ -10,6 +10,9 @@
 
   width: 92.5%;
 
+  position: relative;
+  z-index: 100;
+
   .category-accordion-item {
     @include m.flexLeftCenter;
 
@@ -21,6 +24,20 @@
     border-radius: 0.3rem;
 
     color: white;
+    transition: all 0.2s;
+
+    &.selected {
+      background: v.$accent;
+      border-color: v.$accent;
+
+      span {
+        font-weight: 600;
+      }
+
+      .arrow svg {
+        color: white;
+      }
+    }
 
     .arrow {
       position: relative;

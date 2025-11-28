@@ -1,6 +1,6 @@
 import "@/styles/productContainer.scss";
 import { FaMinus, FaPlus, FaTrash } from "react-icons/fa6";
-import { useCart } from "./context/CartContext";
+import { useCart } from "@/components/context/CartContext";
 import { useState } from "react";
 
 interface ProductContainerProps {

@@ -1,20 +1,44 @@
 import { CATEGORY_LABELS, type CategoryKey } from "@/api/categoryData";
 import "@/styles/categoryAccordion.scss";
-import SectionContainer from "./SectionContainer";
+import SectionContainer from "@/components/SectionContainer";
 import { RiArrowRightSLine } from "react-icons/ri";
 
 interface CategoryAccordionProps {
   onSelectCategory: (category: CategoryKey) => void;
+  onClearCategory: () => void;
+  selectedCategory: CategoryKey | null;
+  selectedSubCategory: string | null;
 }
 
-const CategoryAccordion = ({ onSelectCategory }: CategoryAccordionProps) => {
+const CategoryAccordion = ({
+  onSelectCategory,
+  onClearCategory,
+  selectedCategory,
+  selectedSubCategory,
+}: CategoryAccordionProps) => {
   const categories = Object.keys(CATEGORY_LABELS) as CategoryKey[];
+  const isAllSelected =
+    selectedCategory === null && selectedSubCategory === null;
+
   return (
     <SectionContainer className="category-accordion-container">
+      <button
+        className={`category-accordion-item ${isAllSelected ? "selected" : ""}`}
+        onClick={() => {
+          onClearCategory();
+        }}
+      >
+        <span>All Products</span>
+        <span className="arrow">
+          <RiArrowRightSLine />
+        </span>
+      </button>
       {categories.map((cat) => (
         <button
           key={cat}
-          className="category-accordion-item"
+          className={`category-accordion-item ${
+            selectedCategory === cat ? "selected" : ""
+          }`}
           onClick={() => onSelectCategory(cat)}
         >
           <span>{CATEGORY_LABELS[cat]}</span>

@@ -6,12 +6,14 @@ interface CategoryHeaderProps {
   selectedCategory: CategoryKey | null;
   selectedSubCategory: string | null;
   onToggle: () => void;
+  onClearCategory: () => void;
 }
 
 const CategoryHeader = ({
   selectedCategory,
   selectedSubCategory,
   onToggle,
+  onClearCategory,
 }: CategoryHeaderProps) => {
   const displayValue = selectedSubCategory
     ? selectedSubCategory

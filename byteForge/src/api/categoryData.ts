@@ -19,6 +19,18 @@ export const CATEGORY_LABELS: Record<CategoryKey, string> = {
   Bundles: "Bundles",
 };
 
+// Map UI categories to database categories
+export const CATEGORY_TO_DB: Record<CategoryKey, string> = {
+  GFuel: "g-fuel",
+  Peripherals: "peripherals",
+  Components: "components",
+  Cases: "cases",
+  Phones: "phones",
+  Games: "games",
+  Accessories: "accessories",
+  Bundles: "bundles",
+};
+
 export const CATEGORY_ITEMS: Record<CategoryKey, string[]> = {
   GFuel: ["Energy Tubs", "Shaker Cups", "Starter Packs"],
   Peripherals: ["Keyboards", "Mice", "Headsets", "Mousepads"],
