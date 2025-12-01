@@ -45,7 +45,7 @@ async function processImage(inputPath, outputFilename) {
 POST /admin/products
 ==============================
 */
-router.post("/admin/products", upload.single("image"), async (req, res) => {
+router.post("/", upload.single("image"), async (req, res) => {
   try {
     const { name, description, price } = req.body;
 
@@ -85,7 +85,7 @@ router.post("/admin/products", upload.single("image"), async (req, res) => {
   GET ALL PRODUCTS
 ==============================
 */
-router.get("/admin/products", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const [rows] = await db.query("SELECT * FROM products ORDER BY id DESC");
     res.json(rows);
@@ -100,7 +100,7 @@ router.get("/admin/products", async (req, res) => {
   GET SINGLE PRODUCT
 ==============================
 */
-router.get("/admin/products/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const [rows] = await db.query("SELECT * FROM products WHERE id = ?", [
       req.params.id,
@@ -123,7 +123,7 @@ router.get("/admin/products/:id", async (req, res) => {
 PUT /admin/products/:id
 ==============================
 */
-router.put("/admin/products/:id", upload.single("image"), async (req, res) => {
+router.put("/:id", upload.single("image"), async (req, res) => {
   try {
     const { name, description, price } = req.body;
     const productId = req.params.id;
@@ -174,7 +174,7 @@ router.put("/admin/products/:id", upload.single("image"), async (req, res) => {
 DELETE /admin/products/:id
 ==============================
 */
-router.delete("/admin/products/:id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     const productId = req.params.id;
 
@@ -209,7 +209,7 @@ router.delete("/admin/products/:id", async (req, res) => {
 PATCH /admin/products/:id/featured
 ==============================
 */
-router.patch("/admin/products/:id/featured", async (req, res) => {
+router.patch("/:id/featured", async (req, res) => {
   try {
     const { featured } = req.body;
     const productId = req.params.id;

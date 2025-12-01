@@ -2,6 +2,8 @@ import { useState } from "react";
 import AddProduct from "@/components/admin/AddProduct";
 import AdminProductList from "@/components/admin/AdminProductList";
 import "@/styles/admin/adminDashboard.scss";
+import AdminPromo from "./AdminPromo";
+import AdminPromoList from "./AdminPromoList";
 
 const AdminDashboard = () => {
   const [adminPassword, setAdminPassword] = useState("");
@@ -19,7 +21,7 @@ const AdminDashboard = () => {
 
   const handleLogin = async () => {
     try {
-      const res = await fetch("http://192.168.1.105:3000/admin-login", {
+      const res = await fetch("http://192.168.1.105:3000/admin/admin-login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password: adminPassword }),
@@ -59,6 +61,8 @@ const AdminDashboard = () => {
 
       <AddProduct onProductAdded={handleProductAdded} />
       <AdminProductList refreshTrigger={refreshTrigger} />
+      <AdminPromo />
+      <AdminPromoList />
     </div>
   );
 };

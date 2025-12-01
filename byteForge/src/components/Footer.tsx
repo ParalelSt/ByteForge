@@ -38,18 +38,18 @@ const Footer = () => {
           <h2>SOCIALS</h2>
           <div className="socials-links">
             <div className="icon-container">
-              <Link to={"https://instagram.com/byteforge"}>
+              <Link to={"https://www.instagram.com/byte_forge_gaming_shop/"}>
                 <IoLogoInstagram className="icon" />
               </Link>
             </div>
             <div className="icon-container">
-              <Link to={"https://twitter.com/byteforge"} className="icon">
+              <Link to={"https://x.com/ByteForgeWeb"} className="icon">
                 <FaXTwitter />
               </Link>
             </div>
             <div className="icon-container">
               <Link
-                to={"https://linkedin.com/company/ByteForge"}
+                to={"https://www.linkedin.com/in/byte-forge-46568139b/"}
                 className="icon"
               >
                 <FaLinkedinIn />

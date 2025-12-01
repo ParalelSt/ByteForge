@@ -12,12 +12,40 @@ const AdminPromo = () => {
 
   return (
     <div className="admin-promo-form">
-      <h2>Create promo</h2>
+      <h3>Create promo</h3>
       {error && <p className="error">{error}</p>}
       {success && <p className="success">{success}</p>}
       <form
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault();
+          setLoading(true);
+          setError("");
+          setSuccess("");
+
+          const formData = new FormData();
+          formData.append("title", title);
+          formData.append("description", description);
+          formData.append("link", link);
+          if (image) formData.append("image", image);
+
+          try {
+            const res = await fetch("http://192.168.1.105:3000/admin/promos", {
+              method: "POST",
+              body: formData,
+            });
+            const data = await res.json();
+            if (!res.ok)
+              throw new Error(data.message || "Failed to create promo");
+            setSuccess("Promo created successfully!");
+            setTitle("");
+            setDescription("");
+            setLink("");
+            setImage(null);
+          } catch (err) {
+            setError(err.message);
+          } finally {
+            setLoading(false);
+          }
         }}
       >
         <input

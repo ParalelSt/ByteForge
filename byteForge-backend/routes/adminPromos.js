@@ -6,7 +6,7 @@ const router = express.Router();
 
 const upload = multer({ dest: "uploads/" });
 
-router.get("/admin/promos", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const [rows] = await db.query(
       "SELECT * FROM promos ORDER BY created_at DESC"
@@ -18,7 +18,10 @@ router.get("/admin/promos", async (req, res) => {
   }
 });
 
-router.post("/admin/promos", upload.single("image"), async (req, res) => {
+import fs from "fs";
+import path from "path";
+
+router.post("/", upload.single("image"), async (req, res) => {
   try {
     const { title, description, link } = req.body;
 
@@ -29,8 +32,12 @@ router.post("/admin/promos", upload.single("image"), async (req, res) => {
     let imageFileName = null;
 
     if (req.file) {
+      const promoImagesDir = path.join(process.cwd(), "images/promo_images");
+      if (!fs.existsSync(promoImagesDir)) {
+        fs.mkdirSync(promoImagesDir, { recursive: true });
+      }
       const newFileName = Date.now() + ".png";
-      const outPutPath = Path2D.join("images/promo_images", newFileName);
+      const outPutPath = path.join(promoImagesDir, newFileName);
       fs.renameSync(req.file.path, outPutPath);
       imageFileName = newFileName;
     }
@@ -49,11 +56,11 @@ router.post("/admin/promos", upload.single("image"), async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Failed to create promo" });
+    res.status(500).json({ error: err.message || "Failed to create promo" });
   }
 });
 
-router.patch("/admin/promos/:id/activate", async (req, res) => {
+router.patch("/:id/activate", async (req, res) => {
   try {
     const promoId = req.params.id;
 

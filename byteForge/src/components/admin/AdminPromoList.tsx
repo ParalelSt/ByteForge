@@ -1,0 +1,111 @@
+import { useEffect, useState } from "react";
+import "@/styles/admin/adminPromoList.scss";
+
+interface Promo {
+  id: number;
+  title: string;
+  description: string;
+  image: string | null;
+  link?: string;
+  is_active: boolean;
+  created_at: string;
+}
+
+const AdminPromoList = () => {
+  const [promos, setPromos] = useState<Promo[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  const fetchPromos = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch("http://192.168.1.105:3000/admin/promos");
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to load promos");
+      setPromos(data);
+    } catch (err: any) {
+      setError(err.message ?? "Error loading promos");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchPromos();
+  }, []);
+
+  const handleActivate = async (id: number) => {
+    try {
+      const res = await fetch(
+        `http://192.168.1.105:3000/admin/promos/${id}/activate`,
+        {
+          method: "PATCH",
+        }
+      );
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to activate promo");
+      fetchPromos();
+    } catch (err: any) {
+      alert(err.message ?? "Error activating promo");
+    }
+  };
+
+  if (loading) return <p className="loading">Loading promos…</p>;
+  if (error) return <p className="error">Error: {error}</p>;
+
+  return (
+    <div className="admin-promo-list">
+      <h3>Existing promos</h3>
+      {promos.length === 0 && <p className="no-promos">No promos yet.</p>}
+      <ul>
+        {promos.map((promo) => (
+          <li key={promo.id} className={promo.is_active ? "active" : ""}>
+            <div className="promo-item">
+              <div className="promo-info">
+                <strong>{promo.title}</strong>
+                <span className="promo-date">
+                  {new Date(promo.created_at).toLocaleString()}
+                </span>
+                {promo.is_active && (
+                  <span className="active-badge">Active</span>
+                )}
+              </div>
+              <img
+                src={
+                  promo.image
+                    ? `http://192.168.1.105:3000/images/promo_images/${promo.image}`
+                    : "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23141414' width='100' height='100'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23666' font-family='Arial' font-size='12'%3ENo Image%3C/text%3E%3C/svg%3E"
+                }
+                alt={promo.title}
+                className="promo-image"
+              />
+              <div className="promo-actions">
+                {!promo.is_active && (
+                  <button
+                    onClick={() => handleActivate(promo.id)}
+                    className="activate-btn"
+                  >
+                    Activate
+                  </button>
+                )}
+              </div>
+              <div className="promo-description">{promo.description}</div>
+              {promo.link && (
+                <a
+                  href={promo.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="promo-link"
+                >
+                  {promo.link}
+                </a>
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default AdminPromoList;

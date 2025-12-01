@@ -10,4 +10,9 @@ export default defineConfig({
       "@": path.resolve(__dirname, "src"),
     },
   },
+  server: {
+    proxy: {
+      "/promos": "http://192.168.1.105:3000",
+    },
+  },
 });
