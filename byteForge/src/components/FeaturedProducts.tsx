@@ -14,11 +14,11 @@ const FeaturedProducts = () => {
     const handleResize = () => {
       const width = window.innerWidth;
 
-      if (width < 768) {
+      if (width < 500) {
         setProductCount(3);
-      } else if (width < 1024) {
+      } else if (width < 768) {
         setProductCount(4);
-      } else if (width < 1440) {
+      } else if (width < 1024) {
         setProductCount(6);
       } else {
         setProductCount(8);
