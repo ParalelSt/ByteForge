@@ -1,0 +1,101 @@
+@use "@/styles/mixins/mixins" as m;
+@use "@/styles/variables" as v;
+
+.auth-container {
+    @include m.flexCenter;
+
+    width: 100%;
+    height: 100%;
+
+    .auth-form, .auth-form-children {
+        @include m.flexCenter;
+
+        width: 100%;
+        height: 100%;
+    }
+
+    .auth-form {
+        .auth-form-children {
+            flex-direction: column;
+
+            h2 {
+                font-size: v.$fs-heading;
+                font-weight: bold;
+            }
+
+            span {
+                color: v.$body-text-color;
+            }
+
+            .subtitle {
+                font-size: v.$fs-body;
+
+                margin: 1rem 0;
+            }
+
+            input {
+                margin: 0.35rem 0;
+                padding: 1rem 1.5rem;
+
+                width: 100%;
+
+                font-size: v.$fs-sub;
+
+                color: v.$body-text-color;
+                background-color: v.$section-bg;
+
+                border-radius: 0.5rem;
+
+                &, &:focus {
+                    outline: none;
+                    border: none;
+                }
+            }
+
+            .forgot-password {
+                margin: 0.5rem 0;
+            }
+
+            button {
+                padding: 0.75rem 1rem;
+
+                width: 100%;
+
+                font-size: v.$fs-sub;
+
+                color: v.$accent;
+
+                border: 1px solid v.$accent;
+                border-radius: 0.5rem;
+            }
+
+            .auth-btn {
+                margin: 0.5rem 0;
+            }
+
+            .account-status {
+                @include m.flexLeftCenter;
+
+                margin: 0.75rem 0;
+
+                width: 100%;
+
+                button {
+                    margin-left: 0.25rem;
+
+                    width: auto;
+
+                    font-size: v.$fs-body;
+
+                    padding: 0;
+
+                    border: none;
+                }
+            }
+
+            .mode-switch-btn {
+                margin: 1.5rem 0;
+            }
+        }
+    }
+}
