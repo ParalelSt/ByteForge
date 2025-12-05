@@ -24,10 +24,10 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
 
   const register = async (name: string, email: string, password: string) => {
     try {
-      const res = await fetch("http://localhost:3000/auth/login", {
+      const res = await fetch("http://192.168.1.105:3000/auth/register", {
         method: "POST",
         headers: {
-          "Content-Type": "application.json",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ name, email, password }),
       });
@@ -49,7 +49,7 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
 
   const login = async (email: string, password: string) => {
     try {
-      const res = await fetch("http://localhost:3000/auth/login", {
+      const res = await fetch("http://192.168.1.105:3000/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
