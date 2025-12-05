@@ -1,6 +1,8 @@
 import { useState, useRef } from "react";
 import "@/styles/authorization.scss";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useUser } from "@/components/context/UserContext";
 
 const Authorization = () => {
   const loginEmailRef = useRef<HTMLInputElement>(null);
@@ -13,12 +15,15 @@ const Authorization = () => {
   const [mode, setMode] = useState<"login" | "register">("login");
   const [error, setError] = useState<string>("");
 
+  const { register, login, logout } = useUser();
+  const navigate = useNavigate();
+
   const handleModeChange = (mode: "login" | "register") => {
     setMode(mode);
     setError("");
   };
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const NAME = registerNameRef.current?.value.trim() || "";
@@ -36,12 +41,23 @@ const Authorization = () => {
       return;
     }
 
-    setError("");
-    setMode("login");
-    console.log("Register", { NAME, EMAIL, PASSWORD });
+    try {
+      const success = await register(NAME, EMAIL, PASSWORD);
+
+      if (success) {
+        navigate("/");
+        setError("");
+        return;
+      }
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Registration failed";
+      setError(message);
+      return;
+    }
   };
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
@@ -59,8 +75,17 @@ const Authorization = () => {
       return;
     }
 
-    setError("");
-    console.log("Login:", { EMAIL, PASSWORD });
+    try {
+      const success = await login(EMAIL, PASSWORD);
+
+      if (success) {
+        setError("");
+        navigate("/");
+      }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Login failed";
+      setError(message);
+    }
   };
 
   return (
@@ -76,11 +101,7 @@ const Authorization = () => {
               Welcome back! Please login to your account
             </span>
             {error && <div className="error-message">{error}</div>}
-            <input
-              ref={loginEmailRef}
-              type="text"
-              placeholder="Email"
-            />
+            <input ref={loginEmailRef} type="text" placeholder="Email" />
             <input
               ref={loginPasswordRef}
               type="password"
@@ -103,16 +124,10 @@ const Authorization = () => {
         ) : (
           <div className="auth-form-children">
             <h2>REGISTER</h2>
-            <span className="subtitle">
-              Create your account. It's free.
-            </span>
+            <span className="subtitle">Create your account. It's free.</span>
             {error && <div className="error-message">{error}</div>}
             <input ref={registerNameRef} type="text" placeholder="Name" />
-            <input
-              ref={registerEmailRef}
-              type="text"
-              placeholder="Email"
-            />
+            <input ref={registerEmailRef} type="text" placeholder="Email" />
             <input
               ref={registerPasswordRef}
               type="password"

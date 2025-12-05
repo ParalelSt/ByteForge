@@ -8,27 +8,30 @@ import About from "@/pages/About";
 import Contact from "@/pages/Contact";
 import Layout from "@/components/Layout";
 import AdminDashboard from "@/components/admin/AdminDashboard";
-import Authorization from "./pages/Authorization";
+import Authorization from "@/pages/Authorization";
+import UserProvider from "@/components/context/UserContext";
 
 function App() {
   return (
-    <ProductProvider>
-      <CartProvider>
-        <Router>
-          <Layout>
-            <Routes>
-              <Route path="/" element={<Home />}></Route>
-              <Route path="/shop" element={<Shop />}></Route>
-              <Route path="/about" element={<About />}></Route>
-              <Route path="/contact" element={<Contact />}></Route>
-              <Route path="/account" element={""}></Route>
-              <Route path="/admin" element={<AdminDashboard />}></Route>
-              <Route path="/auth" element={<Authorization />}></Route>
-            </Routes>
-          </Layout>
-        </Router>
-      </CartProvider>
-    </ProductProvider>
+    <UserProvider>
+      <ProductProvider>
+        <CartProvider>
+          <Router>
+            <Layout>
+              <Routes>
+                <Route path="/" element={<Home />}></Route>
+                <Route path="/shop" element={<Shop />}></Route>
+                <Route path="/about" element={<About />}></Route>
+                <Route path="/contact" element={<Contact />}></Route>
+                <Route path="/account" element={""}></Route>
+                <Route path="/admin" element={<AdminDashboard />}></Route>
+                <Route path="/auth" element={<Authorization />}></Route>
+              </Routes>
+            </Layout>
+          </Router>
+        </CartProvider>
+      </ProductProvider>
+    </UserProvider>
   );
 }
 

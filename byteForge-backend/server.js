@@ -11,6 +11,7 @@ import adminRoutes from "./routes/admin.js";
 import adminProducts from "./routes/adminProducts.js";
 import promosRoute from "./routes/promos.js";
 import adminPromosRoute from "./routes/adminPromos.js";
+import authRoutes from "./routes/auth.js";
 
 dotenv.config();
 
@@ -18,40 +19,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-console.log("Starting backend server.js - THIS SHOULD PRINT");
-
-// Minimal test and health routes
-app.get("/test", (req, res) => {
-  console.log("Received GET /test");
-  res.json({ message: "Test route works!" });
-});
-
-app.get("/health", (req, res) => {
-  res.json({ ok: true });
-});
-
-// Root route to verify server instance
-app.get("/", (req, res) => {
-  res.json({ server: "byteForge-backend", status: "running" });
-});
-
-// Request logger to confirm incoming paths
-app.use((req, res, next) => {
-  console.log(`Incoming ${req.method} ${req.url}`);
-  next();
-});
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
-
-// Admin authentication middleware
-function adminAuth(req, res, next) {
-  const password = req.headers["x-admin-password"];
-
-  if (!password || password !== ADMIN_PASSWORD) {
-    return res.status(403).json({ message: "Unauthorized" });
-  }
-
-  next();
-}
 
 // Middleware
 app.use(
@@ -71,7 +38,6 @@ app.use(
 
 app.use(express.json());
 
-// Static files with CORS headers
 app.use(
   "/images/product_images",
   (req, res, next) => {
@@ -105,6 +71,8 @@ console.log("Registering /promos route");
 app.use("/promos", promosRoute);
 console.log("Registering /admin/promos route");
 app.use("/admin/promos", adminPromosRoute);
+console.log("Registering /auth route");
+app.use("/auth", authRoutes);
 
 // DB connection test
 db.query("SELECT 1")
