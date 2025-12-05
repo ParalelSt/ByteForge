@@ -1,21 +1,91 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import "@/styles/authorization.scss";
 import { Link } from "react-router-dom";
 
 const Authorization = () => {
+  const loginEmailRef = useRef<HTMLInputElement>(null);
+  const loginPasswordRef = useRef<HTMLInputElement>(null);
+
+  const registerNameRef = useRef<HTMLInputElement>(null);
+  const registerEmailRef = useRef<HTMLInputElement>(null);
+  const registerPasswordRef = useRef<HTMLInputElement>(null);
+
   const [mode, setMode] = useState<"login" | "register">("login");
+  const [error, setError] = useState<string>("");
+
+  const handleModeChange = (mode: "login" | "register") => {
+    setMode(mode);
+    setError("");
+  };
+
+  const handleRegister = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const NAME = registerNameRef.current?.value.trim() || "";
+    const EMAIL = registerEmailRef.current?.value.trim() || "";
+    const PASSWORD = registerPasswordRef.current?.value.trim() || "";
+
+    if (!NAME || !EMAIL || !PASSWORD) {
+      setError("Please fill in all the fields.");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(EMAIL)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+    setError("");
+    setMode("login");
+    console.log("Register", { NAME, EMAIL, PASSWORD });
+  };
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+
+    const EMAIL = loginEmailRef.current?.value.trim() || "";
+    const PASSWORD = loginPasswordRef.current?.value.trim() || "";
+
+    if (!EMAIL || !PASSWORD) {
+      setError("Please fill in all the fields.");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(EMAIL)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+    setError("");
+    console.log("Login:", { EMAIL, PASSWORD });
+  };
 
   return (
     <div className="auth-container">
-      <form className="auth-form">
+      <form
+        className="auth-form"
+        onSubmit={mode === "login" ? handleLogin : handleRegister}
+      >
         {mode === "login" ? (
           <div className="auth-form-children">
             <h2>LOG IN</h2>
             <span className="subtitle">
               Welcome back! Please login to your account
             </span>
-            <input type="email" placeholder="Email" />
-            <input type="password" placeholder="Password" />
+            {error && <div className="error-message">{error}</div>}
+            <input
+              ref={loginEmailRef}
+              type="text"
+              placeholder="Email"
+            />
+            <input
+              ref={loginPasswordRef}
+              type="password"
+              placeholder="Password"
+            />
             <Link to={"/"} className="forgot-password">
               Forgot password?
             </Link>
@@ -23,9 +93,8 @@ const Authorization = () => {
             <span className="account-status">
               Don't have an account?
               <button
-                onClick={() => {
-                  setMode("register");
-                }}
+                type="button"
+                onClick={() => handleModeChange("register")}
               >
                 Register
               </button>
@@ -34,18 +103,25 @@ const Authorization = () => {
         ) : (
           <div className="auth-form-children">
             <h2>REGISTER</h2>
-            <span className="subtitle">Create your account. It's free.</span>
-            <input type="text" placeholder="Name" />
-            <input type="email" placeholder="Email" />
-            <input type="password" placeholder="Password" />
+            <span className="subtitle">
+              Create your account. It's free.
+            </span>
+            {error && <div className="error-message">{error}</div>}
+            <input ref={registerNameRef} type="text" placeholder="Name" />
+            <input
+              ref={registerEmailRef}
+              type="text"
+              placeholder="Email"
+            />
+            <input
+              ref={registerPasswordRef}
+              type="password"
+              placeholder="Password"
+            />
             <button className="auth-btn">REGISTER</button>
             <span className="account-status">
               Already have an account?
-              <button
-                onClick={() => {
-                  setMode("login");
-                }}
-              >
+              <button type="button" onClick={() => handleModeChange("login")}>
                 Log in
               </button>
             </span>

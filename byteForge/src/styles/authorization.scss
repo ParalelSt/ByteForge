@@ -31,6 +31,32 @@
                 font-size: v.$fs-body;
 
                 margin: 1rem 0;
+
+                &.error-color {
+                    color: v.$accent-2;
+                }
+            }
+
+            .error-message {
+                background-color: rgba(255, 59, 48, 0.1);
+                color: #ff3b30;
+                padding: 0.75rem 1rem;
+                border-radius: 0.5rem;
+                border-left: 3px solid #ff3b30;
+                margin: 1rem 0;
+                font-size: v.$fs-sub;
+                animation: slideIn 0.3s ease-out;
+            }
+
+            @keyframes slideIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(-10px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
             }
 
             input {
