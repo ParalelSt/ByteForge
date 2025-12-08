@@ -1,4 +1,10 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode,
+} from "react";
 
 export interface User {
   id: string;
@@ -8,21 +14,50 @@ export interface User {
 
 interface UserContextValue {
   user: User | null;
-  register: (name: string, email: string, password: string) => Promise<boolean>;
-  login: (email: string, password: string) => Promise<boolean>;
+  isReady: boolean;
+  register: (
+    name: string,
+    email: string,
+    password: string,
+    remember?: boolean
+  ) => Promise<boolean>;
+  login: (
+    email: string,
+    password: string,
+    remember?: boolean
+  ) => Promise<boolean>;
   logout: () => void;
 }
 
 export const UserContext = createContext<UserContextValue | null>(null);
 
 const UserProvider = ({ children }: { children: ReactNode }) => {
+  const STORAGE_KEY = "byteforge:user";
   const [user, setUser] = useState<{
     id: string;
     email: string;
     name: string;
   } | null>(null);
+  const [isReady, setIsReady] = useState(false);
 
-  const register = async (name: string, email: string, password: string) => {
+  useEffect(() => {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      try {
+        setUser(JSON.parse(stored));
+      } catch {
+        localStorage.removeItem(STORAGE_KEY);
+      }
+    }
+    setIsReady(true);
+  }, []);
+
+  const register = async (
+    name: string,
+    email: string,
+    password: string,
+    remember = false
+  ) => {
     try {
       const res = await fetch("http://192.168.1.105:3000/auth/register", {
         method: "POST",
@@ -39,6 +74,9 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
       }
 
       setUser(data.user);
+      if (remember) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data.user));
+      }
       return true;
     } catch (error) {
       const message =
@@ -47,7 +85,7 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const login = async (email: string, password: string) => {
+  const login = async (email: string, password: string, remember = false) => {
     try {
       const res = await fetch("http://192.168.1.105:3000/auth/login", {
         method: "POST",
@@ -64,6 +102,11 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
       }
 
       setUser(data.user);
+      if (remember) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data.user));
+      } else {
+        localStorage.removeItem(STORAGE_KEY);
+      }
       return true;
     } catch (error) {
       const message = error instanceof Error ? error.message : "Login failed";
@@ -73,10 +116,11 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = () => {
     setUser(null);
+    localStorage.removeItem(STORAGE_KEY);
   };
 
   return (
-    <UserContext.Provider value={{ user, register, login, logout }}>
+    <UserContext.Provider value={{ user, isReady, register, login, logout }}>
       {children}
     </UserContext.Provider>
   );

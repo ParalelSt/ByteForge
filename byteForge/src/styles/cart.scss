@@ -43,6 +43,29 @@
     height: 100%;
   }
 
+  .checkout-message {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  
+  padding: 1.5rem 2rem;
+  border-radius: 0.5rem;
+  
+  animation: fadeIn 0.3s ease-out;
+  
+  &.success {
+    background-color: rgba(52, 199, 89, 0.95);
+    color: white;
+  }
+  
+  &.error {
+    background-color: rgba(255, 59, 48, 0.95);
+    color: white;
+  }
+}
+
   .cart-container-top {
     position: relative;
 

@@ -2,9 +2,11 @@ import { FiX } from "react-icons/fi";
 import SectionContainer from "@/components/SectionContainer";
 import ProductContainer from "@/components/ProductContainer";
 import "@/styles/cart.scss";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useCart } from "@/components/context/CartContext";
 import { useProducts } from "@/components/context/ProductContext";
+import { useUser } from "@/components/context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 interface CartProps {
   cartOpen: boolean;
@@ -12,6 +14,8 @@ interface CartProps {
 }
 
 const Cart = ({ cartOpen, setCartOpen }: CartProps) => {
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (cartOpen) {
       document.body.classList.add("dropdown-open");
@@ -24,13 +28,61 @@ const Cart = ({ cartOpen, setCartOpen }: CartProps) => {
     };
   }, [cartOpen]);
 
-  const { cart, addItem } = useCart();
+  const [checkoutMessage, setCheckoutMessage] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
+
+  const { cart, addItem, clearCart } = useCart();
+  const { user } = useUser();
   const { products } = useProducts();
   const subtotal = cart.reduce((sum, item) => {
     const product = products.find((p) => p.id === item.id);
     if (!product) return sum;
     return sum + product.price * item.quantity;
   }, 0);
+
+  const handleCheckout = async () => {
+    if (!user) {
+      setCheckoutMessage({ type: "error", text: "Please log in to checkout" });
+      return;
+    }
+
+    try {
+      const items = cart.map((item) => ({
+        id: item.id,
+        quantity: item.quantity,
+        price: item.price,
+      }));
+
+      const response = await fetch("http://192.168.1.105:3000/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_id: user.id, items }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        clearCart();
+        setCheckoutMessage({
+          type: "success",
+          text: "Order placed successfully!",
+        });
+        setTimeout(() => {
+          setCartOpen(false);
+          setCheckoutMessage(null);
+        }, 2000);
+      } else {
+        setCheckoutMessage({
+          type: "error",
+          text: data.message || "Failed to place order",
+        });
+      }
+    } catch (error) {
+      console.error("Checkout error:", error);
+      setCheckoutMessage({ type: "error", text: "Error placing order" });
+    }
+  };
 
   return (
     <div className="background-overlay" onClick={() => setCartOpen(false)}>
@@ -66,12 +118,19 @@ const Cart = ({ cartOpen, setCartOpen }: CartProps) => {
             })}
           </div>
           <div className="cart-container-bottom">
+            {checkoutMessage && (
+              <div className={`checkout-message ${checkoutMessage.type}`}>
+                {checkoutMessage.text}
+              </div>
+            )}
             <div className="subtotal-container">
               <span className="subtotal">Subtotal:</span>
               <span className="subtotal-number">${subtotal.toFixed(2)}</span>
             </div>
             <div className="checkout-btn-container">
-              <button className="checkout-btn">CHECKOUT</button>
+              <button className="checkout-btn" onClick={handleCheckout}>
+                CHECKOUT
+              </button>
             </div>
           </div>
         </div>

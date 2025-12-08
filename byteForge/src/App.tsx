@@ -10,6 +10,8 @@ import Layout from "@/components/Layout";
 import AdminDashboard from "@/components/admin/AdminDashboard";
 import Authorization from "@/pages/Authorization";
 import UserProvider from "@/components/context/UserContext";
+import ProtectedRoute from "./pages/ProtectedRoute";
+import Account from "./pages/Account";
 
 function App() {
   return (
@@ -19,11 +21,13 @@ function App() {
           <Router>
             <Layout>
               <Routes>
-                <Route path="/" element={<Home />}></Route>
-                <Route path="/shop" element={<Shop />}></Route>
-                <Route path="/about" element={<About />}></Route>
-                <Route path="/contact" element={<Contact />}></Route>
-                <Route path="/account" element={""}></Route>
+                <Route element={<ProtectedRoute />}>
+                  <Route path="/" element={<Home />}></Route>
+                  <Route path="/shop" element={<Shop />}></Route>
+                  <Route path="/about" element={<About />}></Route>
+                  <Route path="/contact" element={<Contact />}></Route>
+                  <Route path="/account" element={<Account />}></Route>
+                </Route>
                 <Route path="/admin" element={<AdminDashboard />}></Route>
                 <Route path="/auth" element={<Authorization />}></Route>
               </Routes>

@@ -49,6 +49,9 @@ const Navigation = ({ isOpen, setIsOpen }: NavigationProps) => {
       <Link to={"/contact"} onClick={() => setIsOpen(false)}>
         <span>Contact</span>
       </Link>
+      <Link to={"/account"} onClick={() => setIsOpen(false)}>
+        <span>Account</span>
+      </Link>
     </nav>
   );
 };

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 export interface CartItem {
   id: string;
@@ -17,10 +17,31 @@ interface CartContextValue {
   increase: (id: CartItem["id"]) => void;
   decrease: (id: CartItem["id"]) => void;
   removeItem: (id: CartItem["id"]) => void;
+  clearCart: () => void;
 }
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
+  const STORAGE_KEY = "byteforge:cart";
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      try {
+        setCart(JSON.parse(stored));
+      } catch {
+        localStorage.removeItem(STORAGE_KEY);
+      }
+    }
+    setIsLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    if (isLoaded) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
+    }
+  }, [cart, isLoaded]);
 
   const addItem = (item: Omit<CartItem, "quantity">) => {
     setCart((prev) => {
@@ -58,6 +79,10 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     setCart((prev) => prev.filter((item) => item.id !== id));
   };
 
+  const clearCart = () => {
+    setCart([]);
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -66,6 +91,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         increase,
         decrease,
         removeItem,
+        clearCart,
       }}
     >
       {children}

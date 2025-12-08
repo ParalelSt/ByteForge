@@ -12,6 +12,7 @@ import adminProducts from "./routes/adminProducts.js";
 import promosRoute from "./routes/promos.js";
 import adminPromosRoute from "./routes/adminPromos.js";
 import authRoutes from "./routes/auth.js";
+import ordersRoute from "./routes/orders.js";
 
 dotenv.config();
 
@@ -73,6 +74,8 @@ console.log("Registering /admin/promos route");
 app.use("/admin/promos", adminPromosRoute);
 console.log("Registering /auth route");
 app.use("/auth", authRoutes);
+console.log("Registering /orders route");
+app.use("/orders", ordersRoute);
 
 // DB connection test
 db.query("SELECT 1")

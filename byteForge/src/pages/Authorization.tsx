@@ -14,6 +14,7 @@ const Authorization = () => {
 
   const [mode, setMode] = useState<"login" | "register">("login");
   const [error, setError] = useState<string>("");
+  const [remember, setRemember] = useState<boolean>(false);
 
   const { register, login, logout } = useUser();
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ const Authorization = () => {
   const handleModeChange = (mode: "login" | "register") => {
     setMode(mode);
     setError("");
+    setRemember(false);
   };
 
   const handleRegister = async (e: React.FormEvent) => {
@@ -42,7 +44,7 @@ const Authorization = () => {
     }
 
     try {
-      const success = await register(NAME, EMAIL, PASSWORD);
+      const success = await register(NAME, EMAIL, PASSWORD, remember);
 
       if (success) {
         navigate("/");
@@ -76,7 +78,7 @@ const Authorization = () => {
     }
 
     try {
-      const success = await login(EMAIL, PASSWORD);
+      const success = await login(EMAIL, PASSWORD, remember);
 
       if (success) {
         setError("");
@@ -107,9 +109,19 @@ const Authorization = () => {
               type="password"
               placeholder="Password"
             />
-            <Link to={"/"} className="forgot-password">
-              Forgot password?
-            </Link>
+            <div className="auth-meta">
+              <label className="remember">
+                <input
+                  type="checkbox"
+                  checked={remember}
+                  onChange={(e) => setRemember(e.target.checked)}
+                />
+                Remember me
+              </label>
+              <Link to={"/"} className="forgot-password">
+                Forgot password?
+              </Link>
+            </div>
             <button className="auth-btn">LOGIN</button>
             <span className="account-status">
               Don't have an account?
@@ -133,6 +145,17 @@ const Authorization = () => {
               type="password"
               placeholder="Password"
             />
+            <div className="auth-meta">
+              <label className="remember">
+                <input
+                  type="checkbox"
+                  checked={remember}
+                  onChange={(e) => setRemember(e.target.checked)}
+                />
+                Remember me
+              </label>
+              <span className="forgot-password" aria-hidden="true"></span>
+            </div>
             <button className="auth-btn">REGISTER</button>
             <span className="account-status">
               Already have an account?
