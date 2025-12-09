@@ -1,0 +1,191 @@
+@use "@/styles/mixins/mixins" as m;
+@use "@/styles/variables" as v;
+
+.account-container {
+    @include m.flexCenter;
+    flex-direction: column;
+
+    margin: auto 0;
+    padding: 1rem 0;
+
+    height: 100%;
+
+    button {
+        color: white //Temp
+    }
+
+    .account-container-top, .account-container-bottom {
+        @include m.flexCenter;
+        flex-direction: column;
+
+        padding: 0.5rem;
+
+        width: 100%;
+        height: 100%;
+    }
+
+    .account-container-top {
+        gap: 0.5rem;
+
+        .profile-picture {
+            @include m.flexCenter;
+
+            width: 7rem;
+            height: 7rem;
+
+            border-radius: 100%;
+
+            color: white;
+            background-color: v.$border-color;
+
+            span {
+                font-size: 3.5rem;
+            }
+        }
+
+        .name {
+            font-size: v.$fs-hero;
+        }
+
+        .email {
+            color: v.$body-text-color;
+
+            font-size: v.$fs-subheading-2;
+        }
+
+        .edit-profile-btn {
+            margin-top: 0.75rem;
+            padding: 0.75rem 1.5rem;
+
+            border: 1px solid v.$accent;
+            border-radius: 0.5rem;
+
+            font-size: v.$fs-sub;
+
+            color: v.$accent;
+        }
+    }
+
+    .account-container-bottom {
+        align-items: baseline;
+
+        gap: 1rem;
+
+        .orders-section, .account-section {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+
+            gap: 0.5rem;
+
+            height: 100%;
+
+            h2 {
+                font-size: v.$fs-subheading;
+            }
+        }
+
+        .orders-section {
+            width: 100%;
+
+            .orders-container {
+                @include m.flexCenter;
+                flex-direction: column;
+
+                gap: 0.040rem;
+
+                width: 100%;
+
+                border: 1px solid transparent;
+                border-radius: 0.5rem;
+
+                background-color: #161617;
+
+                li {
+                    @include m.flexLeftCenter;
+
+                    padding: 1rem;
+
+                    width: 100%;
+
+                    transition: scale, 150ms, border, 100ms;
+                    border: 1px solid transparent;
+                    
+
+                    &:active {
+                        scale: 102.5%;
+                        background-color: #161617;
+
+                        border: 1px solid v.$accent-2;
+                        border-radius: 0.5rem
+                    }
+
+                    .order-left {
+                        @include m.flexLeftCenter;
+                        flex-direction: column;
+
+                        span {
+                            width: 100%;
+
+                            font-size: v.$fs-sub;
+                        }
+
+                        .order-date {
+                            color: v.$body-text-color;
+                        }
+                    }
+
+                    .order-right {
+                        margin-left: auto;
+
+                        .status {
+                            color: v.$accent;
+                        }
+                    }
+                }
+            }
+        }
+
+        .account-section {
+                width: 100%;
+
+
+                .account-settings-container {
+                    @include m.flexLeftCenter;
+                    flex-direction: column;
+
+                    gap: 0.5rem;
+
+                    li {
+                        @include m.flexLeftCenter;
+
+                        width: 100%;
+
+                        transition: scale, 150ms, border, 100ms;
+                        border: 1px solid transparent;
+                        border-radius: 0.5rem;
+
+                        background-color: #161617;
+                        
+
+                        &:active {
+                            scale: 102.5%;
+
+                            border: 1px solid v.$accent-2;
+                        }
+
+                        button {
+                            text-align: left;
+
+                            padding: 1rem;
+
+                            width: 100%;
+
+                            font-size: v.$fs-sub;
+                        }
+                    }
+
+                }
+            }   
+    }
+}
