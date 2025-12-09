@@ -1,12 +1,15 @@
 import { useUser } from "@/components/context/UserContext";
 import { useEffect, useState } from "react";
 import "@/styles/account.scss";
+import AccountSettingsModal from "@/components/AccountSettingsModal";
 
 const Account = () => {
   const { user, logout } = useUser();
   const [orders, setOrders] = useState([]);
   const [profilePicture, setProfilePicture] = useState<string | null>("");
-  const [profileColor, setProfileColor] = useState<string>("");
+  const [mode, setMode] = useState<"email" | "username" | "password" | null>(
+    null
+  );
 
   useEffect(() => {
     if (!user) return;
@@ -72,22 +75,38 @@ const Account = () => {
           <h2>ACCOUNT</h2>
           <ul className="account-settings-container">
             <li>
-              <button className="email-change-btn">Change Email</button>
+              <button
+                className="email-change-btn"
+                onClick={() => setMode("email")}
+              >
+                Change Email
+              </button>
             </li>
             <li>
-              <button className="name-change-btn">Change Username</button>
+              <button
+                className="name-change-btn"
+                onClick={() => setMode("username")}
+              >
+                Change Username
+              </button>
             </li>
             <li>
-              <button className="password-change-btn">Change Password</button>
+              <button
+                className="password-change-btn"
+                onClick={() => setMode("password")}
+              >
+                Change Password
+              </button>
             </li>
             <li>
-              <button className="log-out-btn" onClick={() => logout}>
+              <button className="log-out-btn" onClick={logout}>
                 Log Out
               </button>
             </li>
           </ul>
         </section>
       </div>
+      {mode && <AccountSettingsModal mode={mode} setMode={setMode} />}
     </div>
   );
 };
