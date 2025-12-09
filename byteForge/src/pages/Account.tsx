@@ -40,7 +40,6 @@ const Account = () => {
         </div>
         <h2 className="name">{user?.name}</h2>
         <span className="email">{user?.email}</span>
-        <button className="edit-profile-btn">EDIT PROFILE</button>
       </div>
       <div className="account-container-bottom">
         <section className="orders-section">

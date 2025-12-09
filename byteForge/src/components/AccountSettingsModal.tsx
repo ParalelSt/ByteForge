@@ -17,7 +17,7 @@ const AccountSettingsModal = ({ mode, setMode }: AccountSettingsModalProps) => {
   return (
     <div className="account-settings-modal-background">
       <div className="account-settings-modal-container">
-        <h2>{`CHANGE ${mode?.toUpperCase()}`}</h2>
+        <h2>{mode?.toUpperCase()}</h2>
 
         <button onClick={() => setMode(null)}>
           <FiX color="white" className="icon" />

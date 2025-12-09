@@ -30,7 +30,7 @@
     padding: 1rem;
 
     width: 100%;
-    height: 70%;
+    height: 45%;
 
     border: 1px solid v.$accent;
     border-radius: 0.75rem;
@@ -61,7 +61,8 @@
 
         width: 100%;
 
-        border: 1px solid v.$accent;
+        border: 1px solid v.$accent-2;
+        border-radius: 0.5rem;
 
         color: white;
         background-color: transparent;
