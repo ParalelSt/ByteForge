@@ -63,6 +63,12 @@
             font-size: v.$fs-sub;
 
             color: v.$accent;
+
+            transition: scale, 150ms;
+
+            &:active {
+                scale: 105%;
+            }
         }
     }
 
@@ -147,10 +153,10 @@
         }
 
         .account-section {
-                width: 100%;
+            width: 100%;
 
 
-                .account-settings-container {
+            .account-settings-container {
                     @include m.flexLeftCenter;
                     flex-direction: column;
 
@@ -183,9 +189,9 @@
 
                             font-size: v.$fs-sub;
                         }
-                    }
-
                 }
-            }   
+
+            }
+        }   
     }
 }

@@ -141,6 +141,12 @@
         font-size: v.$fs-sub;
 
         color: v.$accent;
+
+        transition: scale, 150ms;
+
+        &:active {
+            scale: 105%;
+        }
       }
     }
   }

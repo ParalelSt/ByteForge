@@ -36,5 +36,13 @@
         @include mixins.elementAccent;
 
     }
+
+    .cart-btn {
+        transition: scale, 150ms;
+
+        &:active {
+            scale: 105%;
+        }
+    }
 }
 

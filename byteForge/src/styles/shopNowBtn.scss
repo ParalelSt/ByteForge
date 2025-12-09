@@ -11,4 +11,10 @@
         border-radius: 0.5rem;
 
         font-size: v.$fs-sub;
+
+        transition: scale, 150ms;
+
+        &:active {
+                scale: 105%;
+        }
 }

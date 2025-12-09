@@ -90,6 +90,12 @@
                     border: 1px solid v.$accent;
                     border-radius: 100%;
 
+                    transition: scale, 150ms;
+
+                    &:active {
+                        scale: 105%;
+                    }
+
 
                     .icon {
                         @include m.flexCenter;
