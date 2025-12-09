@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.7](https://github.com/ParalelSt/ByteForge/compare/v0.0.6...v0.0.7) (2025-12-09)
+
+
+### Features
+
+* added error handling for login and register ([7bb734d](https://github.com/ParalelSt/ByteForge/commit/7bb734d57505d6ace01d51d64332f3be84ec9c21))
+* added featured products display from db, admin feature ([6de186d](https://github.com/ParalelSt/ByteForge/commit/6de186d46e7dc26132cd5175921afab500204a9c))
+* Admin promo, admin promo related styles ([16111ae](https://github.com/ParalelSt/ByteForge/commit/16111ae12a059519b03b5fce8cce2e463ea815b1))
+* Auth page and route with corresponding styles ([cc4ccbb](https://github.com/ParalelSt/ByteForge/commit/cc4ccbb2f7cf8ecc81c410ee8f46ea7500e371c4))
+* auth register and login functions, backend and frontend ([7e0c482](https://github.com/ParalelSt/ByteForge/commit/7e0c4824ca6035855d652d8e0010f00c6a0ef66d))
+* cart updates the db, orders route ([d6a26b0](https://github.com/ParalelSt/ByteForge/commit/d6a26b09abf56be86d2ab7321b843f682bde5459))
+* promo adding, setting active promo and promo styles ([854a145](https://github.com/ParalelSt/ByteForge/commit/854a1459d2f010d1e152eee1ceda7a6e94911051))
+
+
+### Bug Fixes
+
+* register route not fetching from the right source ([78ebb7b](https://github.com/ParalelSt/ByteForge/commit/78ebb7b7e8ab61dbc6f67508d8d188e9fc98d956))
+* style for featured products (proper product count display) ([b294bd2](https://github.com/ParalelSt/ByteForge/commit/b294bd24adbc63069bdcc54533bc8c39397ef86a))
+* styles for Account page, fixed layout and added more buttons ([2ee956d](https://github.com/ParalelSt/ByteForge/commit/2ee956d98941224b082645cecb65224c2da2d147))
+
 ### [0.0.5](https://github.com/ParalelSt/ByteForge/compare/v0.0.4...v0.0.5) (2025-11-21)
 
 
