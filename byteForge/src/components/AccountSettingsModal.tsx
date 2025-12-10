@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import "@/styles/accountSettingsModal.scss";
 import { FiX } from "react-icons/fi";
 import { useUser } from "./context/UserContext";
@@ -19,10 +19,6 @@ const AccountSettingsModal = ({ mode, setMode }: AccountSettingsModalProps) => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const { user, logout } = useUser();
-
-  const currentPasswordRef = useRef("");
-  const newPasswordRef = useRef("");
-  const confirmPasswordRef = useRef("");
 
   const [message, setMessage] = useState<{
     type: "success" | "error";
