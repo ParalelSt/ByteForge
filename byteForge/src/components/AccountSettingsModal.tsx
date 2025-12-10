@@ -19,7 +19,7 @@ const AccountSettingsModal = ({ mode, setMode }: AccountSettingsModalProps) => {
       <div className="account-settings-modal-container">
         <h2>{mode?.toUpperCase()}</h2>
 
-        <button onClick={() => setMode(null)}>
+        <button className="close-btn" onClick={() => setMode(null)}>
           <FiX color="white" className="icon" />
         </button>
 
@@ -79,6 +79,8 @@ const AccountSettingsModal = ({ mode, setMode }: AccountSettingsModalProps) => {
             />
           </>
         )}
+
+        <button className="submit-btn">SUBMIT</button>
       </div>
     </div>
   );
