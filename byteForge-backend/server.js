@@ -14,6 +14,8 @@ import adminPromosRoute from "./routes/adminPromos.js";
 import authRoutes from "./routes/auth.js";
 import ordersRoute from "./routes/orders.js";
 import changePasswordRoute from "./routes/changePassword.js";
+import changeEmailRoute from "./routes/changeEmail.js";
+import changeUsernameRoute from "./routes/changeUsername.js";
 
 dotenv.config();
 
@@ -79,6 +81,10 @@ console.log("Registering /orders route");
 app.use("/orders", ordersRoute);
 console.log("Registering /auth/change-password");
 app.use("/auth/change-password", changePasswordRoute);
+console.log("Registering /auth/change-email");
+app.use("/auth/change-email", changeEmailRoute);
+console.log("Registering /auth/change-username");
+app.use("/auth/change-username", changeUsernameRoute);
 
 // DB connection test
 db.query("SELECT 1")

@@ -10,10 +10,10 @@ interface AccountSettingsModalProps {
 }
 
 const AccountSettingsModal = ({ mode, setMode }: AccountSettingsModalProps) => {
-  const [showPassword, setShowPassword] = useState(false);
-
-  const [email, setEmail] = useState("");
-  const [userName, setUserName] = useState("");
+  const [currentEmail, setCurrentEmail] = useState("");
+  const [newEmail, setNewEmail] = useState("");
+  const [currentUsername, setCurrentUsername] = useState("");
+  const [newUsername, setNewUsername] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -27,13 +27,16 @@ const AccountSettingsModal = ({ mode, setMode }: AccountSettingsModalProps) => {
 
   const [loading, setLoading] = useState<boolean>(false);
 
+  const [showPassword, setShowPassword] = useState(false);
+
   const handlePasswordChange = async () => {
     if (!user?.id) {
       setMessage({ type: "error", text: "User not found" });
       return;
     }
 
-    if (!newPassword || !currentPassword || !confirmPassword) {
+    if (!newPassword && !currentPassword && !confirmPassword) {
+      setMessage({ type: "error", text: "Please fill in all fields" });
       return;
     }
 
@@ -65,6 +68,7 @@ const AccountSettingsModal = ({ mode, setMode }: AccountSettingsModalProps) => {
             user_id: user?.id,
             oldPassword: currentPassword,
             newPassword: newPassword,
+            currentPassword: currentPassword,
           }),
         }
       );
@@ -81,7 +85,124 @@ const AccountSettingsModal = ({ mode, setMode }: AccountSettingsModalProps) => {
       } else {
         setMessage({
           type: "error",
-          text: data.message || "Failed to change password",
+          text: data.message || "Something went wrong. Please try again.",
+        });
+      }
+    } catch (error) {
+      setMessage({ type: "error", text: `An error occurred ${error}` });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleEmailChange = async () => {
+    if (!user?.id) {
+      setMessage({ type: "error", text: "User not found" });
+      return;
+    }
+
+    if (!newEmail && !currentEmail) {
+      setMessage({ type: "error", text: "Please fill in all fields" });
+      return;
+    }
+
+    if (newEmail === currentEmail) {
+      setMessage({
+        type: "error",
+        text: "New email must be different from current email",
+      });
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(newEmail)) {
+      setMessage({ type: "error", text: "Please enter a valid email address" });
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const res = await fetch("http://192.168.1.105:3000/auth/change-email", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_id: user?.id,
+          currentEmail: currentEmail,
+          newEmail: newEmail,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setMessage({ type: "success", text: "Email changed successfully" });
+        setNewEmail("");
+        setCurrentEmail("");
+        setCurrentPassword("");
+        setTimeout(() => setMode(null), 1500);
+        logout();
+      } else {
+        setMessage({
+          type: "error",
+          text: data.message || "Something went wrong. Please try again.",
+        });
+      }
+    } catch (error) {
+      setMessage({ type: "error", text: `An error occurred ${error}` });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleUsernameChange = async () => {
+    if (!user?.id) {
+      setMessage({ type: "error", text: "User not found" });
+      return;
+    }
+
+    if (!newUsername && !currentUsername) {
+      setMessage({ type: "error", text: "Please fill in all the fields." });
+      return;
+    }
+
+    if (newUsername === currentUsername) {
+      setMessage({
+        type: "error",
+        text: "New username must be different from current username",
+      });
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const res = await fetch(
+        "http://192.168.1.105:3000/auth/change-username",
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            user_id: user.id,
+            newUsername: newUsername,
+            currentUsername: currentUsername,
+            currentPassword: currentPassword,
+          }),
+        }
+      );
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setMessage({ type: "success", text: "Username changed successfully" });
+        setNewUsername("");
+        setCurrentUsername("");
+        setCurrentPassword("");
+        setTimeout(() => setMode(null), 1500);
+      } else {
+        setMessage({
+          type: "error",
+          text: data.message || "Something went wrong. Please try again.",
         });
       }
     } catch (error) {
@@ -94,6 +215,12 @@ const AccountSettingsModal = ({ mode, setMode }: AccountSettingsModalProps) => {
   const handleSubmit = async () => {
     if (mode === "password") {
       await handlePasswordChange();
+    }
+    if (mode === "email") {
+      await handleEmailChange();
+    }
+    if (mode === "username") {
+      await handleUsernameChange();
     }
   };
 
@@ -114,12 +241,20 @@ const AccountSettingsModal = ({ mode, setMode }: AccountSettingsModalProps) => {
           <>
             <input
               type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={currentEmail}
+              onChange={(e) => setCurrentEmail(e.target.value)}
               placeholder="New Email"
             />
+
             <input
-              type="password"
+              type="email"
+              value={newEmail}
+              onChange={(e) => setNewEmail(e.target.value)}
+              placeholder="New Email"
+            />
+
+            <input
+              type={showPassword ? "text" : "password"}
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
               placeholder="Current Password"
@@ -131,12 +266,18 @@ const AccountSettingsModal = ({ mode, setMode }: AccountSettingsModalProps) => {
           <>
             <input
               type="text"
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
+              value={currentUsername}
+              onChange={(e) => setCurrentUsername(e.target.value)}
+              placeholder="Current Username"
+            />
+            <input
+              type="text"
+              value={newUsername}
+              onChange={(e) => setNewUsername(e.target.value)}
               placeholder="New Username"
             />
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
               placeholder="Current Password"
@@ -164,22 +305,22 @@ const AccountSettingsModal = ({ mode, setMode }: AccountSettingsModalProps) => {
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="Confirm Password"
             />
-
-            <div className="visibility-toggle">
-              <label htmlFor="visibilityBtn">
-                {showPassword ? "Hide the passwords" : "Show the passwords"}
-              </label>
-              <button
-                className="visibility-btn"
-                type="button"
-                id="visibilityBtn"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? <FaCheck /> : ""}
-              </button>
-            </div>
           </>
         )}
+
+        <div className="visibility-toggle">
+          <label htmlFor="visibilityBtn">
+            {showPassword ? "Hide the passwords" : "Show the passwords"}
+          </label>
+          <button
+            className="visibility-btn"
+            type="button"
+            id="visibilityBtn"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? <FaCheck /> : ""}
+          </button>
+        </div>
 
         <button
           className="submit-btn"
