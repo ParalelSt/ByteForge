@@ -2,11 +2,10 @@ import { FiX } from "react-icons/fi";
 import SectionContainer from "@/components/SectionContainer";
 import ProductContainer from "@/components/ProductContainer";
 import "@/styles/cart.scss";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useCart } from "@/components/context/CartContext";
 import { useProducts } from "@/components/context/ProductContext";
 import { useUser } from "@/components/context/UserContext";
-import { useNavigate } from "react-router-dom";
 
 interface CartProps {
   cartOpen: boolean;
@@ -14,20 +13,6 @@ interface CartProps {
 }
 
 const Cart = ({ cartOpen, setCartOpen }: CartProps) => {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (cartOpen) {
-      document.body.classList.add("dropdown-open");
-    } else {
-      document.body.classList.remove("dropdown-open");
-    }
-
-    return () => {
-      document.body.classList.remove("dropdown-open");
-    };
-  }, [cartOpen]);
-
   const [checkoutMessage, setCheckoutMessage] = useState<{
     type: "success" | "error";
     text: string;
@@ -84,10 +69,41 @@ const Cart = ({ cartOpen, setCartOpen }: CartProps) => {
     }
   };
 
+  const cartRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (cartOpen) document.body.classList.add("dropdown-open");
+    else document.body.classList.remove("dropdown-open");
+
+    return () => document.body.classList.remove("dropdown-open");
+  }, [cartOpen]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (cartRef.current && !cartRef.current.contains(event.target as Node)) {
+        setCartOpen(false);
+      }
+    };
+
+    if (cartOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [cartOpen, setCartOpen]);
+
   return (
-    <div className="background-overlay" onClick={() => setCartOpen(false)}>
+    <div className="background-overlay">
       <SectionContainer className="cart-section">
-        <div className="cart-content" onClick={(e) => e.stopPropagation()}>
+        <div
+          className="cart-content"
+          onClick={(e) => e.stopPropagation()}
+          ref={cartRef}
+        >
           <div className="cart-container-top">
             <h2>YOUR CART</h2>
             <button

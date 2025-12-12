@@ -105,6 +105,12 @@
 
           font-size: v.$fs-body;
           font-weight: bold;
+
+          transition: scale, 150ms;
+
+          &:active {
+            scale: 105%;
+          }
         }
       }
     }

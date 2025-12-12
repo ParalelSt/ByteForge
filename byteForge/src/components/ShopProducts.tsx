@@ -12,15 +12,9 @@ const ShopProducts = ({ category, subcategory }: shopProductsProps) => {
   const { products, loading, error } = useProducts();
   const { addItem } = useCart();
 
-  // Filter products by category and subcategory
   const filteredProducts = products.filter((p) => {
-    // If no category selected, show all
     if (!category) return true;
-
-    // If category doesn't match, filter out
     if (p.category !== category) return false;
-
-    // If subcategory is selected, filter by it
     if (subcategory && p.subcategory !== subcategory) return false;
 
     return true;

@@ -13,7 +13,7 @@ router.put("/", async (req, res) => {
     }
 
     if (!oldPassword || !newPassword || !confirmPassword) {
-      return res.status(400).json({ message: "Please fill in all the fields" });
+      return res.status(400).json({ message: "Please fill in all fields" });
     }
 
     if (newPassword !== confirmPassword) {

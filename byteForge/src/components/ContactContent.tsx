@@ -1,6 +1,58 @@
 import "@/styles/contactContent.scss";
+import { useState } from "react";
 
 const ContactContent = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [subject, setSubject] = useState("");
+  const [messageContent, setMessageContent] = useState("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [check, setCheck] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
+
+  const sendMessageContent = async (e: React.MouseEvent) => {
+    e.preventDefault();
+
+    setLoading(true);
+
+    if (!name || !email || !subject || !messageContent) {
+      setCheck({ type: "error", text: "Please fill in all fields" });
+      return;
+    }
+
+    try {
+      const res = await fetch("http://192.168.1.105:3000/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, subject, messageContent }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setCheck({
+          type: "success",
+          text: "Your message has been sent successfully",
+        });
+        setName("");
+        setEmail("");
+        setSubject("");
+        setMessageContent("");
+      } else {
+        setCheck({
+          type: "error",
+          text: data.message || "Something went wrong. Please try again.",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
       <form className="contact-content-container">
@@ -12,21 +64,49 @@ const ContactContent = () => {
           </h2>
         </div>
         <div className="contact-content-container-bottom">
+          {check && (
+            <div className={`error-display ${check.type}`}>{check.text}</div>
+          )}
+
           <div className="input-container">
-            <input type="text" placeholder="Name" />
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Name"
+            />
           </div>
           <div className="input-container">
-            <input type="email" placeholder="Email" />
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email"
+            />
           </div>
           <div className="input-container">
-            <input type="text" placeholder="Subject" />
+            <input
+              type="text"
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
+              placeholder="Subject"
+            />
           </div>
           <div className="input-container message-container">
-            <textarea placeholder="Message" />
+            <textarea
+              value={messageContent}
+              onChange={(e) => setMessageContent(e.target.value)}
+              placeholder="Message"
+            />
           </div>
 
           <div className="send-button-container">
-            <button className="send-button">SEND</button>
+            <button
+              className="send-button"
+              onClick={(e) => sendMessageContent(e)}
+            >
+              {loading ? "..." : "SEND"}
+            </button>
           </div>
         </div>
       </form>

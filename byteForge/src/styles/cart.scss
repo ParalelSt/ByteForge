@@ -12,6 +12,8 @@
   padding: 1rem;
 
   background-color: rgba(0, 0, 0, 0.8);
+
+  z-index: 1000;
 }
 
 .cart-section {
@@ -26,8 +28,6 @@
   border-radius: 0.75rem;
 
   background-color: v.$section-bg;
-
-  z-index: 1000;
 
   .cart-content {
     width: 100%;
