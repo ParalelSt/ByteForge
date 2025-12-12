@@ -35,12 +35,12 @@ const AccountSettingsModal = ({ mode, setMode }: AccountSettingsModalProps) => {
       return;
     }
 
-    if (!newPassword && !currentPassword && !confirmPassword) {
+    if (!newPassword || !currentPassword || !confirmPassword) {
       setMessage({ type: "error", text: "Please fill in all fields" });
       return;
     }
 
-    if (newPassword !== confirmPassword) {
+    if (currentPassword && newPassword !== confirmPassword) {
       setMessage({
         type: "error",
         text: "The passwords you have entered do not match",
@@ -48,11 +48,12 @@ const AccountSettingsModal = ({ mode, setMode }: AccountSettingsModalProps) => {
       return;
     }
 
-    if (newPassword.length < 8) {
+    if (newPassword === currentPassword) {
       setMessage({
         type: "error",
-        text: "The password you have entered is too short, it has to be at least 8 characters",
+        text: "The new password can not match the old password",
       });
+
       return;
     }
 
@@ -68,7 +69,7 @@ const AccountSettingsModal = ({ mode, setMode }: AccountSettingsModalProps) => {
             user_id: user?.id,
             oldPassword: currentPassword,
             newPassword: newPassword,
-            currentPassword: currentPassword,
+            confirmPassword: confirmPassword,
           }),
         }
       );
@@ -80,8 +81,10 @@ const AccountSettingsModal = ({ mode, setMode }: AccountSettingsModalProps) => {
         setCurrentPassword("");
         setNewPassword("");
         setConfirmPassword("");
-        setTimeout(() => setMode(null), 1500);
-        logout();
+        setTimeout(() => {
+          setMode(null);
+          logout();
+        }, 1500);
       } else {
         setMessage({
           type: "error",
@@ -101,8 +104,14 @@ const AccountSettingsModal = ({ mode, setMode }: AccountSettingsModalProps) => {
       return;
     }
 
-    if (!newEmail && !currentEmail) {
+    if (!newEmail || !currentEmail || !currentPassword) {
       setMessage({ type: "error", text: "Please fill in all fields" });
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(newEmail) || !emailRegex.test(currentEmail)) {
+      setMessage({ type: "error", text: "Please enter a valid email address" });
       return;
     }
 
@@ -111,12 +120,6 @@ const AccountSettingsModal = ({ mode, setMode }: AccountSettingsModalProps) => {
         type: "error",
         text: "New email must be different from current email",
       });
-      return;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(newEmail)) {
-      setMessage({ type: "error", text: "Please enter a valid email address" });
       return;
     }
 
@@ -130,6 +133,7 @@ const AccountSettingsModal = ({ mode, setMode }: AccountSettingsModalProps) => {
           user_id: user?.id,
           currentEmail: currentEmail,
           newEmail: newEmail,
+          currentPassword: currentPassword,
         }),
       });
 
@@ -140,8 +144,10 @@ const AccountSettingsModal = ({ mode, setMode }: AccountSettingsModalProps) => {
         setNewEmail("");
         setCurrentEmail("");
         setCurrentPassword("");
-        setTimeout(() => setMode(null), 1500);
-        logout();
+        setTimeout(() => {
+          setMode(null);
+          logout();
+        }, 1500);
       } else {
         setMessage({
           type: "error",
@@ -166,7 +172,7 @@ const AccountSettingsModal = ({ mode, setMode }: AccountSettingsModalProps) => {
       return;
     }
 
-    if (newUsername === currentUsername) {
+    if (currentPassword && newUsername === currentUsername) {
       setMessage({
         type: "error",
         text: "New username must be different from current username",
@@ -198,7 +204,9 @@ const AccountSettingsModal = ({ mode, setMode }: AccountSettingsModalProps) => {
         setNewUsername("");
         setCurrentUsername("");
         setCurrentPassword("");
-        setTimeout(() => setMode(null), 1500);
+        setTimeout(() => {
+          setMode(null);
+        }, 1500);
       } else {
         setMessage({
           type: "error",
@@ -243,7 +251,7 @@ const AccountSettingsModal = ({ mode, setMode }: AccountSettingsModalProps) => {
               type="email"
               value={currentEmail}
               onChange={(e) => setCurrentEmail(e.target.value)}
-              placeholder="New Email"
+              placeholder="Current Email"
             />
 
             <input

@@ -6,61 +6,73 @@ const router = express.Router();
 
 router.put("/", async (req, res) => {
   try {
-    const { user_id, newUsername, currentUsername, currentPassword } = req.body;
+    const { user_id, currentEmail, newEmail, currentPassword } = req.body;
 
-    // Single validation check
-    if (!user_id || !currentUsername || !newUsername || !currentPassword) {
-      return res.status(400).json({ message: "Invalid input" });
+    if (!user_id) {
+      return res.status(400).json({
+        message: "Failed to fetch user",
+      });
     }
 
-    // Get current user data
+    if (!currentEmail || !newEmail || !currentPassword) {
+      return res.status(400).json({
+        message: "Please fill in all fields",
+      });
+    }
+
     const [rows] = await db.query(
-      "SELECT name, password FROM users WHERE id = ?",
+      "SELECT email, password FROM users WHERE id = ?",
       [user_id]
     );
 
     if (!rows.length) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({
+        message: "User not found",
+      });
     }
 
-    if (rows[0].name !== currentUsername) {
-      return res
-        .status(400)
-        .json({ message: "Current username doesn't match" });
+    if (rows[0].email !== currentEmail) {
+      return res.status(400).json({
+        message: "Current email does not match the old email",
+      });
     }
 
     const passwordMatch = await bcrypt.compare(
       currentPassword,
       rows[0].password
     );
-
     if (!passwordMatch) {
       return res.status(401).json({ message: "Incorrect password" });
     }
 
-    if (newUsername === currentUsername) {
-      return res
-        .status(400)
-        .json({ message: "New username must be different" });
+    if (newEmail === currentEmail) {
+      return res.status(400).json({
+        message: "New Email cannot be the same as the old email",
+      });
     }
 
-    const [existing] = await db.query("SELECT id FROM users WHERE name = ?", [
-      newUsername,
-    ]);
+    const [existingEmail] = await db.query(
+      "SELECT id FROM users WHERE email = ?",
+      [newEmail]
+    );
 
-    if (existing.length > 0) {
-      return res.status(400).json({ message: "Username already in use" });
+    if (existingEmail > 0) {
+      return res.status(400).json({
+        message: "Email already in use",
+      });
     }
 
-    await db.query("UPDATE users SET name = ? WHERE id = ?", [
-      newUsername,
+    await db.query("UPDATE users SET email = ? WHERE id = ?", [
+      newEmail,
       user_id,
     ]);
 
-    return res.status(200).json({ message: "Username changed successfully" });
+    res.json({
+      message: "Email changed successfully",
+    });
   } catch (error) {
-    console.error("Change username error:", error);
-    return res.status(500).json({ message: "Server error" });
+    console.log(error);
+    res.status(500).json({ message: "Server error" });
   }
 });
 

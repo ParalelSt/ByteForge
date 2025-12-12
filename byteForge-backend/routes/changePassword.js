@@ -6,10 +6,20 @@ const router = express.Router();
 
 router.put("/", async (req, res) => {
   try {
-    const { user_id, oldPassword, newPassword } = req.body;
+    const { user_id, oldPassword, newPassword, confirmPassword } = req.body;
 
-    if (!user_id || !oldPassword || !newPassword || newPassword.length < 8) {
-      return res.status(400).json({ message: "Failed to fetch user" });
+    if (!user_id) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (!oldPassword || !newPassword || !confirmPassword) {
+      return res.status(400).json({ message: "Please fill in all the fields" });
+    }
+
+    if (newPassword !== confirmPassword) {
+      return res.status(400).json({
+        message: "The passwords do not match",
+      });
     }
 
     const [rows] = await db.query("SELECT password FROM users WHERE id = ?", [
@@ -19,12 +29,23 @@ router.put("/", async (req, res) => {
       return res.status(404).json({ message: "Failed to find user" });
     }
 
+    const [existingPassword] = await db.query(
+      "SELECT id FROM users WHERE password = ?",
+      [newPassword]
+    );
+
+    if (existingPassword > 0) {
+      return res.status(400).json({
+        message: "New password can not be the same as the old password",
+      });
+    }
+
     const ok = await bcrypt.compare(oldPassword, rows[0].password);
 
     if (!ok) {
       return res.status(401).json({
         message:
-          "The password that you have entered does not match the old password",
+          "The password you have entered does not match the old password",
       });
     }
 

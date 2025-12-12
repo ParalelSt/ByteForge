@@ -8,12 +8,12 @@ router.put("/", async (req, res) => {
   try {
     const { user_id, newUsername, currentUsername, currentPassword } = req.body;
 
-    if (!user_id || !currentUsername || !newUsername) {
-      return res.status(400).json({ message: "Invalid input" });
+    if (!user_id) {
+      return res.status(404).json({ message: "User not found" });
     }
 
-    if (!user_id || !currentUsername || !newUsername || !currentPassword) {
-      return res.status(400).json({ message: "Invalid input" });
+    if (!currentUsername || !newUsername || !currentPassword) {
+      return res.status(400).json({ message: "Please fill in all the fields" });
     }
 
     const [rows] = await db.query(
@@ -39,7 +39,7 @@ router.put("/", async (req, res) => {
       return res.status(401).json({ message: "Incorrect password" });
     }
 
-    if (newUsername === currentUsername) {
+    if (currentPassword && newUsername === currentUsername) {
       return res
         .status(400)
         .json({ message: "New username must be different" });
