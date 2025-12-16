@@ -1,14 +1,23 @@
 import "@/styles/navigation.scss";
 import { Link } from "react-router-dom";
-import { useEffect, useRef, type SetStateAction } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface NavigationProps {
-  isOpen?: boolean;
-  setIsOpen: React.Dispatch<SetStateAction<boolean>>;
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const MobileNavigation = ({ isOpen, setIsOpen }: NavigationProps) => {
   const navRef = useRef<HTMLDivElement | null>(null);
+  const [closing, setClosing] = useState(false);
+
+  const closeMenu = () => {
+    setClosing(true);
+    setTimeout(() => {
+      setClosing(false);
+      setIsOpen(false);
+    }, 300);
+  };
 
   useEffect(() => {
     if (isOpen) {
@@ -27,7 +36,7 @@ const MobileNavigation = ({ isOpen, setIsOpen }: NavigationProps) => {
 
     const handleClickOutside = (e: MouseEvent) => {
       if (navRef.current && !navRef.current.contains(e.target as Node)) {
-        setIsOpen(false);
+        closeMenu();
       }
     };
 
@@ -36,23 +45,27 @@ const MobileNavigation = ({ isOpen, setIsOpen }: NavigationProps) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isOpen, setIsOpen]);
+  }, [isOpen]);
+
+  const stateClass = closing ? "closing" : isOpen ? "open" : "";
 
   return (
-    <nav className="mobile-nav" ref={navRef}>
-      <Link to={"/shop"} onClick={() => setIsOpen(false)}>
-        <span>Shop</span>
-      </Link>
-      <Link to={"/about"} onClick={() => setIsOpen(false)}>
-        <span>About</span>
-      </Link>
-      <Link to={"/contact"} onClick={() => setIsOpen(false)}>
-        <span>Contact</span>
-      </Link>
-      <Link to={"/account"} onClick={() => setIsOpen(false)}>
-        <span>Account</span>
-      </Link>
-    </nav>
+    <div className={`nav-overlay ${stateClass}`}>
+      <nav className={`mobile-nav ${stateClass}`} ref={navRef}>
+        <Link to={"/shop"} onClick={closeMenu}>
+          <span>Shop</span>
+        </Link>
+        <Link to={"/about"} onClick={closeMenu}>
+          <span>About</span>
+        </Link>
+        <Link to={"/contact"} onClick={closeMenu}>
+          <span>Contact</span>
+        </Link>
+        <Link to={"/account"} onClick={closeMenu}>
+          <span>Account</span>
+        </Link>
+      </nav>
+    </div>
   );
 };
 

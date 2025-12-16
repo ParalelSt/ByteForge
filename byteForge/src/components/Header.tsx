@@ -26,12 +26,10 @@ const Header = () => {
           <FiMenu className="dropdown-icon" color="white" />
         )}
       </button>
-      {hamburgerOpen && (
-        <MobileNavigation
-          isOpen={hamburgerOpen}
-          setIsOpen={setHamburgerOpen}
-        ></MobileNavigation>
-      )}
+      <MobileNavigation
+        isOpen={hamburgerOpen}
+        setIsOpen={setHamburgerOpen}
+      ></MobileNavigation>
       <DesktopNavigation></DesktopNavigation>
       <Link className="logo" to={"/"}>
         ByteForge
