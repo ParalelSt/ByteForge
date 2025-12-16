@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.8](https://github.com/ParalelSt/ByteForge/compare/v0.0.7...v0.0.8) (2025-12-16)
+
+
+### Features
+
+* added Account settings modal for changing email, name and password ([9b26617](https://github.com/ParalelSt/ByteForge/commit/9b26617aa6032207861b4a2a3a162bcd3f8f0104))
+* added change Username, added check for current email, modal related styles ([c0f215c](https://github.com/ParalelSt/ByteForge/commit/c0f215cf1c44369e74121171d1f5382394058780))
+* added contactUs backend, minor fixes to the change password route error display, cart closes when clicked outside ([238c838](https://github.com/ParalelSt/ByteForge/commit/238c83843d765a24b6406338619174dd7f5d632a))
+* Change password function, check for hiding and showing passwords ([6305e4f](https://github.com/ParalelSt/ByteForge/commit/6305e4faab76fa5ea5591fb8c0c7991349403eb9))
+
+
+### Bug Fixes
+
+* Account settings modal style fixes, height and removal of Edit profile ([c11e529](https://github.com/ParalelSt/ByteForge/commit/c11e5294ca9317cc20753608ff67de800be1d318))
+* error messages of all the update functions for account settings modal ([325cf06](https://github.com/ParalelSt/ByteForge/commit/325cf06822c051007b4b9e73e03a906bcc6e1c2d))
+* general button styles for components, on active scale up for click effect) ([e86e017](https://github.com/ParalelSt/ByteForge/commit/e86e0179d7b9655b636753f471ab8835497036c3))
+* removing not needed state ([aab8ce1](https://github.com/ParalelSt/ByteForge/commit/aab8ce122b6ac12fea169614d0c5ba99d89e9661))
+* style fix for Account settings modal, fixed sizing for container element ([6b690b6](https://github.com/ParalelSt/ByteForge/commit/6b690b63dffa52e0fcad0e24b3a116027093e52f))
+* styles and email checking for Contact us page ([04801f6](https://github.com/ParalelSt/ByteForge/commit/04801f6dea5be1dd5c0ea865eaa44e1ed54f6ac8))
+
 ### [0.0.7](https://github.com/ParalelSt/ByteForge/compare/v0.0.6...v0.0.7) (2025-12-09)
 
 
