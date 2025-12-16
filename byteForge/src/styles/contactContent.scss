@@ -79,8 +79,6 @@
 
             input {
                 width: 100%;
-
-                color: v.$body-text-color;
                 
                 border: none;
 
@@ -96,6 +94,11 @@
 
             input, textarea {
                 font-family: v.$font-body;
+
+                &::placeholder {
+                    color: white;
+                    opacity: 1;
+                }
             }
         }
 
@@ -107,8 +110,6 @@
                 min-height: 100%;
 
                 resize: none;
-
-                color: v.$body-text-color;
 
                 border: none;
 

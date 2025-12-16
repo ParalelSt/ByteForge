@@ -15,10 +15,14 @@ const ContactContent = () => {
   const sendMessageContent = async (e: React.MouseEvent) => {
     e.preventDefault();
 
-    setLoading(true);
-
     if (!name || !email || !subject || !messageContent) {
       setCheck({ type: "error", text: "Please fill in all fields" });
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setCheck({ type: "error", text: "Please enter a valid email address" });
       return;
     }
 
@@ -40,6 +44,7 @@ const ContactContent = () => {
         setEmail("");
         setSubject("");
         setMessageContent("");
+        setLoading(true);
       } else {
         setCheck({
           type: "error",
