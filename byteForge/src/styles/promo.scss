@@ -17,10 +17,14 @@
         @include m.flexCenter;
         background-color: v.$section-bg;
 
+        width: 100%;
+        height: 100%;
+
         border: 1px solid transparent;
         border-top-left-radius: 0.3rem;
         border-top-right-radius: 0.3rem;
 
+        aspect-ratio: 16 / 9;
         overflow: hidden;
 
         img {
@@ -59,11 +63,22 @@
             overflow: hidden;
         }
     }
+}
 
-    .promo-container-top, .promo-container-bottom {
-        flex: 1;
+@media (min-width: v.$desktop) {
+        .promo-container {
+            flex-direction: row;
 
-        width: 100%;
-        height: 12.5rem;
-    }
+            height: 20rem;
+
+            .promo-container-top, .promo-container-bottom {
+                height: 100%
+            }
+
+            .promo-container-bottom {
+                a {
+                    margin-top: 3rem;
+                }
+            }
+        }
 }

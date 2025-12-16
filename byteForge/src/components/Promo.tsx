@@ -77,16 +77,7 @@ const Promo = () => {
   return (
     <div className="promo-container">
       <div className="promo-container-top">
-        <img
-          src={imageSrc}
-          alt={promo.title}
-          className="promo-image"
-          style={{
-            maxHeight: "200px",
-            borderRadius: "0.3rem",
-            background: "#181818",
-          }}
-        />
+        <img src={imageSrc} alt={promo.title} className="promo-image" />
       </div>
       <SectionContainer className="promo-container-bottom">
         <h2 className="promo-title">{promo.title}</h2>

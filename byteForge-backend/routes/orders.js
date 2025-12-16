@@ -8,7 +8,9 @@ router.post("/", async (req, res) => {
     const { user_id, items } = req.body;
 
     if (!user_id || !items || !Array.isArray(items) || items.length === 0) {
-      return res.status(400).json({ message: "user_id and items required" });
+      return res
+        .status(400)
+        .json({ message: "You need to add items to be able to checkout" });
     }
 
     const total = items.reduce((sum, item) => {
