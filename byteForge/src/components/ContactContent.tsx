@@ -40,6 +40,9 @@ const ContactContent = () => {
           type: "success",
           text: "Your message has been sent successfully",
         });
+        setTimeout(() => {
+          setCheck(null);
+        }, 1000);
         setName("");
         setEmail("");
         setSubject("");

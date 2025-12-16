@@ -18,7 +18,7 @@ const AccountSettingsModal = ({ mode, setMode }: AccountSettingsModalProps) => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const { user, logout } = useUser();
+  const { user, logout, setUser } = useUser();
 
   const [message, setMessage] = useState<{
     type: "success" | "error";
@@ -81,6 +81,9 @@ const AccountSettingsModal = ({ mode, setMode }: AccountSettingsModalProps) => {
         setCurrentPassword("");
         setNewPassword("");
         setConfirmPassword("");
+        setTimeout(() => {
+          setMessage(null);
+        }, 1000);
         setTimeout(() => {
           setMode(null);
           logout();
@@ -145,6 +148,9 @@ const AccountSettingsModal = ({ mode, setMode }: AccountSettingsModalProps) => {
         setCurrentEmail("");
         setCurrentPassword("");
         setTimeout(() => {
+          setMessage(null);
+        }, 1000);
+        setTimeout(() => {
           setMode(null);
           logout();
         }, 1500);
@@ -204,6 +210,10 @@ const AccountSettingsModal = ({ mode, setMode }: AccountSettingsModalProps) => {
         setNewUsername("");
         setCurrentUsername("");
         setCurrentPassword("");
+        setUser({ ...user, name: newUsername });
+        setTimeout(() => {
+          setMessage(null);
+        }, 1000);
         setTimeout(() => {
           setMode(null);
         }, 1500);

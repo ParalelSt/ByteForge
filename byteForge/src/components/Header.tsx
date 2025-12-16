@@ -2,9 +2,10 @@ import { useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 import GIcon from "@/assets/icons/GIcon.svg";
 import "@/styles/header.scss";
-import Navigation from "@/components/Navigation";
 import { Link } from "react-router-dom";
 import Cart from "@/components/Cart";
+import MobileNavigation from "@/components/MobileNavigation";
+import DesktopNavigation from "./DesktopNavigation";
 
 const Header = () => {
   const [hamburgerOpen, setHamburgerOpen] = useState<boolean>(false);
@@ -19,14 +20,19 @@ const Header = () => {
         }}
         aria-label="Toggle navigation"
       >
-        {hamburgerOpen ? <FiX color="white" /> : <FiMenu color="white" />}
+        {hamburgerOpen ? (
+          <FiX className="dropdown-icon" color="white" />
+        ) : (
+          <FiMenu className="dropdown-icon" color="white" />
+        )}
       </button>
       {hamburgerOpen && (
-        <Navigation
+        <MobileNavigation
           isOpen={hamburgerOpen}
           setIsOpen={setHamburgerOpen}
-        ></Navigation>
+        ></MobileNavigation>
       )}
+      <DesktopNavigation></DesktopNavigation>
       <Link className="logo" to={"/"}>
         ByteForge
       </Link>

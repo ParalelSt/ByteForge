@@ -7,7 +7,7 @@ interface NavigationProps {
   setIsOpen: React.Dispatch<SetStateAction<boolean>>;
 }
 
-const Navigation = ({ isOpen, setIsOpen }: NavigationProps) => {
+const MobileNavigation = ({ isOpen, setIsOpen }: NavigationProps) => {
   const navRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const Navigation = ({ isOpen, setIsOpen }: NavigationProps) => {
   }, [isOpen, setIsOpen]);
 
   return (
-    <nav className="nav-links" ref={navRef}>
+    <nav className="mobile-nav" ref={navRef}>
       <Link to={"/shop"} onClick={() => setIsOpen(false)}>
         <span>Shop</span>
       </Link>
@@ -56,4 +56,4 @@ const Navigation = ({ isOpen, setIsOpen }: NavigationProps) => {
   );
 };
 
-export default Navigation;
+export default MobileNavigation;

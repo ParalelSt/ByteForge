@@ -1,7 +1,7 @@
 @use "@/styles/mixins/mixins" as m;
 @use "@/styles/variables" as v;
 
-.nav-links {
+.mobile-nav {
     position: absolute;
     left: 0;
     top: 0.5rem;
@@ -31,5 +31,38 @@
             display: inline-block;
             border-bottom: 1px solid white;
         }
+    }
+}
+
+.desktop-nav {
+    display: none;
+}
+
+@media (min-width: v.$desktop) {
+    .mobile-nav {
+        display: none;
+    }
+
+    .dropdown-icon {
+        display: none;
+    }
+
+    .desktop-nav {
+        @include m.flexCenter;
+
+        gap: 0.5rem;
+
+        a {
+        display: block;
+        font-size: v.$fs-sub;
+        
+        width: 100%;
+
+        @include m.elementAccent;
+        
+        span {
+            display: inline-block;
+        }
+    }
     }
 }

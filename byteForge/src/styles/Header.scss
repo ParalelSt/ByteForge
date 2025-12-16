@@ -1,4 +1,4 @@
-@use '@/styles/mixins/mixins.scss';
+@use '@/styles/mixins/mixins.scss' as m;
 @use "@/styles/variables" as v;
 
 .header-container {
@@ -6,7 +6,7 @@
     position: -webkit-sticky;
     top: 0;
 
-    @include mixins.flexCenter;
+    @include m.flexCenter;
 
     padding: 0.5rem 1rem;
     margin: 0 auto;
@@ -18,7 +18,7 @@
     background-color: v.$bg-color;
 
     button {
-        @include mixins.flexCenter;
+        @include m.flexCenter;
 
         img, svg {
             width: 2rem;
@@ -27,22 +27,29 @@
     }
 
     .logo {
-        margin: 0 auto;
+        position: absolute;
+
         transition: filter 0.3s ease;
 
         font-family: v.$font-display;
         font-size: v.$fs-hero;
 
-        @include mixins.elementAccent;
+        @include m.elementAccent;
 
     }
 
     .cart-btn {
+        margin-left: auto;
+
         transition: scale, 150ms;
 
         &:active {
             scale: 105%;
         }
+    }
+
+    .desktop-nav {
+        margin-right: auto;
     }
 }
 

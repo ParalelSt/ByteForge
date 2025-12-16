@@ -27,6 +27,7 @@ interface UserContextValue {
     remember?: boolean
   ) => Promise<boolean>;
   logout: () => void;
+  setUser: (user: User) => void;
 }
 
 export const UserContext = createContext<UserContextValue | null>(null);
@@ -120,7 +121,9 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <UserContext.Provider value={{ user, isReady, register, login, logout }}>
+    <UserContext.Provider
+      value={{ user, isReady, register, login, logout, setUser }}
+    >
       {children}
     </UserContext.Provider>
   );
