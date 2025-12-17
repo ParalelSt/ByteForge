@@ -18,10 +18,8 @@ const FeaturedProducts = () => {
         setProductCount(3);
       } else if (width < 768) {
         setProductCount(4);
-      } else if (width < 1024) {
-        setProductCount(6);
       } else {
-        setProductCount(8);
+        setProductCount(6);
       }
     };
 

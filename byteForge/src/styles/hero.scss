@@ -18,4 +18,8 @@
     h1, p {
         text-align: center;
     }
+
+    @media (min-width: v.$desktop) {
+        height: 20rem;
+    }
 }

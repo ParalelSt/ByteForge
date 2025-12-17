@@ -6,7 +6,6 @@ const router = express.Router();
 router.get("/promo", async (req, res) => {
   console.log("Received GET /promos/promo");
   try {
-    // Use 1 instead of TRUE to avoid any truthiness ambiguity
     const [rows] = await db.query(
       "SELECT * FROM promos WHERE is_active = 1 ORDER BY created_at DESC LIMIT 1"
     );
@@ -31,7 +30,7 @@ router.get("/promo", async (req, res) => {
       description: promo.description,
       image: imageFile,
       imageUrl,
-      link: promo.link || null,
+      link: promo.link,
       is_active: promo.is_active,
       created_at: promo.created_at,
     });

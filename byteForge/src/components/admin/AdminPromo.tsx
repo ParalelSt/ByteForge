@@ -62,7 +62,7 @@ const AdminPromo = () => {
         />
         <input
           type="text"
-          placeholder="Link (optional)"
+          placeholder="Link"
           value={link}
           onChange={(e) => setLink(e.target.value)}
         />

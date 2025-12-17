@@ -94,6 +94,6 @@ a:visited {
 @include m.desktop {
   .container {
     grid-template-columns: repeat(12, 1fr);
-    padding: 0 4rem;
+    padding: 0 1rem;
   }
 }

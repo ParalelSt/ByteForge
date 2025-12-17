@@ -12,7 +12,7 @@
 
         border: 1px solid v.$accent;
         border-radius: 0.3rem;
-
+    
     .promo-container-top {
         @include m.flexCenter;
         background-color: v.$section-bg;
@@ -65,20 +65,28 @@
     }
 }
 
+
 @media (min-width: v.$desktop) {
         .promo-container {
             flex-direction: row;
 
+            gap: 2rem;
+
             height: 25rem;
+
+            border: none;
 
             .promo-container-top, .promo-container-bottom {
                 height: 100%
             }
 
             .promo-container-bottom {
+                border: 1px solid v.$accent;
+
                 a {
-                    margin-top: 3rem;
+                    margin-top: 0rem;
                 }
             }
         }
 }
+
