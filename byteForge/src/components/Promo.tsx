@@ -71,7 +71,10 @@ const Promo = () => {
 
   let imageSrc = promo.imageUrl;
   if (imageSrc && !imageSrc.startsWith("http")) {
-    imageSrc = `/uploads/${imageSrc.replace(/^.*[\\/]/, "")}`;
+    imageSrc = `http://192.168.1.105:3000/images/promo_images/${imageSrc.replace(
+      /^.*[\\/]/,
+      ""
+    )}`;
   }
 
   return (

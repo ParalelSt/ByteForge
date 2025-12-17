@@ -11,6 +11,12 @@
 
   padding: 0.5em 0;
 
+  transition: scale, 150ms ease;
+
+  &:active {
+    scale: 105%;
+  }
+
   img {
     width: 6.5rem;
     height: 6.5rem;

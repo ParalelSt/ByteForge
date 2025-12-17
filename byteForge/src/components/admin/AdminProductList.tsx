@@ -26,6 +26,8 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
   });
   const [editImage, setEditImage] = useState<File | null>(null);
 
+  const [searchTerm, setSearchTerm] = useState("");
+
   const fetchProducts = async () => {
     try {
       setLoading(true);
@@ -154,16 +156,35 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
     }
   };
 
+  const filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   if (loading) return <p className="loading">Loading products…</p>;
   if (error) return <p className="error">Error: {error}</p>;
 
   return (
     <div className="admin-product-list">
       <h3>Existing products</h3>
-      {products.length === 0 && <p className="no-products">No products yet.</p>}
+
+      <div className="search-bar-container">
+        <input
+          type="text"
+          placeholder="Search products..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="search-input"
+        />
+      </div>
+
+      {filteredProducts.length === 0 && (
+        <p className="no-products">
+          {searchTerm ? "No products match your search." : "No products yet."}
+        </p>
+      )}
 
       <ul>
-        {products.map((p) => (
+        {filteredProducts.map((p) => (
           <li key={p.id}>
             {editingId === p.id ? (
               <div className="edit-mode">

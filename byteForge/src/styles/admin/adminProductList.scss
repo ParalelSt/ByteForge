@@ -36,6 +36,41 @@
         letter-spacing: -0.02em;
     }
 
+    .search-bar-container {
+        margin-bottom: 1.5rem;
+
+        .search-input {
+            width: 100%;
+            max-width: 400px;
+            padding: 0.75rem 1rem;
+            
+            border: 1px solid v.$accent-2;
+            border-radius: 0.5rem;
+            
+            background-color: v.$card-container-bg-color;
+            color: v.$text-color;
+            
+            font-size: v.$fs-body;
+            font-family: v.$font-body;
+            
+            transition: border-color 200ms, box-shadow 200ms;
+
+            &::placeholder {
+                color: #666;
+            }
+
+            &:focus {
+                outline: none;
+                border-color: v.$accent;
+                box-shadow: 0 0 8px rgba(143, 0, 255, 0.2);
+            }
+
+            @include m.tablet {
+                max-width: 500px;
+            }
+        }
+    }
+
     .no-products {
         color: #666;
         text-align: center;
@@ -59,7 +94,7 @@
 
     ul {
         list-style: none;
-        padding: 0;
+        padding: 0.125rem 0;
         margin: 0;
 
         height: 15rem;
