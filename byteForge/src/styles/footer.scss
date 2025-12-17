@@ -61,19 +61,6 @@
                 font-weight: 550;
             }
 
-            ul {
-                display: flex;
-                flex-direction: column;
-
-                width: 100%;
-                list-style: none;
-
-                li {
-                    padding: 0.3rem 0;
-                }
-
-            }
-
             .socials-links {
                 display: flex;
                 justify-content: space-between;
@@ -117,6 +104,27 @@
     .footer-section-right {
         h2 {
             text-align: center;
+        }
+    }
+
+    @media (min-width: v.$desktop) {
+
+        .footer-section-middle {
+            display: flex;
+            
+            .footer-section-center-div {
+                ul {
+                    display: flex;
+
+                    width: 100%;
+                    list-style: none;
+
+                    li {
+                        padding:  0.25rem;
+                    }
+
+                }
+            }
         }
     }
 }
