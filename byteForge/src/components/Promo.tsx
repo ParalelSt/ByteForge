@@ -39,10 +39,8 @@ const Promo = () => {
         });
     };
     fetchPromo();
-    const interval = setInterval(fetchPromo, 5000);
     return () => {
       isMounted = false;
-      clearInterval(interval);
     };
   }, []);
 

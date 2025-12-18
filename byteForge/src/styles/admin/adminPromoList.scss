@@ -60,7 +60,7 @@
 
     ul {
         list-style: none;
-        padding: 0;
+                
         margin: 0;
 
         height: 15rem;
@@ -208,6 +208,51 @@
                     transform: translateY(0);
                 }
             }
+
+            .edit-btn,
+            .delete-btn {
+                padding: 0.5rem 0.75rem;
+                
+                width: 100%;
+
+                color: white;
+                border: none;
+                border-radius: 0.375rem;
+                
+                font-weight: 700;
+                font-size: v.$fs-small;
+                cursor: pointer;
+                transition: transform 150ms, box-shadow 200ms, background-color 200ms;
+
+                @include m.tablet {
+                    width: auto;
+                    padding: 0.625rem 1.25rem;
+                }
+
+                &:active {
+                    transform: translateY(0);
+                }
+            }
+
+            .edit-btn {
+                background: v.$accent;
+
+                &:hover {
+                    background: v.$accent-hover;
+                    box-shadow: 0 6px 16px rgba(143, 0, 255, 0.4);
+                    transform: translateY(-2px);
+                }
+            }
+
+            .delete-btn {
+                background: #f44336;
+
+                &:hover {
+                    background: #d32f2f;
+                    box-shadow: 0 6px 16px rgba(244, 67, 54, 0.4);
+                    transform: translateY(-2px);
+                }
+            }
         }
 
         .promo-description {
@@ -221,6 +266,117 @@
             font-size: 0.95rem;
             text-decoration: underline;
             margin-top: 0.2rem;
+        }
+    }
+
+    .promo-edit-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        .edit-input,
+        .edit-textarea {
+            width: 100%;
+            padding: 0.75rem;
+            background: v.$bg-color;
+            border: 1px solid v.$accent-2;
+            border-radius: 0.375rem;
+            color: v.$text-color;
+            font-family: v.$font-body;
+            font-size: v.$fs-body;
+            transition: border-color 200ms, box-shadow 200ms;
+
+            &:focus {
+                outline: none;
+                border-color: v.$accent;
+                box-shadow: 0 0 0 3px rgba(143, 0, 255, 0.1);
+            }
+        }
+
+        .edit-textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .image-upload-section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+
+            .image-label {
+                display: inline-block;
+                padding: 0.75rem 1.25rem;
+                background: v.$accent-2;
+                color: v.$text-color;
+                border-radius: 0.375rem;
+                cursor: pointer;
+                text-align: center;
+                font-weight: 600;
+                transition: background-color 200ms, transform 150ms;
+
+                &:hover {
+                    background: v.$accent;
+                    transform: translateY(-2px);
+                }
+            }
+
+            .edit-file-input {
+                display: none;
+            }
+
+            .image-preview {
+                width: 150px;
+                height: 150px;
+                object-fit: contain;
+                border: 1px solid v.$accent-2;
+                border-radius: 0.375rem;
+                background: v.$bg-color;
+                padding: 0.5rem;
+            }
+        }
+
+        .edit-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+
+            .save-btn,
+            .cancel-btn {
+                flex: 1;
+                padding: 0.75rem;
+                border: none;
+                border-radius: 0.375rem;
+                font-weight: 700;
+                font-size: v.$fs-body;
+                cursor: pointer;
+                transition: transform 150ms, box-shadow 200ms, background-color 200ms;
+
+                &:active {
+                    transform: translateY(0);
+                }
+            }
+
+            .save-btn {
+                background: v.$success-color;
+                color: white;
+
+                &:hover {
+                    background: v.$success-hover;
+                    box-shadow: 0 6px 16px rgba(76, 175, 80, 0.4);
+                    transform: translateY(-2px);
+                }
+            }
+
+            .cancel-btn {
+                background: #666;
+                color: white;
+
+                &:hover {
+                    background: #777;
+                    box-shadow: 0 6px 16px rgba(102, 102, 102, 0.4);
+                    transform: translateY(-2px);
+                }
+            }
         }
     }
 }
