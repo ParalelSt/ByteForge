@@ -15,6 +15,10 @@
   background-color: rgba(0, 0, 0, 0.8);
 
   z-index: 1000;
+
+  @media (min-width: v.$desktop) {
+    top: 2.9rem;
+  }
 }
 
 .cart-section {
@@ -29,6 +33,12 @@
   border-radius: 0.75rem;
 
   background-color: v.$section-bg;
+
+  @media (min-width: v.$desktop) {
+    width: 50%;
+
+    margin: 0 auto;
+  }
 
   .cart-content {
     width: 100%;
@@ -123,6 +133,10 @@
 
     height: 19rem;
     overflow-y: scroll;
+
+     @media (min-width: v.$desktop) {
+      height: 35rem;
+     } 
   }
 
   .cart-container-bottom {
@@ -146,6 +160,8 @@
       }
 
       .subtotal-number {
+        @include m.flexCenter;
+
         margin-left: auto;
       }
     }

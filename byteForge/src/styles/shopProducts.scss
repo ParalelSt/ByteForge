@@ -115,4 +115,10 @@
       }
     }
   }
+
+  @media (min-width: v.$desktop) {
+    .product-grid {
+      grid-template-columns: repeat(6, 1fr);
+    }
+  }
 }

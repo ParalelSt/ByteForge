@@ -1,5 +1,5 @@
 import "@/styles/productContainer.scss";
-import { FaMinus, FaPlus, FaTrash } from "react-icons/fa6";
+import { FaDollarSign, FaMinus, FaPlus, FaTrash } from "react-icons/fa6";
 import { useCart } from "@/components/context/CartContext";
 import { useState } from "react";
 
@@ -88,7 +88,10 @@ const ProductContainer = ({
         </div>
       </div>
       <div className="price-container">
-        <span className="product-price">{price}</span>
+        <span className="product-price">
+          <FaDollarSign />
+          {price}
+        </span>
       </div>
     </div>
   );

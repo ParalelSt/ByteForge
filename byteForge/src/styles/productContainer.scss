@@ -75,6 +75,8 @@
         margin-left: auto;
 
         span {
+            @include m.flexCenter;
+
             font-size: v.$fs-sub;
         }
     }

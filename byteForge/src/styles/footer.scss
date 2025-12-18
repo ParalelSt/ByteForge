@@ -121,6 +121,15 @@
 
                     li {
                         padding:  0.25rem;
+
+                        a {
+                            transition: color, 200ms ease;
+                            &:hover {
+                                color: v.$accent;
+
+                                cursor: pointer;
+                            }
+                        }
                     }
 
                 }
