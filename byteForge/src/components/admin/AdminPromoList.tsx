@@ -40,6 +40,18 @@ const AdminPromoList = () => {
     fetchPromos();
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (editingId && !target.closest(".admin-promo-list")) {
+        handleCancelEdit();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [editingId]);
+
   const handleActivate = async (id: number) => {
     try {
       const res = await fetch(
@@ -57,6 +69,9 @@ const AdminPromoList = () => {
   };
 
   const handleEdit = (promo: Promo) => {
+    if (editingId !== null) {
+      handleCancelEdit();
+    }
     setEditingId(promo.id);
     setEditTitle(promo.title);
     setEditDescription(promo.description);
@@ -79,6 +94,11 @@ const AdminPromoList = () => {
 
   const handleSaveEdit = async (id: number) => {
     try {
+      if (!editTitle.trim()) {
+        alert("Title is required");
+        return;
+      }
+
       const formData = new FormData();
       formData.append("title", editTitle);
       formData.append("description", editDescription);
@@ -89,12 +109,18 @@ const AdminPromoList = () => {
         method: "PUT",
         body: formData,
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Failed to update promo");
+
+      if (!res.ok) {
+        const data = await res
+          .json()
+          .catch(() => ({ error: "Failed to update promo" }));
+        throw new Error(data.error || "Failed to update promo");
+      }
 
       handleCancelEdit();
       fetchPromos();
     } catch (err: any) {
+      console.error("Update error:", err);
       alert(err.message ?? "Error updating promo");
     }
   };
@@ -106,8 +132,12 @@ const AdminPromoList = () => {
       const res = await fetch(`http://192.168.1.105:3000/admin/promos/${id}`, {
         method: "DELETE",
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Failed to delete promo");
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Failed to delete promo");
+      }
+
       fetchPromos();
     } catch (err: any) {
       alert(err.message ?? "Error deleting promo");
@@ -227,7 +257,11 @@ const AdminPromoList = () => {
                     Delete
                   </button>
                 </div>
-                <div className="promo-description">{promo.description}</div>
+                <div className="promo-description">
+                  {promo.description.length > 100
+                    ? `${promo.description.substring(0, 100)}...`
+                    : promo.description}
+                </div>
                 {promo.link && (
                   <a
                     href={promo.link}

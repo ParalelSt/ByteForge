@@ -56,6 +56,18 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
     fetchProducts();
   }, [refreshTrigger]);
 
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (editingId && !target.closest('.admin-product-list')) {
+        handleCancelEdit();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [editingId]);
+
   const handleDelete = async (id: number) => {
     if (!confirm("Delete this product?")) return;
 
@@ -81,6 +93,9 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
   };
 
   const handleEdit = (product: AdminProduct) => {
+    if (editingId !== null) {
+      handleCancelEdit();
+    }
     setEditingId(product.id);
     setEditForm({
       name: product.name,

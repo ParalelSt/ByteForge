@@ -62,7 +62,6 @@
             &:focus {
                 outline: none;
                 border-color: v.$accent;
-                box-shadow: 0 0 8px rgba(143, 0, 255, 0.2);
             }
 
             @include m.tablet {
@@ -118,7 +117,7 @@
             padding: 1rem;
             margin-bottom: 1rem;
 
-            transition: border-color 200ms, box-shadow 200ms, transform 150ms;
+            transition: border-color 200ms;
 
             @include m.tablet {
                 padding: 1.25rem;
@@ -126,8 +125,6 @@
 
             &:hover {
                 border-color: v.$accent;
-                box-shadow: 0 2px 8px rgba(143, 0, 255, 0.15);
-                transform: translateY(-1px);
             }
         }
     }
@@ -225,19 +222,15 @@
                 font-size: v.$fs-small;
                 cursor: pointer;
                 
-                transition: transform 150ms, box-shadow 200ms, background-color 200ms;
+                transition: background-color 200ms, transform 150ms;
 
                 @include m.tablet {
                     width: auto;
                     padding: 0.625rem 1.25rem;
                 }
 
-                &:hover {
-                    transform: translateY(-2px);
-                }
-
                 &:active {
-                    transform: translateY(0);
+                    transform: scale(0.95);
                 }
 
                 &.featured-btn {
@@ -246,7 +239,6 @@
                     
                     &:hover {
                         background: #444;
-                        box-shadow: 0 6px 16px rgba(255, 215, 0, 0.2);
                     }
 
                     &.active {
@@ -256,7 +248,6 @@
                         
                         &:hover {
                             background: linear-gradient(135deg, #ffed4e, #ffd700);
-                            box-shadow: 0 6px 16px rgba(255, 215, 0, 0.4);
                         }
                     }
                 }
@@ -266,7 +257,6 @@
                     
                     &:hover {
                         background: v.$accent-2-hover;
-                        box-shadow: 0 6px 16px rgba(0, 255, 183, 0.4);
                     }
                 }
 
@@ -275,7 +265,6 @@
                     
                     &:hover {
                         background: v.$error-hover;
-                        box-shadow: 0 6px 16px rgba(220, 53, 69, 0.4);
                     }
                 }
             }
@@ -369,14 +358,10 @@
                 font-size: v.$fs-small;
                 cursor: pointer;
                 
-                transition: transform 150ms, box-shadow 200ms, background-color 200ms;
-
-                &:hover {
-                    transform: translateY(-2px);
-                }
+                transition: background-color 200ms, transform 150ms;
 
                 &:active {
-                    transform: translateY(0);
+                    transform: scale(0.95);
                 }
 
                 &.save-btn {
@@ -384,7 +369,6 @@
 
                     &:hover {
                         background-color: v.$success-hover;
-                        box-shadow: 0 6px 16px rgba(76, 175, 80, 0.4);
                     }
                 }
 
@@ -393,7 +377,6 @@
 
                     &:hover {
                         background-color: v.$neutral-hover;
-                        box-shadow: 0 6px 16px rgba(102, 102, 102, 0.4);
                     }
                 }
             }
