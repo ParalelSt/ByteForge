@@ -116,10 +116,10 @@
         &.active {
             color: v.$accent;
                 
-            span::after {
+            &::after {
                 content: '';
                 position: absolute;
-                bottom: -7px;
+                bottom: -3px;
                 left: 0;
                 width: 100%;
                 height: 2px;
