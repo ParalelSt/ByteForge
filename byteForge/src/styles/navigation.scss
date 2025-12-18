@@ -103,17 +103,33 @@
         font-size: v.$fs-sub;
         
         padding: 0.25rem;
+        position: relative;
 
-        width: 100%;
-        height: 100%;
+        transition: color 200ms ease;
+
+        &:hover {
+            color: v.$accent;
+
+            cursor: pointer;
+        }
 
         &.active {
-            cursor: pointer;
-            filter: drop-shadow(0 0 6px v.$accent);
+            color: v.$accent;
+                
+            span::after {
+                content: '';
+                position: absolute;
+                bottom: -7px;
+                left: 0;
+                width: 100%;
+                height: 2px;
+                background: v.$accent;
+            }
         }
         
         span {
             display: inline-block;
+            position: relative;
         }
     }
     }

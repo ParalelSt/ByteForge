@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 import GIcon from "@/assets/icons/GIcon.svg";
 import "@/styles/header.scss";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Cart from "@/components/Cart";
 import MobileNavigation from "@/components/MobileNavigation";
 import DesktopNavigation from "./DesktopNavigation";
@@ -10,6 +10,9 @@ import DesktopNavigation from "./DesktopNavigation";
 const Header = () => {
   const [hamburgerOpen, setHamburgerOpen] = useState<boolean>(false);
   const [cartOpen, setCartOpen] = useState<boolean>(false);
+  const location = useLocation();
+
+  const isActive = (path: string) => location.pathname === path;
 
   return (
     <header className="header-container">
@@ -34,15 +37,23 @@ const Header = () => {
       <Link className="logo" to={"/"}>
         ByteForge
       </Link>
-      <button
-        className="cart-btn"
-        aria-label="Go to cart"
-        onClick={() => {
-          setCartOpen(!cartOpen);
-        }}
-      >
-        <img src={GIcon} alt="Cart icon" />
-      </button>
+      <div className="right-actions">
+        <Link 
+          className={`account-link ${isActive("/account") ? "active" : ""}`}
+          to="/account"
+        >
+          <span>Account</span>
+        </Link>
+        <button
+          className="cart-btn"
+          aria-label="Go to cart"
+          onClick={() => {
+            setCartOpen(!cartOpen);
+          }}
+        >
+          <img src={GIcon} alt="Cart icon" />
+        </button>
+      </div>
       {cartOpen && <Cart cartOpen={cartOpen} setCartOpen={setCartOpen} />}
     </header>
   );

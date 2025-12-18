@@ -17,9 +17,6 @@ const DesktopNavigation = () => {
       <Link className={isActive("/contact") ? "active" : ""} to="/contact">
         <span>Contact</span>
       </Link>
-      <Link className={isActive("/account") ? "active" : ""} to="/account">
-        <span>Account</span>
-      </Link>
     </nav>
   );
 };
