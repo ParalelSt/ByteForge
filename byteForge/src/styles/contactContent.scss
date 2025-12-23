@@ -2,7 +2,6 @@
 @use "@/styles/variables" as v;
 
 .contact-content-container {
-
     @include m.flexCenter;
     flex-direction: column;
 
@@ -139,6 +138,12 @@
 
                 font-size: v.$fs-sub;
             }
+        }
+    }
+
+    @media (min-width: v.$desktop) {
+        .contact-content-container-top, .contact-content-container-bottom {
+            width: 50%;
         }
     }
 }

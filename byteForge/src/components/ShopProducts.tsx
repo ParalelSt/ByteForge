@@ -2,6 +2,7 @@ import { useCart } from "@/components/context/CartContext";
 import { useProducts } from "@/components/context/ProductContext";
 import "@/styles/shopProducts.scss";
 import "@/styles/skeletonCard.scss";
+import { FaCartShopping } from "react-icons/fa6";
 
 interface shopProductsProps {
   category: string | null;
@@ -70,7 +71,12 @@ const ShopProducts = ({ category, subcategory }: shopProductsProps) => {
                   })
                 }
               >
-                Add to Cart
+                <div className="text-container">
+                  <span>Add to Cart</span>
+                </div>
+                <div className="icon-container">
+                  <FaCartShopping className="icon" />
+                </div>
               </button>
             </div>
           </div>
