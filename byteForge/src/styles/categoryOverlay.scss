@@ -66,7 +66,7 @@
         font-size: v.$fs-body;
 
         svg {
-          color: v.$accent; //Swap to slightly darker less saturated color for pop
+          color: v.$accent; 
         }
       }
 
@@ -107,7 +107,7 @@
 
       width: 100%;
 
-      border-top: 1px solid v.$accent; //Swap to slightly darker less saturated color for pop
+      border-top: 1px solid v.$accent;
 
       color: white;
 

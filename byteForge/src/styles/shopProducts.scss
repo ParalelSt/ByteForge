@@ -53,12 +53,16 @@
         border-top-right-radius: 0.5rem;
 
         .product-card-image {
-          padding: 0.125rem;
-
           width: 100%;
           height: 100%;
 
-          object-fit: contain;
+          border-top-left-radius: 0.5rem;
+          border-top-right-radius: 0.5rem;
+
+          object-fit: cover;
+          object-position: center 25%;
+
+          background-color: v.$section-bg;          
         }
       }
 
@@ -119,6 +123,10 @@
   @media (min-width: v.$desktop) {
     .product-grid {
       grid-template-columns: repeat(6, 1fr);
+    }
+
+    .product-card-top {
+      min-height: 12rem;
     }
   }
 }
