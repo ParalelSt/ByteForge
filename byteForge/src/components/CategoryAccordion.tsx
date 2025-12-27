@@ -22,6 +22,7 @@ const CategoryAccordion = ({
 
   return (
     <SectionContainer className="category-accordion-container">
+      <h2>CATEGORIES</h2>
       <button
         className={`category-accordion-item ${isAllSelected ? "selected" : ""}`}
         onClick={() => {

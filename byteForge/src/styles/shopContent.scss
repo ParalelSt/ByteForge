@@ -1,5 +1,5 @@
 @use "@/styles/mixins/mixins" as m;
-/* @use "@/styles/variables" as v; */
+@use "@/styles/variables" as v;
 
 .shop-content-container {
   position: relative;
@@ -8,6 +8,11 @@
   flex-direction: column;
 
   width: 100%;
+
+  @media (min-width: v.$desktop) {
+    flex-direction: row;
+    align-items: baseline;
+  }
 }
 
 .accordion-backdrop {

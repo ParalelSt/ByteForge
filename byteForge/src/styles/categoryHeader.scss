@@ -2,6 +2,8 @@
 @use "@/styles/variables" as v;
 
 .category-header-container {
+  position: relative;
+
   @include m.flexLeftCenter;
 
   padding: 1.25rem;
@@ -41,6 +43,14 @@
 
       color: v.$border-color;
     }
+  }
+
+  @media (min-width: v.$desktop) {
+    top: 3.58rem;
+
+    margin-right: 1rem;
+
+    max-width: 20rem;
   }
 }
 

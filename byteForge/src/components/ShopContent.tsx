@@ -22,10 +22,20 @@ const ShopContent = () => {
     null
   );
 
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024); // or whatever your desktop breakpoint is
+
   useEffect(() => {
-    // Refetch products when the shop page is mounted/visited
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
     refetch();
-  }, []); // Empty dependency array - only run on mount
+  }, []);
 
   const handleHeaderToggle = () => {
     setAccordionOpen(!accordionOpen);
@@ -58,7 +68,6 @@ const ShopContent = () => {
   };
 
   const handleSelectSubCategory = (sub: string) => {
-    // For now, subcategories filter by the main category since DB only has main categories
     setSelectedCategory(activeCategory);
     setSelectedSubCategory(sub);
     setOverlayOpen(false);
@@ -81,10 +90,12 @@ const ShopContent = () => {
       />
       {accordionOpen && (
         <>
-          <div
-            className="accordion-backdrop"
-            onClick={() => setAccordionOpen(false)}
-          />
+          {!isDesktop && (
+            <div
+              className="accordion-backdrop"
+              onClick={() => setAccordionOpen(false)}
+            />
+          )}
           <CategoryAccordion
             onSelectCategory={handleSelectCategory}
             onClearCategory={handleClearCategory}

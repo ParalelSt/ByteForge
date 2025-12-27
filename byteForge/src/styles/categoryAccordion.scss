@@ -2,7 +2,11 @@
 @use "@/styles/variables" as v;
 
 .category-accordion-container {
-  @include m.flexColLeft;
+  position: relative;
+  top: -5rem;
+
+  @include m.flexCenter;
+  flex-direction: column;
 
   gap: 0.5rem;
 
@@ -10,9 +14,13 @@
 
   width: 92.5%;
   height: 100%;
-
-  position: relative;
+  
   z-index: 100;
+
+  h2 {
+    font-size: v.$fs-heading;
+    font-weight: bold;
+  }
 
   .category-accordion-item {
     @include m.flexLeftCenter;
@@ -55,6 +63,22 @@
         color: v.$border-color;
       }
     }
+  }
+
+  @media (min-width: v.$desktop) {
+    position: absolute;
+    top: 10.5rem;
+    left: 0;
+
+    padding: 0.5rem;
+
+    max-width: 20rem;
+    height: 36.25rem;
+
+    
+    border: 1px solid v.$accent;
+    
+    border-radius: 0.5rem;
   }
 }
 
