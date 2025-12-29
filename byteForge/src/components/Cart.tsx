@@ -133,10 +133,10 @@ const Cart = ({ cartOpen, setCartOpen }: CartProps) => {
               return (
                 <ProductContainer
                   key={item.id}
-                  id={product.id}
+                  id={String(product.id)}
                   name={product.name}
                   price={product.price}
-                  image={product.image}
+                  image={`http://192.168.1.105:3000/images/product_images/${product.image}`}
                   count={item.quantity}
                   alt={item.alt}
                 />

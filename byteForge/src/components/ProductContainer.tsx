@@ -25,7 +25,11 @@ const ProductContainer = ({
   const [cooldown, setCooldown] = useState(false);
 
   const handleIncrease = () => {
-    if (cooldown) return;
+    console.log("🔼 Increase clicked for id:", id);
+    if (cooldown) {
+      console.log("❌ Cooldown active");
+      return;
+    }
     setCooldown(true);
 
     increase(id);
@@ -34,7 +38,11 @@ const ProductContainer = ({
   };
 
   const handleDecrease = () => {
-    if (cooldown) return;
+    console.log("🔽 Decrease clicked for id:", id);
+    if (cooldown) {
+      console.log("❌ Cooldown active");
+      return;
+    }
     setCooldown(true);
 
     decrease(id);

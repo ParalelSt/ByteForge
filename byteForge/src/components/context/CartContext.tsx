@@ -183,20 +183,31 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const increase = async (id: CartItem["id"]) => {
+    console.log("📈 CartContext increase called for id:", id, "user:", user);
     if (user) {
-      const item = cart.find((i) => i.id === id);
+      const item = cart.find((i) => String(i.id) === String(id));
+      console.log("Found item:", item);
       if (!item) return;
 
       try {
-        await fetch(`${API_URL}/cart/${user.id}/${id}`, {
+        console.log(
+          "Sending PATCH to:",
+          `${API_URL}/cart/${user.id}/${id}`,
+          "quantity:",
+          item.quantity + 1
+        );
+        const response = await fetch(`${API_URL}/cart/${user.id}/${id}`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ quantity: item.quantity + 1 }),
         });
+        console.log("Response status:", response.status);
 
         setCart((prev) =>
           prev.map((item) =>
-            item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+            String(item.id) === String(id)
+              ? { ...item, quantity: item.quantity + 1 }
+              : item
           )
         );
       } catch (error) {
@@ -205,28 +216,41 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     } else {
       setCart((prev) =>
         prev.map((item) =>
-          item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+          String(item.id) === String(id)
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
         )
       );
     }
   };
 
   const decrease = async (id: CartItem["id"]) => {
-    const item = cart.find((i) => i.id === id);
+    console.log("📉 CartContext decrease called for id:", id, "user:", user);
+    const item = cart.find((i) => String(i.id) === String(id));
+    console.log("Found item:", item);
     if (!item) return;
 
     if (user) {
       try {
-        await fetch(`${API_URL}/cart/${user.id}/${id}`, {
+        console.log(
+          "Sending PATCH to:",
+          `${API_URL}/cart/${user.id}/${id}`,
+          "quantity:",
+          item.quantity - 1
+        );
+        const response = await fetch(`${API_URL}/cart/${user.id}/${id}`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ quantity: item.quantity - 1 }),
         });
+        console.log("Response status:", response.status);
 
         setCart((prev) =>
           prev
             .map((item) =>
-              item.id === id ? { ...item, quantity: item.quantity - 1 } : item
+              String(item.id) === String(id)
+                ? { ...item, quantity: item.quantity - 1 }
+                : item
             )
             .filter((item) => item.quantity > 0)
         );
@@ -237,7 +261,9 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       setCart((prev) =>
         prev
           .map((item) =>
-            item.id === id ? { ...item, quantity: item.quantity - 1 } : item
+            String(item.id) === String(id)
+              ? { ...item, quantity: item.quantity - 1 }
+              : item
           )
           .filter((item) => item.quantity > 0)
       );

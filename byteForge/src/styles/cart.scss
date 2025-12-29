@@ -37,6 +37,10 @@
 
   background-color: v.$section-bg;
 
+  position: relative;
+  z-index: 1001;
+  overflow: visible;
+
   @media (min-width: v.$desktop) {
     width: 50%;
 
@@ -45,17 +49,15 @@
 
   .cart-content {
     width: 100%;
-    height: 100%;
     box-sizing: border-box;
+    overflow: visible;
   }
 
   .cart-container-top,
-  .cart-container-middle,
   .cart-container-bottom {
     @include m.flexCenter;
 
     width: 100%;
-    height: 100%;
   }
 
   .checkout-message {
@@ -130,18 +132,20 @@
   }
 
   .cart-container-middle {
-    @include m.flexColLeft;
+    display: flex;
     flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
 
-    padding: 0.125rem 0.25rem;
+    width: 100%;
+    padding: 1rem 0.5rem;
 
-    max-height: calc(100vh - 22rem);
-    min-height: 10rem;
+    max-height: 20rem;
     overflow-y: auto;
     overflow-x: hidden;
 
      @media (min-width: v.$desktop) {
-      max-height: 35rem;
+      max-height: 25rem;
      } 
   }
 
