@@ -1,7 +1,7 @@
 @use "@/styles/mixins/mixins" as m;
 @use "@/styles/variables" as v;
 
-.promo-container {
+.promo-card {
     @include m.flexCenter;
         flex-direction: column;
     
@@ -13,7 +13,7 @@
         border: 1px solid v.$accent;
         border-radius: 0.3rem;
     
-    .promo-container-top {
+    .promo-card-top {
         @include m.flexCenter;
         background-color: v.$section-bg;
 
@@ -35,7 +35,7 @@
         }
     }
 
-    .promo-container-bottom {
+    .promo-card-bottom {
         @include m.flexCenter;
         flex-direction: column;
 
@@ -65,9 +65,29 @@
     }
 }
 
+@media (min-width: v.$small-tablet) {
+   .promo-card-top {
+    max-height: 17.5rem;
+
+    .promo-image {
+        object-position: center -5%;
+    }
+   }
+}
+
+@media (min-width: v.$tablet) {
+    .promo-card-top {
+        max-height: 25rem;
+
+        .promo-image {
+        object-position: center 25%;
+        }
+   }
+}
+
 
 @media (min-width: v.$desktop) {
-        .promo-container {
+        .promo-card {
             flex-direction: row;
 
             gap: 2rem;
@@ -76,11 +96,11 @@
 
             border: none;
 
-            .promo-container-top, .promo-container-bottom {
+            .promo-card-top, .promo-card-bottom {
                 height: 100%
             }
 
-            .promo-container-bottom {
+            .promo-card-bottom {
                 border: 1px solid v.$accent;
 
                 a {

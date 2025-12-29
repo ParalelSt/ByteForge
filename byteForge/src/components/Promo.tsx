@@ -46,8 +46,8 @@ const Promo = () => {
 
   if (loading) {
     return (
-      <div className="promo-container">
-        <SectionContainer className="promo-container-bottom">
+      <div className="promo-card">
+        <SectionContainer className="promo-card-bottom">
           <h2 className="promo-title">Loading promo...</h2>
         </SectionContainer>
       </div>
@@ -56,8 +56,8 @@ const Promo = () => {
 
   if (error || !promo) {
     return (
-      <div className="promo-container">
-        <SectionContainer className="promo-container-bottom">
+      <div className="promo-card">
+        <SectionContainer className="promo-card-bottom">
           <h2 className="promo-title">No promo available</h2>
           <p className="promo-text">
             {error || "Check back later for new promotions."}
@@ -76,11 +76,11 @@ const Promo = () => {
   }
 
   return (
-    <div className="promo-container">
-      <div className="promo-container-top">
+    <div className="promo-card">
+      <div className="promo-card-top">
         <img src={imageSrc} alt={promo.title} className="promo-image" />
       </div>
-      <SectionContainer className="promo-container-bottom">
+      <SectionContainer className="promo-card-bottom">
         <h2 className="promo-title">{promo.title}</h2>
         <p className="promo-text">{promo.description}</p>
         {promo.link && <ShopNowBtn link={promo.link} />}
