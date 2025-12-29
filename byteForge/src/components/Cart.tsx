@@ -22,8 +22,12 @@ const Cart = ({ cartOpen, setCartOpen }: CartProps) => {
   const { cart, addItem, clearCart } = useCart();
   const { user } = useUser();
   const { products } = useProducts();
+
+  console.log("Cart component - cart items:", cart);
+  console.log("Cart component - products:", products);
+
   const subtotal = cart.reduce((sum, item) => {
-    const product = products.find((p) => p.id === item.id);
+    const product = products.find((p) => String(p.id) === String(item.id));
     if (!product) return sum;
     return sum + product.price * item.quantity;
   }, 0);
@@ -118,8 +122,13 @@ const Cart = ({ cartOpen, setCartOpen }: CartProps) => {
           </div>
           <div className="cart-container-middle">
             {cart.map((item) => {
-              const product = products.find((p) => p.id === item.id);
-              if (!product) return null;
+              const product = products.find(
+                (p) => String(p.id) === String(item.id)
+              );
+              if (!product) {
+                console.log("Product not found for cart item:", item);
+                return null;
+              }
 
               return (
                 <ProductContainer

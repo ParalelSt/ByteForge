@@ -17,6 +17,7 @@ import changePasswordRoute from "./routes/changePassword.js";
 import changeEmailRoute from "./routes/changeEmail.js";
 import changeUsernameRoute from "./routes/changeUsername.js";
 import contactUsRoute from "./routes/contactUs.js";
+import cartRoute from "./routes/cart.js";
 
 dotenv.config();
 
@@ -88,6 +89,8 @@ console.log("Registering /auth/change-username");
 app.use("/auth/change-username", changeUsernameRoute);
 console.log("Registering /auth/contact");
 app.use("/contact", contactUsRoute);
+console.log("Registering /cart route");
+app.use("/cart", cartRoute);
 
 // DB connection test
 db.query("SELECT 1")
