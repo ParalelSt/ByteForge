@@ -141,6 +141,18 @@
         }
     }
 
+    @media (min-width: v.$small-tablet) {
+        .contact-content-container-top, .contact-content-container-bottom {
+            width: 75%;
+        }
+    }
+
+    @media (min-width: v.$tablet) {
+        .contact-content-container-top, .contact-content-container-bottom {
+            width: 60%;
+        }
+    }
+
     @media (min-width: v.$desktop) {
         .contact-content-container-top, .contact-content-container-bottom {
             width: 50%;
