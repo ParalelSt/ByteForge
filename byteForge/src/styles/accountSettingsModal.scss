@@ -144,4 +144,16 @@
 
         font-size: v.$fs-sub;
     }
+
+    @media (min-width: v.$small-tablet) {
+        width: 80%;
+    }
+
+    @media (min-width: v.$tablet) {
+        width: 60%;
+    }
+
+    @media (min-width: v.$desktop) {
+        width: 30%;
+    }
 }

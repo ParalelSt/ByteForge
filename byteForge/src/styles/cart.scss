@@ -41,6 +41,18 @@
   z-index: 1001;
   overflow: visible;
 
+  @media (min-width: v.$small-tablet) {
+    width: 85%;
+
+    margin: 0 auto;
+  }
+
+  @media (min-width: v.$tablet) {
+    width: 60%;
+
+    margin: 0 auto;
+  }
+
   @media (min-width: v.$desktop) {
     width: 50%;
 
@@ -140,13 +152,10 @@
     width: 100%;
     padding: 1rem 0.5rem;
 
-    max-height: 20rem;
+    min-height: 25rem;
+    max-height: 25rem;
     overflow-y: auto;
     overflow-x: hidden;
-
-     @media (min-width: v.$desktop) {
-      max-height: 25rem;
-     } 
   }
 
   .cart-container-bottom {
