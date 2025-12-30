@@ -10,6 +10,8 @@ const AddProduct = ({ onProductAdded }: AddProductProps) => {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [image, setImage] = useState<File | null>(null);
+  const [category, setCategory] = useState("");
+  const [subcategory, setSubcategory] = useState("");
   const [message, setMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -25,6 +27,8 @@ const AddProduct = ({ onProductAdded }: AddProductProps) => {
       formData.append("name", name);
       formData.append("description", description);
       formData.append("price", price);
+      formData.append("category", category);
+      formData.append("subcategory", subcategory);
       if (image) {
         formData.append("image", image);
       }
@@ -33,6 +37,8 @@ const AddProduct = ({ onProductAdded }: AddProductProps) => {
         name,
         description,
         price,
+        category,
+        subcategory,
         hasImage: !!image,
       });
 
@@ -50,6 +56,8 @@ const AddProduct = ({ onProductAdded }: AddProductProps) => {
         setName("");
         setDescription("");
         setPrice("");
+        setCategory("");
+        setSubcategory("");
         setImage(null);
 
         // Reset file input
@@ -91,6 +99,19 @@ const AddProduct = ({ onProductAdded }: AddProductProps) => {
         placeholder="Price"
         value={price}
         onChange={(e) => setPrice(e.target.value)}
+      />
+
+      <input
+        type="text"
+        placeholder="Category"
+        value={category}
+        onChange={(e) => setCategory(e.target.value)}
+      />
+      <input
+        type="text"
+        placeholder="Subcategory"
+        value={subcategory}
+        onChange={(e) => setSubcategory(e.target.value)}
       />
 
       <input

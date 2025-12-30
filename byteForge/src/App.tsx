@@ -12,6 +12,7 @@ import Authorization from "@/pages/Authorization";
 import UserProvider from "@/components/context/UserContext";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import Account from "./pages/Account";
+import ProductDetail from "./pages/ProductDetail";
 
 function App() {
   return (
@@ -27,6 +28,10 @@ function App() {
                   <Route path="/about" element={<About />}></Route>
                   <Route path="/contact" element={<Contact />}></Route>
                   <Route path="/account" element={<Account />}></Route>
+                  <Route
+                    path="/products/:id"
+                    element={<ProductDetail />}
+                  ></Route>
                 </Route>
                 <Route path="/admin" element={<AdminDashboard />}></Route>
                 <Route path="/auth" element={<Authorization />}></Route>

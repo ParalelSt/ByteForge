@@ -5,13 +5,12 @@ interface ProductCardProps {
   image: string;
   name: string;
   price: number;
+  className?: string;
 }
 
-const ProductCard = ({ image, name, price }: ProductCardProps) => {
-  console.log("ProductCard image:", image);
-
+const ProductCard = ({ image, name, price, className }: ProductCardProps) => {
   return (
-    <CardContainer className="product-card">
+    <CardContainer className={`product-card ${className}`}>
       <img
         src={image || "/placeholder.png"}
         alt={name || "product image"}

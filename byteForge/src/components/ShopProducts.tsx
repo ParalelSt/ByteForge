@@ -3,6 +3,7 @@ import { useProducts } from "@/components/context/ProductContext";
 import "@/styles/shopProducts.scss";
 import "@/styles/skeletonCard.scss";
 import { FaCartShopping } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
 interface shopProductsProps {
   category: string | null;
@@ -47,7 +48,11 @@ const ShopProducts = ({ category, subcategory }: shopProductsProps) => {
       <h2>PRODUCTS</h2>
       <div className="product-grid">
         {filteredProducts.map((p) => (
-          <div className="shop-product-card" key={p.id}>
+          <Link
+            className="shop-product-card"
+            key={p.id}
+            to={`/products/${p.id}`}
+          >
             <div className="product-card-top">
               <img
                 src={`http://192.168.1.105:3000/images/product_images/${p.image}`}
@@ -79,7 +84,7 @@ const ShopProducts = ({ category, subcategory }: shopProductsProps) => {
                 </div>
               </button>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

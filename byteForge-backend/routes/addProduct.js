@@ -13,7 +13,7 @@ const upload = multer({ dest: "uploads/" });
 
 router.post("/add-product", upload.single("image"), async (req, res) => {
   try {
-    const { name, description, price } = req.body;
+    const { name, description, price, category, subcategory } = req.body;
 
     if (!name || !price) {
       return res.status(400).json({ error: "Name and price are required." });
@@ -42,8 +42,15 @@ router.post("/add-product", upload.single("image"), async (req, res) => {
 
     // Insert into MySQL
     const [result] = await db.execute(
-      "INSERT INTO products (name, description, price, image) VALUES (?, ?, ?, ?)",
-      [name, description ?? "", price, outputFilename]
+      "INSERT INTO products (name, description, price, image, category, subcategory) VALUES (?, ?, ?, ?, ?, ?)",
+      [
+        name,
+        description ?? "",
+        price,
+        outputFilename,
+        category ?? "",
+        subcategory ?? "",
+      ]
     );
 
     return res.json({
@@ -54,6 +61,8 @@ router.post("/add-product", upload.single("image"), async (req, res) => {
         description,
         price,
         image: outputFilename,
+        category,
+        subcategory,
       },
     });
   } catch (error) {

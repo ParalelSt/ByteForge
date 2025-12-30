@@ -18,6 +18,8 @@ import changeEmailRoute from "./routes/changeEmail.js";
 import changeUsernameRoute from "./routes/changeUsername.js";
 import contactUsRoute from "./routes/contactUs.js";
 import cartRoute from "./routes/cart.js";
+import productRoute from "./routes/fetchProduct.js";
+import productRecommendations from "./routes/fetchRecommendations.js";
 
 dotenv.config();
 
@@ -91,6 +93,10 @@ console.log("Registering /auth/contact");
 app.use("/contact", contactUsRoute);
 console.log("Registering /cart route");
 app.use("/cart", cartRoute);
+console.log("Registering product recommendations route");
+app.use("/products", productRecommendations);
+console.log("Registering product detail route");
+app.use("/products", productRoute);
 
 // DB connection test
 db.query("SELECT 1")

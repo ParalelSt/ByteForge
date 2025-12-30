@@ -2,6 +2,7 @@ import ProductCard from "@/components/ProductCard";
 import "@/styles/featuredProducts.scss";
 import { useProducts } from "@/components/context/ProductContext";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const FeaturedProducts = () => {
   const { products, loading } = useProducts();
@@ -51,12 +52,14 @@ const FeaturedProducts = () => {
       <h2>FEATURED PRODUCTS</h2>
       <div className="product-cards-container">
         {featuredProducts.map((product) => (
-          <ProductCard
-            key={product.id}
-            image={`http://192.168.1.105:3000/images/product_images/${product.image}`}
-            name={product.name}
-            price={product.price}
-          />
+          <Link to={`/products/${product.id}`}>
+            <ProductCard
+              key={product.id}
+              image={`http://192.168.1.105:3000/images/product_images/${product.image}`}
+              name={product.name}
+              price={product.price}
+            />
+          </Link>
         ))}
       </div>
     </div>
