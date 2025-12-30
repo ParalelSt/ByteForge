@@ -77,6 +77,18 @@
         margin-top: 0.4rem;
     }
 
+    @media (min-width: v.$small-tablet) {
+        .about-content-section {
+            width: 80%;
+        }
+    }
+
+    @media (min-width: v.$tablet) {
+        .about-content-section {
+            width: 60%;
+        }
+    }
+
     @media (min-width: v.$desktop) {
         .about-content-section {
             width: 50%;
