@@ -38,7 +38,7 @@ const Header = () => {
         ByteForge
       </Link>
       <div className="right-actions">
-        <Link 
+        <Link
           className={`account-link ${isActive("/account") ? "active" : ""}`}
           to="/account"
         >
@@ -51,7 +51,7 @@ const Header = () => {
             setCartOpen(!cartOpen);
           }}
         >
-          <img src={GIcon} alt="Cart icon" />
+          <img src={GIcon} alt="Cart icon" loading="lazy" />
         </button>
       </div>
       {cartOpen && <Cart cartOpen={cartOpen} setCartOpen={setCartOpen} />}

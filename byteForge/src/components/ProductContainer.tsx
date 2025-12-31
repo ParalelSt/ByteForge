@@ -62,7 +62,7 @@ const ProductContainer = ({
   return (
     <div className="product-container">
       <div className="product-image-container">
-        <img src={image} alt={alt} className="product-image" />
+        <img src={image} alt={alt} className="product-image" loading="lazy" />
       </div>
       <div className="cart-item-info">
         <p className="cart-name">{name}</p>

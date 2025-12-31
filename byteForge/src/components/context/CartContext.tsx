@@ -29,18 +29,10 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const { user, isReady } = useUser();
 
-  // Debug: Log cart changes
-  useEffect(() => {
-    console.log("🛒 Cart changed:", cart);
-  }, [cart]);
-
   // Load cart from database when user logs in, or from localStorage for guests
   useEffect(() => {
-    console.log("Cart useEffect triggered - isReady:", isReady, "user:", user);
-
     // Don't load cart until UserContext is ready
     if (!isReady) {
-      console.log("UserContext not ready yet, waiting...");
       return;
     }
 
@@ -48,10 +40,10 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       if (user) {
         // Fetch cart from database for logged-in users
         try {
-          console.log("Fetching cart for user:", user.id);
+          // Fetching cart for user
           const response = await fetch(`${API_URL}/cart/${user.id}`);
           const data = await response.json();
-          console.log("Cart data from database:", data);
+          // Cart data from database
 
           // Transform database format to CartItem format
           const cartItems: CartItem[] = data.map((item: any) => ({
@@ -63,16 +55,16 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
             quantity: item.quantity,
           }));
 
-          console.log("Transformed cart items:", cartItems);
+          // Transformed cart items
           setCart(cartItems);
-          console.log("Cart state updated with:", cartItems);
+          // Cart state updated
 
           // Merge any localStorage cart items to database
           const localCart = localStorage.getItem(STORAGE_KEY);
           if (localCart) {
             try {
               const localItems = JSON.parse(localCart);
-              console.log("Merging localStorage cart:", localItems);
+              // Merging localStorage cart
               for (const item of localItems) {
                 await fetch(`${API_URL}/cart`, {
                   method: "POST",
@@ -97,7 +89,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
                 quantity: item.quantity,
               }));
               setCart(updatedCart);
-              console.log("Cart after merge:", updatedCart);
+              // Cart after merge
             } catch (error) {
               console.error("Failed to merge localStorage cart:", error);
             }
@@ -127,16 +119,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
   // Save to localStorage for guests only
   useEffect(() => {
-    console.log(
-      "💾 localStorage effect - isLoaded:",
-      isLoaded,
-      "user:",
-      user,
-      "cart:",
-      cart
-    );
     if (isLoaded && !user) {
-      console.log("💾 Saving guest cart to localStorage:", cart);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
     }
   }, [cart, isLoaded, user]);
@@ -157,10 +140,12 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
         // Update local state
         setCart((prev) => {
-          const existing = prev.find((p) => p.id === item.id);
+          const existing = prev.find((p) => String(p.id) === String(item.id));
           if (existing) {
             return prev.map((p) =>
-              p.id === item.id ? { ...p, quantity: p.quantity + 1 } : p
+              String(p.id) === String(item.id)
+                ? { ...p, quantity: p.quantity + 1 }
+                : p
             );
           }
           return [...prev, { ...item, quantity: 1 }];
@@ -183,25 +168,20 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const increase = async (id: CartItem["id"]) => {
-    console.log("📈 CartContext increase called for id:", id, "user:", user);
+    // CartContext increase called
     if (user) {
       const item = cart.find((i) => String(i.id) === String(id));
-      console.log("Found item:", item);
+      // Found item
       if (!item) return;
 
       try {
-        console.log(
-          "Sending PATCH to:",
-          `${API_URL}/cart/${user.id}/${id}`,
-          "quantity:",
-          item.quantity + 1
-        );
+        // Sending PATCH to update quantity
         const response = await fetch(`${API_URL}/cart/${user.id}/${id}`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ quantity: item.quantity + 1 }),
         });
-        console.log("Response status:", response.status);
+        // Response status
 
         setCart((prev) =>
           prev.map((item) =>
@@ -225,25 +205,20 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const decrease = async (id: CartItem["id"]) => {
-    console.log("📉 CartContext decrease called for id:", id, "user:", user);
+    // CartContext decrease called
     const item = cart.find((i) => String(i.id) === String(id));
-    console.log("Found item:", item);
+    // Found item
     if (!item) return;
 
     if (user) {
       try {
-        console.log(
-          "Sending PATCH to:",
-          `${API_URL}/cart/${user.id}/${id}`,
-          "quantity:",
-          item.quantity - 1
-        );
+        // Sending PATCH to decrease quantity
         const response = await fetch(`${API_URL}/cart/${user.id}/${id}`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ quantity: item.quantity - 1 }),
         });
-        console.log("Response status:", response.status);
+        // Response status
 
         setCart((prev) =>
           prev

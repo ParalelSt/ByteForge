@@ -1,6 +1,7 @@
 import ProductCard from "@/components/ProductCard";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { useCart } from "@/components/context/CartContext";
 import "@/styles/productDetail.scss";
 
 const ProductDetail = () => {
@@ -15,6 +16,8 @@ const ProductDetail = () => {
 
   const [productCount, setProductCount] = useState(3);
 
+  const { addItem } = useCart();
+
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
@@ -23,6 +26,8 @@ const ProductDetail = () => {
         setProductCount(3);
       } else if (width < 768) {
         setProductCount(4);
+      } else if (width < 1250) {
+        setProductCount(5);
       } else {
         setProductCount(8);
       }
@@ -104,13 +109,32 @@ const ProductDetail = () => {
           <img
             src={imageSrc}
             alt={prod.name}
+            loading="lazy"
             onError={(e) => {
               e.currentTarget.src = "/placeholder.png";
             }}
           />
         </div>
         <h2>{prod.name}</h2>
-        <p>{prod.price}</p>
+        <p className="product-price">${prod.price}</p>
+        <button
+          className="add-to-cart"
+          onClick={() =>
+            addItem({
+              id: String(prod.id),
+              name: prod.name,
+              price: prod.price,
+              alt: prod.name,
+              image: prod.image,
+            })
+          }
+        >
+          ADD TO CART
+        </button>
+        <div className="product-detail-desc">
+          <h3>ABOUT THIS PRODUCT</h3>
+          <p>{prod.description}</p>
+        </div>
       </div>
       <div className="product-detail-container-bottom">
         {visibleRecs.map((r) => (

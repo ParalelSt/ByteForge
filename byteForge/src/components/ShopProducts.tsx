@@ -66,15 +66,17 @@ const ShopProducts = ({ category, subcategory }: shopProductsProps) => {
 
               <button
                 className="add-to-cart-btn"
-                onClick={() =>
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
                   addItem({
                     id: p.id,
                     name: p.name,
                     price: p.price,
                     alt: p.name,
                     image: p.image,
-                  })
-                }
+                  });
+                }}
               >
                 <div className="text-container">
                   <span>Add to Cart</span>

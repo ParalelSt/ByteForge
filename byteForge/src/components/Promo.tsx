@@ -78,7 +78,12 @@ const Promo = () => {
   return (
     <div className="promo-card">
       <div className="promo-card-top">
-        <img src={imageSrc} alt={promo.title} className="promo-image" />
+        <img
+          src={imageSrc}
+          alt={promo.title}
+          className="promo-image"
+          loading="lazy"
+        />
       </div>
       <SectionContainer className="promo-card-bottom">
         <h2 className="promo-title">{promo.title}</h2>
