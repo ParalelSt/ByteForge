@@ -24,10 +24,12 @@ const ProductDetail = () => {
 
       if (width < 500) {
         setProductCount(3);
-      } else if (width < 768) {
+      } else if (width < 600) {
         setProductCount(4);
-      } else if (width < 1250) {
+      } else if (width < 768) {
         setProductCount(5);
+      } else if (width < 1250) {
+        setProductCount(6);
       } else {
         setProductCount(8);
       }
