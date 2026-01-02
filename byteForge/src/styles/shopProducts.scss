@@ -96,6 +96,23 @@
           color: v.$accent-2;
         }
 
+        .price-container {
+          position: relative;
+          width: 100%;
+
+          .original-price {
+            position: absolute;
+            top: -0.25rem;
+            right: -3.5rem;
+            font-size: v.$fs-small;
+            color: v.$error-color;
+            text-decoration: line-through;
+            opacity: 0.9;
+            padding: 0.25rem 0;
+            margin: 0;
+          }
+        }
+
         .add-to-cart-btn {
           display: flex;
           justify-content: center;

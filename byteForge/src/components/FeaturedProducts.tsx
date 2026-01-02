@@ -52,12 +52,12 @@ const FeaturedProducts = () => {
       <h2>FEATURED PRODUCTS</h2>
       <div className="product-cards-container">
         {featuredProducts.map((product) => (
-          <Link to={`/products/${product.id}`}>
+          <Link to={`/products/${product.id}`} key={product.id}>
             <ProductCard
-              key={product.id}
               image={`http://192.168.1.105:3000/images/product_images/${product.image}`}
               name={product.name}
               price={product.price}
+              discount={product.discount || null}
             />
           </Link>
         ))}

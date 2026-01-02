@@ -62,7 +62,21 @@ const ShopProducts = ({ category, subcategory }: shopProductsProps) => {
             </div>
             <div className="product-card-bottom">
               <h3>{p.name}</h3>
-              <p>{`$${p.price}`}</p>
+              <div className="price-container">
+                <p>
+                  {p.discount
+                    ? `$${(
+                        Number(p.price) *
+                        (1 - p.discount.percentage / 100)
+                      ).toFixed(2)}`
+                    : `$${Number(p.price).toFixed(2)}`}
+                </p>
+                {p.discount && (
+                  <p className="original-price">{`$${Number(p.price).toFixed(
+                    2
+                  )}`}</p>
+                )}
+              </div>
 
               <button
                 className="add-to-cart-btn"

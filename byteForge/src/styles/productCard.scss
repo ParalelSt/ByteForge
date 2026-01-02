@@ -48,6 +48,23 @@
     color: v.$accent-2;
   }
 
+  .price-container {
+    position: relative;
+    width: 100%;
+    text-align: center;
+
+    .original-price {
+      position: absolute;
+      top: 0;
+      right: 1.25rem;
+      font-size: 0.65rem;
+      color: v.$error-color;
+      text-decoration: line-through;
+      opacity: 0.9;
+      margin: 0;
+    }
+  }
+
   @media (min-width: v.$desktop) {
     & {
       gap: 0.5rem;

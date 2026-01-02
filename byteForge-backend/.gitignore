@@ -3,3 +3,7 @@
 .env.development
 .env.production
 .env.test
+*.py
+addMissingProducts.js
+addPCComponents.js
+createDiscountsTable.js

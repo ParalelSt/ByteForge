@@ -1,14 +1,32 @@
 import CardContainer from "@/components/CardContainer";
 import "@/styles/productCard.scss";
 
+interface Discount {
+  id: number;
+  productId: number;
+  percentage: number;
+  active: boolean;
+}
+
 interface ProductCardProps {
   image: string;
   name: string;
   price: number;
+  discount?: Discount | null;
   className?: string;
 }
 
-const ProductCard = ({ image, name, price, className }: ProductCardProps) => {
+const ProductCard = ({
+  image,
+  name,
+  price,
+  discount,
+  className,
+}: ProductCardProps) => {
+  const discountedPrice = discount
+    ? (Number(price) * (1 - discount.percentage / 100)).toFixed(2)
+    : null;
+
   return (
     <CardContainer className={`product-card ${className}`}>
       <img
@@ -19,7 +37,14 @@ const ProductCard = ({ image, name, price, className }: ProductCardProps) => {
         }}
       />
       <h3 className="name">{name || "Product name"}</h3>
-      <p className="price">${price ? Number(price).toFixed(2) : "0.00"}</p>
+      <div className="price-container">
+        <p className="price">
+          ${discountedPrice || (price ? Number(price).toFixed(2) : "0.00")}
+        </p>
+        {discount && (
+          <p className="original-price">${Number(price).toFixed(2)}</p>
+        )}
+      </div>
     </CardContainer>
   );
 };

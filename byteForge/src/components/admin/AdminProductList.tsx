@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
 import "@/styles/admin/adminProductList.scss";
 
+interface Discount {
+  id: number;
+  productId: number;
+  percentage: number;
+  active: boolean;
+}
+
 const CATEGORIES = {
   Games: ["PC Games", "Console Games", "Gift Cards"],
   "PC Components": [
@@ -35,6 +42,59 @@ interface AdminProductListProps {
 }
 
 const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
+  // Discount state
+  const [discounts, setDiscounts] = useState<Discount[]>([]);
+  const [selectedProduct, setSelectedProduct] = useState("");
+  const [discountPercent, setDiscountPercent] = useState("");
+  const [discountMessage, setDiscountMessage] = useState("");
+  const [discountLoading, setDiscountLoading] = useState(false);
+  const [discountFilterHasDiscount, setDiscountFilterHasDiscount] =
+    useState("");
+  // Fetch discounts
+  const fetchDiscounts = async () => {
+    try {
+      const res = await fetch("http://192.168.1.105:3000/admin/discounts");
+      if (!res.ok) {
+        console.error("Failed to fetch discounts:", res.status);
+        return;
+      }
+      const data = await res.json();
+      setDiscounts(data);
+    } catch (err: any) {
+      console.error("Error fetching discounts:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchDiscounts();
+  }, [refreshTrigger]);
+  // Add discount handler
+  const handleAddDiscount = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setDiscountLoading(true);
+    setDiscountMessage("");
+    try {
+      const res = await fetch("http://192.168.1.105:3000/admin/discounts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          productId: selectedProduct,
+          percentage: Number(discountPercent),
+        }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setDiscountMessage("Discount added!");
+        setSelectedProduct("");
+        setDiscountPercent("");
+        fetchDiscounts();
+      } else {
+        setDiscountMessage(data.error || "Failed to add discount");
+      }
+    } finally {
+      setDiscountLoading(false);
+    }
+  };
   const [products, setProducts] = useState<AdminProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -49,6 +109,11 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
   const [editImage, setEditImage] = useState<File | null>(null);
 
   const [searchTerm, setSearchTerm] = useState("");
+
+  // Filter state
+  const [filterCategory, setFilterCategory] = useState("");
+  const [filterSubcategory, setFilterSubcategory] = useState("");
+  const [filterFeatured, setFilterFeatured] = useState("");
 
   const fetchProducts = async () => {
     try {
@@ -203,9 +268,22 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
     }
   };
 
-  const filteredProducts = products.filter((product) =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Filtered products
+  const filteredProducts = products.filter((product) => {
+    const matchesName = product.name
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const matchesCategory =
+      !filterCategory || product.category === filterCategory;
+    const matchesSubcategory =
+      !filterSubcategory || product.subcategory === filterSubcategory;
+    const matchesFeatured =
+      !filterFeatured ||
+      (filterFeatured === "featured" ? product.featured : !product.featured);
+    return (
+      matchesName && matchesCategory && matchesSubcategory && matchesFeatured
+    );
+  });
 
   if (loading) return <p className="loading">Loading products…</p>;
   if (error) return <p className="error">Error: {error}</p>;
@@ -222,6 +300,43 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
           onChange={(e) => setSearchTerm(e.target.value)}
           className="search-input"
         />
+        <select
+          value={filterCategory}
+          onChange={(e) => {
+            setFilterCategory(e.target.value);
+            setFilterSubcategory("");
+          }}
+        >
+          <option value="">All Categories</option>
+          {Object.keys(CATEGORIES).map((cat) => (
+            <option key={cat} value={cat}>
+              {cat}
+            </option>
+          ))}
+        </select>
+        <select
+          value={filterSubcategory}
+          onChange={(e) => setFilterSubcategory(e.target.value)}
+          disabled={!filterCategory}
+        >
+          <option value="">All Subcategories</option>
+          {filterCategory &&
+            CATEGORIES[filterCategory as keyof typeof CATEGORIES]?.map(
+              (sub) => (
+                <option key={sub} value={sub}>
+                  {sub}
+                </option>
+              )
+            )}
+        </select>
+        <select
+          value={filterFeatured}
+          onChange={(e) => setFilterFeatured(e.target.value)}
+        >
+          <option value="">All</option>
+          <option value="featured">Featured</option>
+          <option value="not_featured">Not Featured</option>
+        </select>
       </div>
 
       {filteredProducts.length === 0 && (
@@ -319,7 +434,33 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
               <div className="product-item">
                 <div className="product-info">
                   <strong>{p.name}</strong>
-                  <span className="price">${Number(p.price).toFixed(2)}</span>
+                  {/* Discounted price display layered on top */}
+                  {(() => {
+                    const discount = discounts.find(
+                      (d) => d.productId === p.id && d.active
+                    );
+                    if (discount) {
+                      const discounted = (
+                        p.price *
+                        (1 - discount.percentage / 100)
+                      ).toFixed(2);
+                      return (
+                        <span className="price-group">
+                          <span className="original-price">
+                            ${Number(p.price).toFixed(2)}
+                          </span>
+                          <span className="discounted-price">
+                            ${discounted}
+                          </span>
+                        </span>
+                      );
+                    }
+                    return (
+                      <span className="price">
+                        ${Number(p.price).toFixed(2)}
+                      </span>
+                    );
+                  })()}
                   {p.featured && (
                     <span className="featured-badge">⭐ Featured</span>
                   )}
@@ -359,6 +500,97 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
           </li>
         ))}
       </ul>
+      {/* Discount assignment UI layered below product list */}
+      <div className="discount-assignment-container">
+        <h4>Assign Discount to Product</h4>
+
+        {/* Discount status filter */}
+        <div className="discount-status-filter">
+          <select
+            value={discountFilterHasDiscount}
+            onChange={(e) => setDiscountFilterHasDiscount(e.target.value)}
+          >
+            <option value="">All Products</option>
+            <option value="with-discount">With Discount</option>
+            <option value="no-discount">No Discount</option>
+          </select>
+        </div>
+
+        {/* Filtered product list */}
+        <div className="product-list-grid">
+          {products
+            .filter((p) => {
+              const matchesSearch = p.name
+                .toLowerCase()
+                .includes(searchTerm.toLowerCase());
+              const matchesCategory =
+                !filterCategory || p.category === filterCategory;
+              const matchesSubcategory =
+                !filterSubcategory || p.subcategory === filterSubcategory;
+              const hasDiscount = discounts.some(
+                (d) => d.productId === p.id && d.active
+              );
+              const matchesDiscountStatus =
+                !discountFilterHasDiscount ||
+                (discountFilterHasDiscount === "with-discount"
+                  ? hasDiscount
+                  : !hasDiscount);
+
+              return (
+                matchesSearch &&
+                matchesCategory &&
+                matchesSubcategory &&
+                matchesDiscountStatus
+              );
+            })
+            .map((p) => {
+              const hasDiscount = discounts.some(
+                (d) => d.productId === p.id && d.active
+              );
+              const discountInfo = discounts.find(
+                (d) => d.productId === p.id && d.active
+              );
+              return (
+                <div
+                  key={p.id}
+                  className={`product-item ${
+                    selectedProduct === String(p.id) ? "selected" : ""
+                  }`}
+                  onClick={() => setSelectedProduct(String(p.id))}
+                >
+                  <p className="product-name">
+                    {p.name}
+                    {hasDiscount && (
+                      <span className="discount-badge">
+                        {discountInfo?.percentage}% OFF
+                      </span>
+                    )}
+                  </p>
+                  <p className="product-price">
+                    ${Number(p.price || 0).toFixed(2)}
+                  </p>
+                </div>
+              );
+            })}
+        </div>
+
+        <form onSubmit={handleAddDiscount} className="add-discount-form">
+          <input
+            type="number"
+            min="1"
+            max="99"
+            placeholder="Discount %"
+            value={discountPercent}
+            onChange={(e) => setDiscountPercent(e.target.value)}
+            required
+            disabled={!selectedProduct}
+          />
+          <button type="submit" disabled={discountLoading || !selectedProduct}>
+            {discountLoading ? "Adding..." : "Add Discount"}
+          </button>
+          {discountMessage && <p className="message">{discountMessage}</p>}
+        </form>
+      </div>
     </div>
   );
 };

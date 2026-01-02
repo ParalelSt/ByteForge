@@ -43,6 +43,22 @@
             font-size: v.$fs-sub;
         }
 
+        .price-container {
+            position: relative;
+            display: inline-block;
+
+            .original-price {
+              position: absolute;
+              top: -0.25rem;
+              right: -3.75rem;
+              color: v.$error-color;
+              text-decoration: line-through;
+              font-size: 1rem;
+              opacity: 0.9;
+              margin: 0;
+            }
+        }
+
         .add-to-cart {
             padding: 0.5rem 1.25rem;
 

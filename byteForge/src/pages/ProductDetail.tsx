@@ -14,6 +14,12 @@ interface Product {
   category: string;
   subcategory?: string;
   featured?: boolean;
+  discount?: {
+    id: number;
+    productId: number;
+    percentage: number;
+    active: boolean;
+  } | null;
 }
 
 const ProductDetail = () => {
@@ -131,7 +137,19 @@ const ProductDetail = () => {
           />
         </div>
         <h2>{prod.name}</h2>
-        <p className="product-price">${prod.price}</p>
+        <div className="price-container">
+          <p className="product-price">
+            {prod.discount
+              ? `$${(
+                  Number(prod.price) *
+                  (1 - prod.discount.percentage / 100)
+                ).toFixed(2)}`
+              : `$${prod.price}`}
+          </p>
+          {prod.discount && (
+            <p className="original-price">${Number(prod.price).toFixed(2)}</p>
+          )}
+        </div>
         <button
           className="add-to-cart"
           onClick={() =>
@@ -162,6 +180,7 @@ const ProductDetail = () => {
               image={`http://192.168.1.105:3000/images/product_images/${r.image}`}
               name={r.name}
               price={r.price}
+              discount={r.discount || null}
             />
           </Link>
         ))}

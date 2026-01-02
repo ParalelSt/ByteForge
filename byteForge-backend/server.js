@@ -20,6 +20,7 @@ import contactUsRoute from "./routes/contactUs.js";
 import cartRoute from "./routes/cart.js";
 import productRoute from "./routes/fetchProduct.js";
 import productRecommendations from "./routes/fetchRecommendations.js";
+import discountsRoute from "./routes/discounts.js";
 
 dotenv.config();
 
@@ -69,12 +70,16 @@ app.use(
 // Routes
 console.log("Registering /products route");
 app.use("/products", productsRoute);
+console.log("Registering /discounts route");
+app.use("/discounts", discountsRoute);
 console.log("Registering /upload route");
 app.use("/upload", productUpload);
 console.log("Registering /admin route");
 app.use("/admin", adminRoutes);
 console.log("Registering /admin/products route");
 app.use("/admin/products", adminProducts);
+console.log("Registering /admin/discounts route");
+app.use("/admin/discounts", discountsRoute);
 console.log("Registering /promos route");
 app.use("/promos", promosRoute);
 console.log("Registering /admin/promos route");
