@@ -1,12 +1,32 @@
 import { useEffect, useState } from "react";
 import "@/styles/admin/adminProductList.scss";
 
+const CATEGORIES = {
+  Games: ["PC Games", "Console Games", "Gift Cards"],
+  "PC Components": [
+    "Case",
+    "SSD",
+    "Power Supply",
+    "CPUs",
+    "GPUs",
+    "RAM",
+    "Storage",
+  ],
+  Peripherals: ["Keyboards", "Mice", "Headsets", "Mousepads"],
+  "PC Cases": ["ATX Cases", "mATX Cases", "Mini-ITX Cases"],
+  Phones: ["Android Phones", "iPhones", "Gaming Phones"],
+  Accessories: ["Monitor Lights", "USB Hubs", "Cables", "Mounts"],
+  Bundles: ["Keyboard + Mouse Bundle", "Streaming Starter Kit"],
+};
+
 interface AdminProduct {
   id: number;
   name: string;
   description: string | null;
   price: number;
   image: string | null;
+  category?: string;
+  subcategory?: string;
   featured?: boolean;
 }
 
@@ -23,6 +43,8 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
     name: "",
     description: "",
     price: "",
+    category: "",
+    subcategory: "",
   });
   const [editImage, setEditImage] = useState<File | null>(null);
 
@@ -59,13 +81,13 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (editingId && !target.closest('.admin-product-list')) {
+      if (editingId && !target.closest(".admin-product-list")) {
         handleCancelEdit();
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [editingId]);
 
   const handleDelete = async (id: number) => {
@@ -101,13 +123,21 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
       name: product.name,
       description: product.description || "",
       price: product.price.toString(),
+      category: product.category || "",
+      subcategory: product.subcategory || "",
     });
     setEditImage(null);
   };
 
   const handleCancelEdit = () => {
     setEditingId(null);
-    setEditForm({ name: "", description: "", price: "" });
+    setEditForm({
+      name: "",
+      description: "",
+      price: "",
+      category: "",
+      subcategory: "",
+    });
     setEditImage(null);
   };
 
@@ -117,6 +147,8 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
       formData.append("name", editForm.name);
       formData.append("description", editForm.description);
       formData.append("price", editForm.price);
+      formData.append("category", editForm.category);
+      formData.append("subcategory", editForm.subcategory);
       if (editImage) {
         formData.append("image", editImage);
       }
@@ -226,6 +258,40 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
                   }
                   placeholder="Price"
                 />
+                <select
+                  value={editForm.category}
+                  onChange={(e) =>
+                    setEditForm({
+                      ...editForm,
+                      category: e.target.value,
+                      subcategory: "",
+                    })
+                  }
+                >
+                  <option value="">Select Category</option>
+                  {Object.keys(CATEGORIES).map((cat) => (
+                    <option key={cat} value={cat}>
+                      {cat}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  value={editForm.subcategory}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, subcategory: e.target.value })
+                  }
+                  disabled={!editForm.category}
+                >
+                  <option value="">Select Subcategory</option>
+                  {editForm.category &&
+                    CATEGORIES[
+                      editForm.category as keyof typeof CATEGORIES
+                    ]?.map((sub) => (
+                      <option key={sub} value={sub}>
+                        {sub}
+                      </option>
+                    ))}
+                </select>
                 <input
                   type="file"
                   onChange={(e) => setEditImage(e.target.files?.[0] || null)}

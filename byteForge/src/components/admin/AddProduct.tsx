@@ -5,6 +5,24 @@ interface AddProductProps {
   onProductAdded?: () => void;
 }
 
+const CATEGORIES = {
+  Games: ["PC Games", "Console Games", "Gift Cards"],
+  "PC Components": [
+    "Case",
+    "SSD",
+    "Power Supply",
+    "CPUs",
+    "GPUs",
+    "RAM",
+    "Storage",
+  ],
+  Peripherals: ["Keyboards", "Mice", "Headsets", "Mousepads"],
+  "PC Cases": ["ATX Cases", "mATX Cases", "Mini-ITX Cases"],
+  Phones: ["Android Phones", "iPhones", "Gaming Phones"],
+  Accessories: ["Monitor Lights", "USB Hubs", "Cables", "Mounts"],
+  Bundles: ["Keyboard + Mouse Bundle", "Streaming Starter Kit"],
+};
+
 const AddProduct = ({ onProductAdded }: AddProductProps) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -101,18 +119,34 @@ const AddProduct = ({ onProductAdded }: AddProductProps) => {
         onChange={(e) => setPrice(e.target.value)}
       />
 
-      <input
-        type="text"
-        placeholder="Category"
+      <select
         value={category}
-        onChange={(e) => setCategory(e.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="Subcategory"
+        onChange={(e) => {
+          setCategory(e.target.value);
+          setSubcategory(""); // Reset subcategory when category changes
+        }}
+      >
+        <option value="">Select Category</option>
+        {Object.keys(CATEGORIES).map((cat) => (
+          <option key={cat} value={cat}>
+            {cat}
+          </option>
+        ))}
+      </select>
+
+      <select
         value={subcategory}
         onChange={(e) => setSubcategory(e.target.value)}
-      />
+        disabled={!category}
+      >
+        <option value="">Select Subcategory</option>
+        {category &&
+          CATEGORIES[category as keyof typeof CATEGORIES]?.map((sub) => (
+            <option key={sub} value={sub}>
+              {sub}
+            </option>
+          ))}
+      </select>
 
       <input
         type="file"

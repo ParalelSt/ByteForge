@@ -1,4 +1,4 @@
-    @use "@/styles/mixins/mixins" as m;
+@use "@/styles/mixins/mixins" as m;
 @use "@/styles/variables" as v;
 
 .admin-promo-form {
@@ -21,6 +21,7 @@
     form {
         @include m.flexColLeft;
         gap: 1rem;
+        width: 100%;
     }
 
     @include m.tablet {

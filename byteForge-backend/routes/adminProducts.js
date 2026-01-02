@@ -47,7 +47,7 @@ POST /admin/products
 */
 router.post("/", upload.single("image"), async (req, res) => {
   try {
-    const { name, description, price } = req.body;
+    const { name, description, price, category, subcategory } = req.body;
 
     if (!name || !price)
       return res.status(400).json({ error: "Name and price required" });
@@ -65,8 +65,15 @@ router.post("/", upload.single("image"), async (req, res) => {
     }
 
     const [result] = await db.query(
-      "INSERT INTO products (name, description, price, image) VALUES (?, ?, ?, ?)",
-      [name, description ?? "", price, imageFilename]
+      "INSERT INTO products (name, description, price, image, category, subcategory) VALUES (?, ?, ?, ?, ?, ?)",
+      [
+        name,
+        description ?? "",
+        price,
+        imageFilename,
+        category ?? null,
+        subcategory ?? null,
+      ]
     );
 
     res.json({
@@ -125,7 +132,7 @@ PUT /admin/products/:id
 */
 router.put("/:id", upload.single("image"), async (req, res) => {
   try {
-    const { name, description, price } = req.body;
+    const { name, description, price, category, subcategory } = req.body;
     const productId = req.params.id;
 
     // Fetch old image
@@ -156,8 +163,16 @@ router.put("/:id", upload.single("image"), async (req, res) => {
     }
 
     await db.query(
-      "UPDATE products SET name = ?, description = ?, price = ?, image = ? WHERE id = ?",
-      [name, description, price, newImage, productId]
+      "UPDATE products SET name = ?, description = ?, price = ?, image = ?, category = ?, subcategory = ? WHERE id = ?",
+      [
+        name,
+        description,
+        price,
+        newImage,
+        category ?? null,
+        subcategory ?? null,
+        productId,
+      ]
     );
 
     res.json({ success: true, message: "Product updated" });
