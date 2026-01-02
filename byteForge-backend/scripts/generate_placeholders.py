@@ -230,6 +230,39 @@ new_products = [
 
 
 products = products + [
+        # PC Components - Cases
+        ('nzxt_h710i.png', 'NZXT H710i'),
+        ('corsair_icue_5000x.png', 'Corsair iCUE 5000X'),
+        ('lian_li_pco11_dynamic.png', 'Lian Li PC-O11 Dynamic'),
+        ('fractal_design_torrent.png', 'Fractal Design Torrent'),
+        ('phanteks_enthoo_pro_2.png', 'Phanteks Enthoo Pro 2'),
+        ('cooler_master_nr600.png', 'Cooler Master MasterBox NR600'),
+        ('be_quiet_silent_base_802.png', 'Be Quiet! Silent Base 802'),
+        ('thermaltake_view_51.png', 'Thermaltake View 51'),
+        ('silverstone_fara_r1.png', 'SilverStone FARA R1'),
+        ('inwin_305.png', 'InWin 305'),
+        # PC Components - SSDs
+        ('samsung_980_pro_1tb.png', 'Samsung 980 Pro 1TB'),
+        ('kingston_kc3000_2tb.png', 'Kingston KC3000 2TB'),
+        ('crucial_mx500_1tb.png', 'Crucial MX500 1TB'),
+        ('wd_blue_sn570_1tb.png', 'WD Blue SN570 1TB'),
+        ('adata_xpg_sx8200_pro_1tb.png', 'ADATA XPG SX8200 Pro 1TB'),
+        ('sabrent_rocket_q_2tb.png', 'Sabrent Rocket Q 2TB'),
+        ('teamgroup_mp34_1tb.png', 'TeamGroup MP34 1TB'),
+        ('seagate_firecuda_530_1tb.png', 'Seagate FireCuda 530 1TB'),
+        ('patriot_viper_vp4300_2tb.png', 'Patriot Viper VP4300 2TB'),
+        ('mushkin_pilot_e_1tb.png', 'Mushkin Pilot-E 1TB'),
+        # PC Components - Power Supplies
+        ('corsair_rm850x.png', 'Corsair RM850x'),
+        ('evga_supernova_850_g6.png', 'EVGA SuperNOVA 850 G6'),
+        ('seasonic_prime_tx_1000.png', 'Seasonic PRIME TX-1000'),
+        ('cooler_master_v850_sfx.png', 'Cooler Master V850 SFX'),
+        ('be_quiet_straight_power_11.png', 'Be Quiet! Straight Power 11'),
+        ('thermaltake_toughpower_gf1_850w.png', 'Thermaltake Toughpower GF1 850W'),
+        ('fsp_hydro_g_pro_850w.png', 'FSP Hydro G Pro 850W'),
+        ('silverstone_strider_platinum_850w.png', 'SilverStone Strider Platinum 850W'),
+        ('xpg_core_reactor_850w.png', 'XPG Core Reactor 850W'),
+        ('antec_earthwatts_gold_pro_750w.png', 'Antec Earthwatts Gold Pro 750W'),
     # Games
     ('remnant_2.png', 'Remnant II'),
     ('lies_of_p.png', 'Lies of P'),
