@@ -4,15 +4,29 @@ import { Link, useParams } from "react-router-dom";
 import { useCart } from "@/components/context/CartContext";
 import "@/styles/productDetail.scss";
 
+interface Product {
+  id: string;
+  name: string;
+  image: string;
+  price: number;
+  alt?: string;
+  description?: string;
+  category: string;
+  subcategory?: string;
+  featured?: boolean;
+}
+
 const ProductDetail = () => {
   const { id } = useParams();
 
-  const [product, setProduct] = useState(null);
-  const [recommendations, setRecommendations] = useState(null);
+  const [product, setProduct] = useState<Product | null>(null);
+  const [recommendations, setRecommendations] = useState<Product[]>([]);
   const [productLoading, setProductLoading] = useState(true);
   const [recommendationLoading, setRecommendationLoading] = useState(true);
-  const [productError, setProductError] = useState(null);
-  const [recommendationError, setRecommendationError] = useState(null);
+  const [productError, setProductError] = useState<string | null>(null);
+  const [recommendationError, setRecommendationError] = useState<string | null>(
+    null
+  );
 
   const [productCount, setProductCount] = useState(3);
 
@@ -56,7 +70,7 @@ const ProductDetail = () => {
         const data = await response.json();
         setProduct(data);
       } catch (error) {
-        setProductError(error.message);
+        setProductError((error as Error).message);
       } finally {
         setProductLoading(false);
       }
@@ -80,7 +94,7 @@ const ProductDetail = () => {
         const data = await response.json();
         setRecommendations(data);
       } catch (error) {
-        setRecommendationError(error.message);
+        setRecommendationError((error as Error).message);
       } finally {
         setRecommendationLoading(false);
       }
@@ -95,10 +109,9 @@ const ProductDetail = () => {
 
   if (recommendationLoading) return <div>Loading...</div>;
   if (recommendationError) return <div>Error: {recommendationError}</div>;
-  if (!recommendations) return <div>Recommendations not found</div>;
 
-  const prod = Array.isArray(product) ? product[0] : product;
-  const recs = Array.isArray(recommendations) ? recommendations : [];
+  const prod = product;
+  const recs = recommendations;
   const imageSrc = prod.image.startsWith("http")
     ? prod.image
     : `http://192.168.1.105:3000/images/product_images/${prod.image}`;
