@@ -90,11 +90,15 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
         setSelectedProduct("");
         setDiscountPercent("");
         fetchDiscounts();
-        
+
         // Update cart price if item is in cart
         const product = products.find((p) => String(p.id) === selectedProduct);
-        if (product && cart.some((item) => String(item.id) === selectedProduct)) {
-          const discountedPrice = product.price * (1 - Number(discountPercent) / 100);
+        if (
+          product &&
+          cart.some((item) => String(item.id) === selectedProduct)
+        ) {
+          const discountedPrice =
+            product.price * (1 - Number(discountPercent) / 100);
           updateItemPrice(selectedProduct, discountedPrice);
         }
       } else {
