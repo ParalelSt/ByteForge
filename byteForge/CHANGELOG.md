@@ -2,6 +2,55 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.9](https://github.com/ParalelSt/ByteForge/compare/v0.0.8...v0.0.9) (2026-01-02)
+
+
+### Features
+
+* added drop shadow to nav selection on desktop ([c1520be](https://github.com/ParalelSt/ByteForge/commit/c1520be73dc3fb4806bf37a388a5334a0a25b509))
+* added promo editing and deleting ([1b6945f](https://github.com/ParalelSt/ByteForge/commit/1b6945f56e4d7fe47a6928f433807f71fb4a5b00))
+* cart backend and style fixes ([08e795f](https://github.com/ParalelSt/ByteForge/commit/08e795fecb9dfba42542e203cc0381674e958c74))
+* category and subcategory select accordions and related styles ([4f3b790](https://github.com/ParalelSt/ByteForge/commit/4f3b790223e688f9c51d792d738df51c6bc9b69f))
+* desktop styles for shop and shop categories ([fa5e355](https://github.com/ParalelSt/ByteForge/commit/fa5e35557143d1e7e77dbb25a9775af93a59d449))
+* discounts added and related styles, API calls, minor bugfixes, more products ([ddb3221](https://github.com/ParalelSt/ByteForge/commit/ddb3221282efcc80fe14a50a9afedabe1a6a954e))
+* dropdown animation ([316ad8d](https://github.com/ParalelSt/ByteForge/commit/316ad8df1c4f20ce2d8abd734b3db97ded8371d6))
+* new products ([88a3935](https://github.com/ParalelSt/ByteForge/commit/88a3935d4f67a771da51bc21c342d7846b7a41e8))
+* new products ([88c7b21](https://github.com/ParalelSt/ByteForge/commit/88c7b21111e5ea013558a38bf207fa7a818af6ca))
+* new products ([05ddfcb](https://github.com/ParalelSt/ByteForge/commit/05ddfcb3efbaf200791acaa7807c44e911d48a20))
+* product detail page and related styles ([748ff98](https://github.com/ParalelSt/ByteForge/commit/748ff9870c518c9ef7503ff1ce2882e5b25d37b3))
+* product detail related styles - full layout, responsive design ([2e7c64b](https://github.com/ParalelSt/ByteForge/commit/2e7c64b45b377acbc51cd86363d7e6cb64f757a9))
+* promo image, admin products search bar ([f187768](https://github.com/ParalelSt/ByteForge/commit/f1877684f1fabe6710c8334e60e95a64f93893af))
+
+
+### Bug Fixes
+
+* about and contact page size styles ([5c0811d](https://github.com/ParalelSt/ByteForge/commit/5c0811d1a7b80abb603a3dc2380c5e52f9c8fb86))
+* account page related styles - resize ([93676ed](https://github.com/ParalelSt/ByteForge/commit/93676edc71e37f643bc8b7dfa33f65c47a8d2bce))
+* add to cart button styles ([df1d18d](https://github.com/ParalelSt/ByteForge/commit/df1d18d77d3872a606513935429d8c47b5197370))
+* bug fixes related to unused properties ([b7f40c3](https://github.com/ParalelSt/ByteForge/commit/b7f40c3c1a143b5376e5d9746dc21ce76897edd1))
+* cart styles - item images and scrolling through items, used to not show all the items ([0b1519a](https://github.com/ParalelSt/ByteForge/commit/0b1519af3929a76d56dbd83e744d22f644314de5))
+* cart styles for desktop ([da73ae8](https://github.com/ParalelSt/ByteForge/commit/da73ae85bb0a5a4f1bc38dc8ddea013f87cb2176))
+* cart used old price for products ([c674c3d](https://github.com/ParalelSt/ByteForge/commit/c674c3d6a35682ad0cee177d5cb179e6dc834853))
+* cart using old prices ([c70ddfd](https://github.com/ParalelSt/ByteForge/commit/c70ddfd168314f598daf34d2b69563306d4de046))
+* contact related styles - resize ([ead2f4e](https://github.com/ParalelSt/ByteForge/commit/ead2f4ed4a4346eb4eeeceaeb13871cbfa90e603))
+* desktop navigation styles, added hover effects, on active selector showing which page is currently selected ([56ea286](https://github.com/ParalelSt/ByteForge/commit/56ea2869bf1f38e0dcd20808d019a70e7715a0ec))
+* desktop styles ([a55d66f](https://github.com/ParalelSt/ByteForge/commit/a55d66feb02cd4fbe00495939d41d540216bb8b7))
+* error display for cart ([0696b63](https://github.com/ParalelSt/ByteForge/commit/0696b636ee80e198bf53c59b00ef4047c13ecbc7))
+* featured products styles related to image being cropped in a bad position ([3a19d12](https://github.com/ParalelSt/ByteForge/commit/3a19d129b43e54842642edbaa92e29bf02266b9b))
+* footer and footer related styles ([06c8223](https://github.com/ParalelSt/ByteForge/commit/06c8223c1ce67fc5e7f6247c4263249c6026219f))
+* layout shift related styles for quick links in footer ([04efe75](https://github.com/ParalelSt/ByteForge/commit/04efe75ba1615eff5c0af2e4d682ebc5db493a46))
+* list item edit closes upon clicking outside them now, removed old highlight styles, fixed saving promos ([bf32982](https://github.com/ParalelSt/ByteForge/commit/bf32982e3d5dcaac668729d1b852b7a5d460febe))
+* login and register page size related styles ([9b27cca](https://github.com/ParalelSt/ByteForge/commit/9b27cca94bed31eb538d4aeb359aac8451832c86))
+* pixel perfect fix for page selector effect ([60952f3](https://github.com/ParalelSt/ByteForge/commit/60952f338d88d5904ffd559d37305c4d5b22a428))
+* product detail style fixes ([ae0359d](https://github.com/ParalelSt/ByteForge/commit/ae0359d8d6eb58f6a93bd10df6f4c6bc510564ab))
+* promo related styles - size difference between screens ([732e8eb](https://github.com/ParalelSt/ByteForge/commit/732e8eb381b7cfab09d7c0cbc54c381634525fdc))
+* responsive design for product detail, more styles and product images ([03fdbd1](https://github.com/ParalelSt/ByteForge/commit/03fdbd15b2d0ce0b7dd116dc6d71f4b1ff045b47))
+* shop product related styles - position of products, product width per screen, product count per screen ([03e18b4](https://github.com/ParalelSt/ByteForge/commit/03e18b4e9af8bb5d66f86d79e22313746fb95d21))
+* size issues related to cart and account settings ([0cf6dff](https://github.com/ParalelSt/ByteForge/commit/0cf6dfff02f17ad6e9fe000386f42013ee802afa))
+* styles ([8767f9d](https://github.com/ParalelSt/ByteForge/commit/8767f9def3ee88145cf7a018d14baf783065e654))
+* success display now goes away after a second, fixed pc display for navigation and added related styles ([1089b30](https://github.com/ParalelSt/ByteForge/commit/1089b30bc2da678f2c7b97672b9d85da4f69f195))
+* wrong file names for images ([3aa67f2](https://github.com/ParalelSt/ByteForge/commit/3aa67f29ea06f22998e088e6e5a74e9194f31e83))
+
 ### [0.0.8](https://github.com/ParalelSt/ByteForge/compare/v0.0.7...v0.0.8) (2025-12-16)
 
 
