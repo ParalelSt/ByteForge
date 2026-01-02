@@ -156,7 +156,9 @@ const ProductDetail = () => {
             addItem({
               id: String(prod.id),
               name: prod.name,
-              price: prod.price,
+              price: prod.discount
+                ? Number(prod.price) * (1 - prod.discount.percentage / 100)
+                : prod.price,
               alt: prod.name,
               image: prod.image,
             })

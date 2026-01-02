@@ -86,7 +86,9 @@ const ShopProducts = ({ category, subcategory }: shopProductsProps) => {
                   addItem({
                     id: p.id,
                     name: p.name,
-                    price: p.price,
+                    price: p.discount
+                      ? Number(p.price) * (1 - p.discount.percentage / 100)
+                      : p.price,
                     alt: p.name,
                     image: p.image,
                   });

@@ -19,6 +19,7 @@ interface CartContextValue {
   decrease: (id: CartItem["id"]) => void;
   removeItem: (id: CartItem["id"]) => void;
   clearCart: () => void;
+  updateItemPrice: (id: CartItem["id"], newPrice: number) => void;
 }
 
 const API_URL = "http://192.168.1.105:3000";
@@ -277,6 +278,14 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const updateItemPrice = (id: CartItem["id"], newPrice: number) => {
+    setCart((prev) =>
+      prev.map((item) =>
+        String(item.id) === String(id) ? { ...item, price: newPrice } : item
+      )
+    );
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -286,6 +295,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         decrease,
         removeItem,
         clearCart,
+        updateItemPrice,
       }}
     >
       {children}

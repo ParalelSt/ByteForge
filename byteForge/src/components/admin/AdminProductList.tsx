@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useCart } from "@/components/context/CartContext";
 import "@/styles/admin/adminProductList.scss";
 
 interface Discount {
@@ -42,6 +43,7 @@ interface AdminProductListProps {
 }
 
 const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
+  const { cart, updateItemPrice } = useCart();
   // Discount state
   const [discounts, setDiscounts] = useState<Discount[]>([]);
   const [selectedProduct, setSelectedProduct] = useState("");
@@ -88,6 +90,13 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
         setSelectedProduct("");
         setDiscountPercent("");
         fetchDiscounts();
+        
+        // Update cart price if item is in cart
+        const product = products.find((p) => String(p.id) === selectedProduct);
+        if (product && cart.some((item) => String(item.id) === selectedProduct)) {
+          const discountedPrice = product.price * (1 - Number(discountPercent) / 100);
+          updateItemPrice(selectedProduct, discountedPrice);
+        }
       } else {
         setDiscountMessage(data.error || "Failed to add discount");
       }
