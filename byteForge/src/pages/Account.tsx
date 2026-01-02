@@ -5,7 +5,9 @@ import AccountSettingsModal from "@/components/AccountSettingsModal";
 
 const Account = () => {
   const { user, logout } = useUser();
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState<
+    Array<{ id: number; created_at: string }>
+  >([]);
   const [profilePicture, setProfilePicture] = useState<string | null>("");
   const [mode, setMode] = useState<"email" | "username" | "password" | null>(
     null

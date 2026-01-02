@@ -177,7 +177,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
       try {
         // Sending PATCH to update quantity
-        const response = await fetch(`${API_URL}/cart/${user.id}/${id}`, {
+        await fetch(`${API_URL}/cart/${user.id}/${id}`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ quantity: item.quantity + 1 }),
@@ -214,7 +214,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     if (user) {
       try {
         // Sending PATCH to decrease quantity
-        const response = await fetch(`${API_URL}/cart/${user.id}/${id}`, {
+        await fetch(`${API_URL}/cart/${user.id}/${id}`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ quantity: item.quantity - 1 }),

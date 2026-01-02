@@ -16,7 +16,7 @@ const Authorization = () => {
   const [error, setError] = useState<string>("");
   const [remember, setRemember] = useState<boolean>(false);
 
-  const { register, login, logout } = useUser();
+  const { register, login } = useUser();
   const navigate = useNavigate();
 
   const handleModeChange = (mode: "login" | "register") => {

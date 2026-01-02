@@ -13,7 +13,6 @@ const CategoryHeader = ({
   selectedCategory,
   selectedSubCategory,
   onToggle,
-  onClearCategory,
 }: CategoryHeaderProps) => {
   const displayValue = selectedSubCategory
     ? selectedSubCategory

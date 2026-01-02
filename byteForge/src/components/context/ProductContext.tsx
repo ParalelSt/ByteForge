@@ -16,6 +16,12 @@ interface Product {
   category: string;
   subcategory?: string;
   featured?: boolean;
+  discount?: {
+    id: number;
+    productId: number;
+    percentage: number;
+    active: boolean;
+  } | null;
 }
 
 interface ProductContextValue {

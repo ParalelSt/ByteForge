@@ -19,7 +19,7 @@ const Cart = ({ cartOpen, setCartOpen }: CartProps) => {
     text: string;
   } | null>(null);
 
-  const { cart, addItem, clearCart } = useCart();
+  const { cart, clearCart } = useCart();
   const { user } = useUser();
   const { products } = useProducts();
 
