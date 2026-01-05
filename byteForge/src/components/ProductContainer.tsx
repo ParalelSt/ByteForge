@@ -97,9 +97,17 @@ const ProductContainer = ({
             value={quantity}
             onChange={(e) => {
               const value = parseInt(e.target.value, 10);
-              if (!isNaN(value) && value >= 1) {
+              if (e.target.value === "") {
+                setQuantity(1);
+              } else if (!isNaN(value) && value >= 1) {
                 setQuantity(value);
                 updateItemQuantity(id, value); // Directly update cart quantity
+              }
+            }}
+            onBlur={(e) => {
+              if (e.target.value === "") {
+                setQuantity(1);
+                updateItemQuantity(id, 1);
               }
             }}
             min="1"

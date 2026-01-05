@@ -192,6 +192,11 @@ const ProductDetail = () => {
                 setQuantity(value);
               }
             }}
+            onBlur={(e) => {
+              if (e.target.value === "") {
+                setQuantity(1);
+              }
+            }}
             min="1"
           />
           <button
