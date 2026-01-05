@@ -80,28 +80,37 @@
                 @include m.flexCenter;
                 flex: 1;
 
-                padding: 0.25rem 0.5rem;
-
-                height: 100%;
-
                 color: v.$accent;
             }
 
             .count-down, .count-up, .count {
-                padding: 0.25rem 0.5rem;
-            }
-
-            .count-down {
-                border-right: 1px solid v.$accent;
-            }
-
-            .count-up {
-                border-left: 1px solid v.$accent;
+                height: 2rem;
             }
 
             .count {
                 @include m.flexCenter;
+                
                 flex: 2;
+
+                width: 100%;
+
+                border-right: 1px solid v.$accent;
+                border-left: 1px solid v.$accent;
+
+                background-color: transparent;
+                color: v.$accent;
+                font-size: v.$fs-body;
+                text-align: center;
+
+                border: none;
+
+                &[type=number] {
+                  -moz-appearance: textfield;
+                }
+
+                &:focus {
+                  outline: none;
+                }
             }
         }
 

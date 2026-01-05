@@ -36,8 +36,24 @@ const ProductDetail = () => {
   );
 
   const [productCount, setProductCount] = useState(3);
+  const [quantity, setQuantity] = useState(1);
+  const [cooldown, setCooldown] = useState(false);
 
   const { addItem } = useCart();
+
+  const handleIncreaseQuantity = () => {
+    if (cooldown) return;
+    setCooldown(true);
+    setQuantity((prev) => prev + 1);
+    setTimeout(() => setCooldown(false), 150);
+  };
+
+  const handleDecreaseQuantity = () => {
+    if (cooldown) return;
+    setCooldown(true);
+    setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+    setTimeout(() => setCooldown(false), 150);
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -124,6 +140,10 @@ const ProductDetail = () => {
     : `http://192.168.1.105:3000/images/product_images/${prod.image}`;
   const visibleRecs = recs.slice(0, productCount);
 
+  const pricePerUnit = prod.discount
+    ? Number(prod.price) * (1 - prod.discount.percentage / 100)
+    : Number(prod.price);
+
   return (
     <div className="product-detail-container">
       <div className="product-detail-container-top">
@@ -152,27 +172,52 @@ const ProductDetail = () => {
           </p>
         </div>
         <div className="product-count">
-          <div className="count-down">
+          <button
+            className="count-down"
+            onClick={handleDecreaseQuantity}
+            aria-label="Decrease quantity"
+            disabled={cooldown}
+          >
             <FaMinus className="icon" />
-          </div>
-          <div className="count">1</div>
-          <div className="count-up">
+          </button>
+          <input
+            type="number"
+            className="count"
+            value={quantity}
+            onChange={(e) => {
+              const value = parseInt(e.target.value, 10);
+              if (e.target.value === "" || isNaN(value)) {
+                setQuantity(1);
+              } else if (value >= 1) {
+                setQuantity(value);
+              }
+            }}
+            min="1"
+          />
+          <button
+            className="count-up"
+            onClick={handleIncreaseQuantity}
+            aria-label="Increase quantity"
+            disabled={cooldown}
+          >
             <FaPlus className="icon" />
-          </div>
+          </button>
         </div>
         <button
           className="add-to-cart"
-          onClick={() =>
-            addItem({
-              id: String(prod.id),
-              name: prod.name,
-              price: prod.discount
-                ? Number(prod.price) * (1 - prod.discount.percentage / 100)
-                : prod.price,
-              alt: prod.name,
-              image: prod.image,
-            })
-          }
+          onClick={() => {
+            addItem(
+              {
+                id: String(prod.id),
+                name: prod.name,
+                price: pricePerUnit,
+                alt: prod.name,
+                image: prod.image,
+              },
+              quantity
+            );
+            setQuantity(1);
+          }}
         >
           ADD TO CART
         </button>

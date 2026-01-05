@@ -23,9 +23,6 @@ const Cart = ({ cartOpen, setCartOpen }: CartProps) => {
   const { user } = useUser();
   const { products } = useProducts();
 
-  console.log("Cart component - cart items:", cart);
-  console.log("Cart component - products:", products);
-
   const subtotal = cart.reduce((sum, item) => {
     return sum + item.price * item.quantity;
   }, 0);

@@ -1,7 +1,7 @@
 import "@/styles/productContainer.scss";
 import { FaDollarSign, FaMinus, FaPlus, FaTrash } from "react-icons/fa6";
 import { useCart } from "@/components/context/CartContext";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 interface ProductContainerProps {
   image: string;
@@ -20,14 +20,31 @@ const ProductContainer = ({
   count,
   id,
 }: ProductContainerProps) => {
-  const { increase, decrease, removeItem } = useCart();
+  const { increase, decrease, removeItem, updateItemQuantity } = useCart();
 
   const [cooldown, setCooldown] = useState(false);
+  const [quantity, setQuantity] = useState(count);
+  const hasInitialized = useRef(false);
+  const prevCountRef = useRef(count);
+
+  // Only initialize quantity once on mount
+  useEffect(() => {
+    if (!hasInitialized.current) {
+      setQuantity(count);
+      hasInitialized.current = true;
+    }
+  }, []);
+
+  // Sync quantity when count changes from button clicks (external updates)
+  useEffect(() => {
+    if (prevCountRef.current !== count) {
+      setQuantity(count);
+      prevCountRef.current = count;
+    }
+  }, [count]);
 
   const handleIncrease = () => {
-    console.log("🔼 Increase clicked for id:", id);
     if (cooldown) {
-      console.log("❌ Cooldown active");
       return;
     }
     setCooldown(true);
@@ -38,9 +55,7 @@ const ProductContainer = ({
   };
 
   const handleDecrease = () => {
-    console.log("🔽 Decrease clicked for id:", id);
     if (cooldown) {
-      console.log("❌ Cooldown active");
       return;
     }
     setCooldown(true);
@@ -76,7 +91,19 @@ const ProductContainer = ({
             <FaMinus className="icon" />
           </button>
 
-          <span className="count">{count}</span>
+          <input
+            type="number"
+            className="count"
+            value={quantity}
+            onChange={(e) => {
+              const value = parseInt(e.target.value, 10);
+              if (!isNaN(value) && value >= 1) {
+                setQuantity(value);
+                updateItemQuantity(id, value); // Directly update cart quantity
+              }
+            }}
+            min="1"
+          />
 
           <button
             className="product-count-up"

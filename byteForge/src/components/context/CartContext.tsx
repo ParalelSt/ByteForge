@@ -15,12 +15,13 @@ export const CartContext = createContext<CartContextValue | null>(null);
 
 interface CartContextValue {
   cart: CartItem[];
-  addItem: (item: Omit<CartItem, "quantity">) => void;
+  addItem: (item: Omit<CartItem, "quantity">, quantity?: number) => void;
   increase: (id: CartItem["id"]) => void;
   decrease: (id: CartItem["id"]) => void;
   removeItem: (id: CartItem["id"]) => void;
   clearCart: () => void;
   updateItemPrice: (id: CartItem["id"], newPrice: number) => void;
+  updateItemQuantity: (id: CartItem["id"], newQuantity: number) => void;
 }
 
 const API_URL = "http://192.168.1.105:3000";
@@ -152,7 +153,10 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [cart, isLoaded, user]);
 
-  const addItem = async (item: Omit<CartItem, "quantity">) => {
+  const addItem = async (
+    item: Omit<CartItem, "quantity">,
+    quantity: number = 1
+  ) => {
     if (user) {
       // Add to database
       try {
@@ -162,7 +166,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
           body: JSON.stringify({
             userId: user.id,
             productId: item.id,
-            quantity: 1,
+            quantity: quantity,
           }),
         });
 
@@ -172,11 +176,11 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
           if (existing) {
             return prev.map((p) =>
               String(p.id) === String(item.id)
-                ? { ...p, quantity: p.quantity + 1 }
+                ? { ...p, quantity: p.quantity + quantity }
                 : p
             );
           }
-          return [...prev, { ...item, quantity: 1 }];
+          return [...prev, { ...item, quantity: quantity }];
         });
       } catch (error) {
         console.error("Failed to add item to cart:", error);
@@ -187,10 +191,10 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         const existing = prev.find((p) => p.id === item.id);
         if (existing) {
           return prev.map((p) =>
-            p.id === item.id ? { ...p, quantity: p.quantity + 1 } : p
+            p.id === item.id ? { ...p, quantity: p.quantity + quantity } : p
           );
         }
-        return [...prev, { ...item, quantity: 1 }];
+        return [...prev, { ...item, quantity: quantity }];
       });
     }
   };
@@ -313,6 +317,30 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     );
   };
 
+  const updateItemQuantity = (id: CartItem["id"], newQuantity: number) => {
+    if (user) {
+      // Update in database
+      try {
+        fetch(`${API_URL}/cart/${user.id}/${id}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ quantity: newQuantity }),
+        }).catch((error) => console.error("Failed to update quantity:", error));
+      } catch (error) {
+        console.error("Failed to update quantity:", error);
+      }
+    }
+
+    // Update local state
+    setCart((prev) =>
+      prev.map((item) =>
+        String(item.id) === String(id)
+          ? { ...item, quantity: newQuantity }
+          : item
+      )
+    );
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -323,6 +351,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         removeItem,
         clearCart,
         updateItemPrice,
+        updateItemQuantity,
       }}
     >
       {children}
