@@ -21,6 +21,7 @@ import cartRoute from "./routes/cart.js";
 import productRoute from "./routes/fetchProduct.js";
 import productRecommendations from "./routes/fetchRecommendations.js";
 import discountsRoute from "./routes/discounts.js";
+import reviewsRoute from "./routes/reviews.js";
 
 dotenv.config();
 
@@ -34,8 +35,10 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
+      "http://localhost:5174",
       "http://localhost:3000",
       "http://192.168.1.105:5173",
+      "http://192.168.1.105:5174",
       "http://192.168.1.105",
       "http://192.168.1.105:3000",
     ],
@@ -98,6 +101,8 @@ console.log("Registering /auth/contact");
 app.use("/contact", contactUsRoute);
 console.log("Registering /cart route");
 app.use("/cart", cartRoute);
+console.log("Registering /reviews route");
+app.use("/", reviewsRoute);
 console.log("Registering product recommendations route");
 app.use("/products", productRecommendations);
 console.log("Registering product detail route");

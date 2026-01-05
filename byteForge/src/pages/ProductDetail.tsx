@@ -1,4 +1,5 @@
 import ProductCard from "@/components/ProductCard";
+import ProductReviews from "@/components/ProductReviews";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useCart } from "@/components/context/CartContext";
@@ -35,9 +36,9 @@ const ProductDetail = () => {
     null
   );
 
-  const [productCount, setProductCount] = useState(3);
   const [quantity, setQuantity] = useState(1);
   const [cooldown, setCooldown] = useState(false);
+  const [productCount, setProductCount] = useState(8);
 
   const { addItem } = useCart();
 
@@ -230,7 +231,7 @@ const ProductDetail = () => {
           <h3>ABOUT THIS PRODUCT</h3>
           <p>{prod.description}</p>
         </div>
-        <div className="product-reviews"></div>
+        <ProductReviews productId={prod.id} />
       </div>
       <div className="product-detail-container-bottom">
         {visibleRecs.map((r) => (

@@ -10,6 +10,7 @@ export interface User {
   id: string;
   email: string;
   name: string;
+  profile_image?: string;
 }
 
 interface UserContextValue {
@@ -38,6 +39,7 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
     id: string;
     email: string;
     name: string;
+    profile_image?: string;
   } | null>(null);
   const [isReady, setIsReady] = useState(false);
 

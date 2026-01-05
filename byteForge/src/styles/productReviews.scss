@@ -1,0 +1,467 @@
+@use "@/styles/mixins/mixins" as m;
+@use "@/styles/variables" as v;
+
+.product-reviews {
+  @include m.flexColLeft;
+  width: 100%;
+  gap: 1.5rem;
+
+  padding: 2rem 0;
+
+  border-top: 1px solid v.$accent;
+  margin-top: 3rem;
+
+  .review-top {
+    @include m.flexLeftCenter;
+    justify-content: space-between;
+
+    gap: 2rem;
+
+    width: 100%;
+
+    .review-top-left {
+      @include m.flexColLeft;
+      gap: 0.75rem;
+
+      h2 {
+        margin: 0;
+
+        font-size: v.$fs-heading;
+        font-weight: bold;        
+      }
+
+      .review-stars {
+        @include m.flexLeftCenter;
+        gap: 0.25rem;
+
+        svg {
+          font-size: 1rem;
+          color: gold;
+        }
+      }
+
+      .review-count {
+        font-size: v.$fs-body;
+        color: v.$body-text-color;
+      }
+
+      .page-selector {
+        @include m.flexLeftCenter;
+        gap: 0.5rem;
+
+        .show-less-btn {
+          padding: 0.5rem 1rem;
+
+          border: 1px solid v.$accent;
+          border-radius: 0.3rem;
+
+          background-color: transparent;
+          color: v.$accent;
+
+          cursor: pointer;
+          font-weight: bold;
+          transition: all 150ms ease;
+
+          &:hover {
+            background-color: v.$accent;
+            color: white;
+          }
+        }
+      }
+    }
+
+    .review-top-right {
+      .write-a-review {
+        padding: 0.75rem 1.5rem;
+
+        border: none;
+        border-radius: 0.3rem;
+
+        background-color: v.$accent;
+        color: white;
+
+        cursor: pointer;
+        font-weight: bold;
+        font-size: v.$fs-body;
+        transition: all 150ms ease;
+
+        &:hover {
+          background-color: v.$accent-hover;
+        }
+
+        &:active {
+          transform: scale(0.98);
+        }
+      }
+    }
+  }
+
+  .review-form {
+    @include m.flexColLeft;
+    gap: 1.5rem;
+    
+    padding: 2rem;
+
+    width: 100%;
+
+    border-radius: 0.3rem;
+
+    background-color: rgba(v.$accent, 0.05);
+
+    .form-group {
+      @include m.flexColLeft;
+      gap: 0.5rem;
+      width: 100%;
+
+      label {
+        font-size: v.$fs-sub;
+        font-weight: bold;
+        color: v.$body-text-color;
+      }
+
+      input,
+      textarea {
+        padding: 0.75rem;
+
+        width: 100%;
+
+        border: 1px solid v.$accent;
+        border-radius: 0.3rem;
+
+        background-color: transparent;
+        color: v.$body-text-color;
+        font-family: inherit;
+        font-size: v.$fs-body;
+
+        &::placeholder {
+          color: rgba(v.$body-text-color, 0.5);
+        }
+
+        &:focus {
+          outline: none;
+          border-color: v.$accent-hover;
+          background-color: rgba(v.$accent, 0.03);
+        }
+      }
+
+      textarea {
+        min-height: 8rem;
+        resize: vertical;
+      }
+    }
+
+    .rating-selector {
+      @include m.flexLeftCenter;
+      gap: 0.75rem;
+
+      .star {
+        border: none;
+
+        background: none;
+        color: lightgray;
+        
+        cursor: pointer;
+        font-size: 1.5rem;
+        transition: all 150ms ease;
+
+        &.filled {
+          color: gold;
+        }
+
+        &:hover {
+          transform: scale(1.15);
+          color: gold;
+        }
+      }
+    }
+
+    .submit-btn {
+      padding: 0.75rem 1.5rem;
+
+      border: none;
+      border-radius: 0.3rem;
+
+      background-color: v.$accent;
+      color: white;
+
+      cursor: pointer;
+      font-weight: bold;
+      font-size: v.$fs-body;
+      transition: all 150ms ease;
+
+      &:hover {
+        background-color: v.$accent-hover;
+      }
+
+      &:active {
+        transform: scale(0.98);
+      }
+    }
+  }
+
+  .review-bottom {
+    @include m.flexColLeft;
+    gap: 1.5rem;
+    width: 100%;
+
+    .loading-text,
+    .no-reviews-text {
+      text-align: center;
+
+      padding: 2rem;
+
+      color: rgba(v.$body-text-color, 0.6);
+      font-size: v.$fs-body;
+    }
+
+    .review-container {
+      @include m.flexColLeft;
+      gap: 1rem;
+
+      padding: 1.5rem;
+
+      width: 100%;
+      
+      border: 1px solid rgba(v.$accent, 0.2);
+      border-radius: 0.3rem;
+
+      .review-container-top {
+        @include m.flexLeftCenter;
+        width: 100%;
+        gap: 1rem;
+
+        .review-container-top-left {
+          flex-shrink: 0;
+
+          .reviewer-avatar {
+            @include m.flexCenter;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            background-color: v.$border-color;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+          }
+        }
+
+        .review-container-top-right {
+          @include m.flexColLeft;
+          gap: 0.5rem;
+          flex: 1;
+
+          .top {
+            @include m.flexLeftCenter;
+            gap: 1rem;
+            width: 100%;
+
+            .name {
+              font-weight: bold;
+              font-size: v.$fs-body;
+              color: v.$body-text-color;
+            }
+
+            .time {
+              font-size: v.$fs-sub;
+              color: rgba(v.$body-text-color, 0.6);
+            }
+          }
+
+          .bottom {
+            .review-stars {
+              @include m.flexLeftCenter;
+              gap: 0.25rem;
+
+              svg {
+                font-size: 0.875rem;
+              }
+            }
+          }
+        }
+      }
+
+      .review-container-bottom {
+        @include m.flexColLeft;
+        gap: 0.75rem;
+        width: 100%;
+
+        h2 {
+          margin: 0;
+
+          font-size: v.$fs-body;
+          font-weight: bold;
+         
+          color: v.$body-text-color;
+        }
+
+        p {
+          margin: 0;
+
+          font-size: v.$fs-body;
+          line-height: 1.5;
+
+          color: rgba(v.$body-text-color, 0.85);
+        }
+
+        .like-report-container {
+          @include m.flexLeftCenter;
+          gap: 1rem;
+          margin-top: 1rem;
+
+          span {
+            font-size: v.$fs-body;
+            color: v.$body-text-color;
+          }
+
+          .like-container {
+            @include m.flexLeftCenter;
+            gap: 0.5rem;
+            border: none;
+            background: none;
+            color: v.$accent;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: v.$fs-body;
+            transition: all 150ms ease;
+
+            svg {
+              font-size: 0.875rem;
+            }
+
+            &:hover:not(:disabled) {
+              color: v.$accent-hover;
+              transform: scale(1.05);
+            }
+
+            &:active:not(:disabled) {
+              transform: scale(0.95);
+            }
+
+            &:disabled {
+              cursor: not-allowed;
+              opacity: 0.7;
+            }
+
+            &.marked {
+              color: v.$accent-hover;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .see-all-reviews-btn {
+    padding: 1rem;
+    
+    width: 100%;
+
+    border: 2px solid v.$accent;
+    border-radius: 0.3rem;
+
+    background-color: transparent;
+    color: v.$accent;
+
+    cursor: pointer;
+    font-weight: bold;
+    font-size: v.$fs-body;
+    transition: all 150ms ease;
+
+    &:hover {
+      background-color: v.$accent;
+      color: white;
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    @include m.flexCenter;
+    z-index: 1000;
+  }
+
+  .modal-content {
+    @include m.flexColLeft;
+    gap: 1.5rem;
+    padding: 2rem;
+    background-color: v.$bg-color;
+    border-radius: 0.5rem;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+    h3 {
+      margin: 0;
+      font-size: v.$fs-heading;
+      font-weight: bold;
+      color: v.$body-text-color;
+    }
+
+    p {
+      margin: 0;
+      font-size: v.$fs-body;
+      color: rgba(v.$body-text-color, 0.85);
+      line-height: 1.5;
+    }
+  }
+
+  .modal-buttons {
+    @include m.flexCenter;
+    gap: 1rem;
+    width: 100%;
+    align-items: stretch;
+
+    .modal-btn {
+      padding: 0.75rem 1.5rem;
+      border: 1px solid v.$accent;
+      border-radius: 0.3rem;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: v.$fs-body;
+      transition: all 150ms ease;
+      flex: 1;
+      min-width: 120px;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &.modal-btn-primary {
+        background-color: v.$accent;
+        color: white;
+        border-color: v.$accent;
+
+        &:hover {
+          background-color: v.$accent-hover;
+          border-color: v.$accent-hover;
+        }
+
+        &:active {
+          transform: scale(0.98);
+        }
+      }
+
+      &.modal-btn-secondary {
+        background-color: transparent;
+        color: v.$accent;
+        border-color: v.$accent;
+
+        &:hover {
+          background-color: rgba(v.$accent, 0.1);
+        }
+
+        &:active {
+          transform: scale(0.98);
+        }
+      }
+    }
+  }
+}
