@@ -98,7 +98,7 @@ const ProductContainer = ({
       <div className="price-container">
         <span className="product-price">
           <FaDollarSign />
-          {price}
+          {Number(price).toFixed(2)}
         </span>
       </div>
     </div>

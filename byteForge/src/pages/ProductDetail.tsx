@@ -2,6 +2,7 @@ import ProductCard from "@/components/ProductCard";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useCart } from "@/components/context/CartContext";
+import { FaMinus, FaPlus } from "react-icons/fa6";
 import "@/styles/productDetail.scss";
 
 interface Product {
@@ -146,9 +147,18 @@ const ProductDetail = () => {
                 ).toFixed(2)}`
               : `$${prod.price}`}
           </p>
-          {prod.discount && (
-            <p className="original-price">${Number(prod.price).toFixed(2)}</p>
-          )}
+          <p className={`original-price ${!prod.discount ? "hidden" : ""}`}>
+            ${Number(prod.price).toFixed(2)}
+          </p>
+        </div>
+        <div className="product-count">
+          <div className="count-down">
+            <FaMinus className="icon" />
+          </div>
+          <div className="count">1</div>
+          <div className="count-up">
+            <FaPlus className="icon" />
+          </div>
         </div>
         <button
           className="add-to-cart"
@@ -170,6 +180,7 @@ const ProductDetail = () => {
           <h3>ABOUT THIS PRODUCT</h3>
           <p>{prod.description}</p>
         </div>
+        <div className="product-reviews"></div>
       </div>
       <div className="product-detail-container-bottom">
         {visibleRecs.map((r) => (

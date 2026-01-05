@@ -21,14 +21,14 @@ export const CATEGORY_LABELS: Record<CategoryKey, string> = {
 
 // Map UI categories to database categories
 export const CATEGORY_TO_DB: Record<CategoryKey, string> = {
-  GFuel: "g-fuel",
-  Peripherals: "peripherals",
-  Components: "components",
-  Cases: "cases",
-  Phones: "phones",
-  Games: "games",
-  Accessories: "accessories",
-  Bundles: "bundles",
+  GFuel: "Accessories",
+  Peripherals: "Peripherals",
+  Components: "PC Components",
+  Cases: "PC Cases",
+  Phones: "Phones",
+  Games: "Games",
+  Accessories: "Accessories",
+  Bundles: "Bundles",
 };
 
 export const CATEGORY_ITEMS: Record<CategoryKey, string[]> = {

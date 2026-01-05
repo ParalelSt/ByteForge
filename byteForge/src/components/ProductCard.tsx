@@ -41,9 +41,9 @@ const ProductCard = ({
         <p className="price">
           ${discountedPrice || (price ? Number(price).toFixed(2) : "0.00")}
         </p>
-        {discount && (
-          <p className="original-price">${Number(price).toFixed(2)}</p>
-        )}
+        <p className={`original-price ${!discount ? "hidden" : ""}`}>
+          ${Number(price).toFixed(2)}
+        </p>
       </div>
     </CardContainer>
   );

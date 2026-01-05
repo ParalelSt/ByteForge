@@ -71,11 +71,9 @@ const ShopProducts = ({ category, subcategory }: shopProductsProps) => {
                       ).toFixed(2)}`
                     : `$${Number(p.price).toFixed(2)}`}
                 </p>
-                {p.discount && (
-                  <p className="original-price">{`$${Number(p.price).toFixed(
-                    2
-                  )}`}</p>
-                )}
+                <p
+                  className={`original-price ${!p.discount ? "hidden" : ""}`}
+                >{`$${Number(p.price).toFixed(2)}`}</p>
               </div>
 
               <button

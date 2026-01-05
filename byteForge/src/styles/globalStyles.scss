@@ -73,6 +73,23 @@ button {
   font-family: v.$font-body;
 }
 
+input,
+select,
+textarea {
+  color: white !important;
+  -webkit-text-fill-color: white !important;
+
+  &::placeholder {
+    color: #aaa !important;
+    -webkit-text-fill-color: #aaa !important;
+  }
+
+  &:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px transparent inset !important;
+    -webkit-text-fill-color: white !important;
+  }
+}
+
 a {
   color: white;
   text-decoration: none;

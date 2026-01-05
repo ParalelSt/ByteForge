@@ -4,12 +4,13 @@
 .product-card {
   @include m.flexCenter;
   flex-direction: column;
-
+  align-items: center;
   gap: 0.25em;
 
+  padding: 0.5em 0;
   width: 6.5rem;
 
-  padding: 0.5em 0;
+  border-radius: 0.3rem;
 
   transition: scale, 150ms ease;
 
@@ -20,55 +21,64 @@
   img {
     width: 6.5rem;
     height: 6.5rem;
+
+    border-radius: 0.3rem;
     background-color: v.$section-bg;
 
     object-fit: cover;
     object-position: center 25%;
-
-    border-radius: 0.3rem;
   }
 
   .name,
   .price {
-    text-align: center;
     width: 100%;
+    text-align: center;
   }
 
   .name {
+    padding: 0 0.25rem;
+
     font-size: v.$fs-body;
+
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    padding: 0 0.25rem;
   }
 
   .price {
     font-size: v.$fs-small;
-
     color: v.$accent-2;
   }
 
   .price-container {
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.1rem;
+
     width: 100%;
-    text-align: center;
+    min-height: 1.4rem;
 
     .original-price {
-      position: absolute;
-      top: 0;
-      right: 1.25rem;
+      margin: 0;
+
       font-size: 0.65rem;
       color: v.$error-color;
       text-decoration: line-through;
-      opacity: 0.9;
-      margin: 0;
+
+      opacity: 0.8;
+      line-height: 1;
+
+      &.hidden {
+        visibility: hidden;
+      }
     }
   }
 
   @media (min-width: v.$desktop) {
     & {
       gap: 0.5rem;
-
       width: 10rem;
     }
 
@@ -77,6 +87,15 @@
       height: 10rem;
     }
 
+    .price {
+      font-size: v.$fs-body;
+    }
+
+    .price-container {
+      .original-price {
+        font-size: v.$fs-small;
+      }
+    }
   }
 }
 

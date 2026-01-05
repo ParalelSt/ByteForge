@@ -38,24 +38,70 @@
         }
 
         .product-price {
-            color: v.$accent-2;
-
             font-size: v.$fs-sub;
+            color: v.$accent-2;
         }
 
         .price-container {
-            position: relative;
-            display: inline-block;
+            @include m.flexCenter;
+            flex-direction: column;
+
+            gap: 0.15rem;
+
+            width: 100%;
+            min-height: 2.1rem;
 
             .original-price {
-              position: absolute;
-              top: -0.25rem;
-              right: -3.75rem;
+              margin: 0;
+
+              font-size: 0.9rem;
               color: v.$error-color;
               text-decoration: line-through;
-              font-size: 1rem;
-              opacity: 0.9;
-              margin: 0;
+
+              opacity: 0.8;
+              line-height: 1;
+
+              &.hidden {
+                visibility: hidden;
+              }
+            }
+        }
+
+         .product-count {
+            @include m.flexCenter;
+
+            width: 9rem;
+
+            border: 1px solid v.$accent;
+            border-radius: 0.5rem;
+
+
+            .count-down, .count-up {
+                @include m.flexCenter;
+                flex: 1;
+
+                padding: 0.25rem 0.5rem;
+
+                height: 100%;
+
+                color: v.$accent;
+            }
+
+            .count-down, .count-up, .count {
+                padding: 0.25rem 0.5rem;
+            }
+
+            .count-down {
+                border-right: 1px solid v.$accent;
+            }
+
+            .count-up {
+                border-left: 1px solid v.$accent;
+            }
+
+            .count {
+                @include m.flexCenter;
+                flex: 2;
             }
         }
 

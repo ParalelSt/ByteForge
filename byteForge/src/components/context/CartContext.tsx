@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useUser } from "./UserContext";
+import { useProducts } from "./ProductContext";
 
 export interface CartItem {
   id: string;
@@ -29,11 +30,29 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const { user, isReady } = useUser();
+  const { products } = useProducts();
+
+  // Helper function to apply discounts to cart items based on current product data
+  const applyDiscountsToCart = (cartItems: CartItem[]): CartItem[] => {
+    return cartItems.map((item) => {
+      const product = products.find((p) => String(p.id) === String(item.id));
+      if (product && product.discount && product.discount.active) {
+        const discountedPrice =
+          product.price * (1 - product.discount.percentage / 100);
+        return { ...item, price: discountedPrice };
+      }
+      // If no discount, use the product's current price (in case base price changed)
+      if (product) {
+        return { ...item, price: product.price };
+      }
+      return item;
+    });
+  };
 
   // Load cart from database when user logs in, or from localStorage for guests
   useEffect(() => {
-    // Don't load cart until UserContext is ready
-    if (!isReady) {
+    // Don't load cart until UserContext is ready and products are loaded
+    if (!isReady || products.length === 0) {
       return;
     }
 
@@ -47,7 +66,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
           // Cart data from database
 
           // Transform database format to CartItem format
-          const cartItems: CartItem[] = data.map((item: any) => ({
+          let cartItems: CartItem[] = data.map((item: any) => ({
             id: String(item.product_id),
             name: item.name,
             image: item.image,
@@ -55,6 +74,9 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
             alt: item.name,
             quantity: item.quantity,
           }));
+
+          // Apply current discounts
+          cartItems = applyDiscountsToCart(cartItems);
 
           // Transformed cart items
           setCart(cartItems);
@@ -81,7 +103,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
               // Reload cart after merge
               const updatedResponse = await fetch(`${API_URL}/cart/${user.id}`);
               const updatedData = await updatedResponse.json();
-              const updatedCart: CartItem[] = updatedData.map((item: any) => ({
+              let updatedCart: CartItem[] = updatedData.map((item: any) => ({
                 id: String(item.product_id),
                 name: item.name,
                 image: item.image,
@@ -89,6 +111,8 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
                 alt: item.name,
                 quantity: item.quantity,
               }));
+              // Apply current discounts
+              updatedCart = applyDiscountsToCart(updatedCart);
               setCart(updatedCart);
               // Cart after merge
             } catch (error) {
@@ -103,7 +127,10 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         const stored = localStorage.getItem(STORAGE_KEY);
         if (stored) {
           try {
-            setCart(JSON.parse(stored));
+            let cartItems = JSON.parse(stored);
+            // Apply current discounts
+            cartItems = applyDiscountsToCart(cartItems);
+            setCart(cartItems);
           } catch {
             localStorage.removeItem(STORAGE_KEY);
           }
@@ -116,7 +143,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
     setIsLoaded(false);
     loadCart();
-  }, [user, isReady]);
+  }, [user, isReady, products]);
 
   // Save to localStorage for guests only
   useEffect(() => {

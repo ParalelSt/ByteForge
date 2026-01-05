@@ -293,8 +293,23 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
     const matchesFeatured =
       !filterFeatured ||
       (filterFeatured === "featured" ? product.featured : !product.featured);
+
+    // Discount filter
+    const hasDiscount = discounts.some(
+      (d) => d.productId === product.id && d.active
+    );
+    const matchesDiscount =
+      !discountFilterHasDiscount ||
+      (discountFilterHasDiscount === "with_discount"
+        ? hasDiscount
+        : !hasDiscount);
+
     return (
-      matchesName && matchesCategory && matchesSubcategory && matchesFeatured
+      matchesName &&
+      matchesCategory &&
+      matchesSubcategory &&
+      matchesFeatured &&
+      matchesDiscount
     );
   });
 
@@ -444,7 +459,16 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
                 </div>
               </div>
             ) : (
-              <div className="product-item">
+              <>
+                <img
+                  src={
+                    p.image
+                      ? `http://192.168.1.105:3000/images/product_images/${p.image}`
+                      : "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23141414' width='100' height='100'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23666' font-family='Arial' font-size='12'%3ENo Image%3C/text%3E%3C/svg%3E"
+                  }
+                  alt={p.name}
+                  className="product-image"
+                />
                 <div className="product-info">
                   <strong>{p.name}</strong>
                   {/* Discounted price display layered on top */}
@@ -478,15 +502,6 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
                     <span className="featured-badge">⭐ Featured</span>
                   )}
                 </div>
-                <img
-                  src={
-                    p.image
-                      ? `http://192.168.1.105:3000/images/product_images/${p.image}`
-                      : "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23141414' width='100' height='100'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23666' font-family='Arial' font-size='12'%3ENo Image%3C/text%3E%3C/svg%3E"
-                  }
-                  alt={p.name}
-                  className="product-image"
-                />
                 <div className="product-actions">
                   <button
                     onClick={() =>
@@ -508,7 +523,7 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
                     Delete
                   </button>
                 </div>
-              </div>
+              </>
             )}
           </li>
         ))}
@@ -524,8 +539,8 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
             onChange={(e) => setDiscountFilterHasDiscount(e.target.value)}
           >
             <option value="">All Products</option>
-            <option value="with-discount">With Discount</option>
-            <option value="no-discount">No Discount</option>
+            <option value="with_discount">With Discount</option>
+            <option value="no_discount">No Discount</option>
           </select>
         </div>
 
@@ -545,7 +560,7 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
               );
               const matchesDiscountStatus =
                 !discountFilterHasDiscount ||
-                (discountFilterHasDiscount === "with-discount"
+                (discountFilterHasDiscount === "with_discount"
                   ? hasDiscount
                   : !hasDiscount);
 

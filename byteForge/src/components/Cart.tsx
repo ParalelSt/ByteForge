@@ -27,9 +27,7 @@ const Cart = ({ cartOpen, setCartOpen }: CartProps) => {
   console.log("Cart component - products:", products);
 
   const subtotal = cart.reduce((sum, item) => {
-    const product = products.find((p) => String(p.id) === String(item.id));
-    if (!product) return sum;
-    return sum + product.price * item.quantity;
+    return sum + item.price * item.quantity;
   }, 0);
 
   const handleCheckout = async () => {
@@ -135,7 +133,7 @@ const Cart = ({ cartOpen, setCartOpen }: CartProps) => {
                   key={item.id}
                   id={String(product.id)}
                   name={product.name}
-                  price={product.price}
+                  price={item.price}
                   image={`http://192.168.1.105:3000/images/product_images/${product.image}`}
                   count={item.quantity}
                   alt={item.alt}

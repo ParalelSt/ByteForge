@@ -70,7 +70,7 @@
         padding: 0.25rem;
 
         width: 100%;
-        height: 7.5rem;
+        height: 7.75rem;
 
         border-top: 1px solid v.$accent;
 
@@ -97,19 +97,39 @@
         }
 
         .price-container {
-          position: relative;
+          @include m.flexCenter;
+          flex-direction: column;
+
+          gap: 0.08rem;
+
+          margin-top: 0.25rem;
           width: 100%;
+          min-height: 1.5rem;
+
+          .price {
+            margin: 0;
+
+            font-size: v.$fs-small;
+            color: v.$accent-2;
+
+            line-height: 1;
+          }
 
           .original-price {
-            position: absolute;
-            top: -0.25rem;
-            right: -3.5rem;
+            margin: 0;
+            padding: 0;
+            padding-bottom: 0.25rem;
+
             font-size: v.$fs-small;
             color: v.$error-color;
             text-decoration: line-through;
-            opacity: 0.9;
-            padding: 0.25rem 0;
-            margin: 0;
+
+            opacity: 0.8;
+            line-height: 1;
+
+            &.hidden {
+              visibility: hidden;
+            }
           }
         }
 
@@ -202,6 +222,22 @@
 
         .product-card-top {
           min-height: 12rem;
+        }
+
+        .product-card-bottom {
+          p {
+            font-size: v.$fs-body;
+          }
+
+          .price-container {
+            .price {
+              font-size: v.$fs-body;
+            }
+
+            .original-price {
+              font-size: v.$fs-small;
+            }
+          }
         }
       }
     }
