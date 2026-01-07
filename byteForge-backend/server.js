@@ -41,6 +41,8 @@ app.use(
       "http://192.168.1.105:5174",
       "http://192.168.1.105",
       "http://192.168.1.105:3000",
+      "https://byte-forge-9hno.vercel.app",
+      /\.vercel\.app$/,
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
