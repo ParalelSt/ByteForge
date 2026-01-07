@@ -54,18 +54,17 @@ const ProductReviews = ({ productId }: ProductReviewsProps) => {
         const data = await response.json();
         setReviews(data);
         // Populate helpfulReviews set from server data
-        const markedReviews = new Set<number>(
-          data
-            .filter(
-              (r: Review & { user_marked_helpful: number }) =>
-                r.user_marked_helpful === 1
-            )
-            .map((r: Review) => r.id)
-        );
+        const markedReviewIds = data
+          .filter(
+            (r: Review & { user_marked_helpful: number }) =>
+              r.user_marked_helpful === 1
+          )
+          .map((r: Review) => r.id);
+        const markedReviews = new Set<number>(markedReviewIds);
         setHelpfulReviews(markedReviews);
         if (user) {
           const existingUserReview = data.find(
-            (r: Review) => r.user_id === user.id
+            (r: Review) => r.user_id === Number(user.id)
           );
           setUserReview(existingUserReview || null);
         }
