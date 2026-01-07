@@ -4,54 +4,54 @@ import fs from "fs";
 import path from "path";
 import multer from "multer";
 import dotenv from "dotenv";
+import supabase from "../supabase.js";
 
 dotenv.config();
 
 const router = express.Router();
 
-// Use memory storage in production (Vercel serverless), disk storage locally
-const upload = multer({
-  storage:
-    process.env.VERCEL || process.env.NODE_ENV === "production"
-      ? multer.memoryStorage()
-      : multer.diskStorage({
-          destination: "uploads/",
-          filename: (req, file, cb) => {
-            cb(null, file.originalname);
-          },
-        }),
-});
+// Use memory storage always (will upload to Supabase Storage)
+const upload = multer({ storage: multer.memoryStorage() });
 
 // POST /upload-product
 router.post("/upload-product", upload.single("image"), async (req, res) => {
   try {
-    const inputPath = req.file.path;
-    const outputFilename = req.file.filename + ".png";
-    const outputPath = path.join("images/product_images", outputFilename);
+    if (!req.file) {
+      return res.status(400).json({ success: false, message: "No file uploaded" });
+    }
 
+    const filename = `${Date.now()}-${req.file.originalname}`;
+    const outputFilename = filename.replace(/\.[^.]+$/, ".png");
+
+    // Remove background using remove.bg API
     const response = await axios({
       method: "post",
       url: "https://api.remove.bg/v1.0/removebg",
-      data: {
-        image_file: fs.createReadStream(inputPath),
-        size: "auto",
-      },
+      data: req.file.buffer,
       headers: {
         "X-Api-Key": process.env.REMOVE_BG_KEY,
       },
       responseType: "arraybuffer",
     });
 
-    fs.writeFileSync(outputPath, response.data);
-    fs.unlinkSync(inputPath);
+    // Upload to Supabase Storage
+    const { data, error } = await supabase.storage
+      .from("product_images")
+      .upload(`product_images/${outputFilename}`, response.data, {
+        contentType: "image/png",
+        upsert: false,
+      });
+
+    if (error) throw error;
 
     res.json({
       success: true,
       filename: outputFilename,
+      url: `${process.env.SUPABASE_URL}/storage/v1/object/public/product_images/${data.path}`,
     });
   } catch (error) {
     console.error("Error removing background:", error);
-    res.status(500).json({ success: false });
+    res.status(500).json({ success: false, message: error.message });
   }
 });
 
