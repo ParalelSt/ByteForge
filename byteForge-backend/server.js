@@ -124,7 +124,13 @@ app.use((err, req, res, next) => {
     .json({ error: err.message || "Internal server error" });
 });
 
-// Start server
-app.listen(3000, "0.0.0.0", () => {
-  console.log("Server running at http://localhost:3000 (or your LAN IP)");
-});
+// Export for Vercel
+export default app;
+
+// Start server locally (for development)
+if (process.env.NODE_ENV !== "production") {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Server running at http://localhost:${PORT}`);
+  });
+}
