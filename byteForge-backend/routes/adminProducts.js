@@ -10,16 +10,13 @@ import FormData from "form-data";
 dotenv.config();
 
 const router = express.Router();
-const upload = multer({ dest: "uploads/" });
+const upload = multer({ storage: multer.memoryStorage() });
 
-// Utility: remove background and save cleaned image
-
-async function processImage(inputPath, outputFilename) {
-  const outputPath = path.join("images/product_images", outputFilename);
-
+// Utility: remove background and save to Supabase Storage
+async function processImage(imageBuffer, outputFilename) {
   const form = new FormData();
   form.append("size", "auto");
-  form.append("image_file", fs.createReadStream(inputPath));
+  form.append("image_file", imageBuffer);
 
   const response = await axios({
     method: "post",
@@ -32,8 +29,15 @@ async function processImage(inputPath, outputFilename) {
     responseType: "arraybuffer",
   });
 
-  fs.writeFileSync(outputPath, response.data);
-  fs.unlinkSync(inputPath);
+  // Upload to Supabase Storage
+  const { data, error } = await supabase.storage
+    .from("product_images")
+    .upload(`product_images/${outputFilename}`, response.data, {
+      contentType: "image/png",
+      upsert: false,
+    });
+
+  if (error) throw error;
 
   return outputFilename;
 }
@@ -58,8 +62,8 @@ router.post("/", upload.single("image"), async (req, res) => {
       // Save as PNG
       const newFileName = req.file.filename + ".png";
 
-      // Background removal
-      await processImage(req.file.path, newFileName);
+      // Background removal and Supabase upload
+      await processImage(req.file.buffer, newFileName);
 
       imageFilename = newFileName;
     }
@@ -164,13 +168,15 @@ router.put("/:id", upload.single("image"), async (req, res) => {
     if (req.file) {
       const newFileName = req.file.filename + ".png";
 
-      // Remove background + save PNG
-      await processImage(req.file.path, newFileName);
+      // Remove background + upload to Supabase
+      await processImage(req.file.buffer, newFileName);
 
-      // Delete old file if exists
+      // Delete old file from Supabase if exists
       if (newImage) {
-        const oldPath = path.join("images/product_images", newImage);
-        if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
+        await supabase.storage
+          .from("product_images")
+          .remove([`product_images/${newImage}`])
+          .catch(() => {}); // Ignore errors if file doesn't exist
       }
 
       newImage = newFileName;
