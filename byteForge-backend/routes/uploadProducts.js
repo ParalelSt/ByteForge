@@ -12,7 +12,7 @@ const router = express.Router();
 // Use memory storage in production (Vercel serverless), disk storage locally
 const upload = multer({
   storage:
-    process.env.NODE_ENV === "production"
+    process.env.VERCEL || process.env.NODE_ENV === "production"
       ? multer.memoryStorage()
       : multer.diskStorage({
           destination: "uploads/",
