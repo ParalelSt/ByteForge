@@ -54,7 +54,7 @@ const ProductReviews = ({ productId }: ProductReviewsProps) => {
         const data = await response.json();
         setReviews(data);
         // Populate helpfulReviews set from server data
-        const markedReviews = new Set(
+        const markedReviews = new Set<number>(
           data
             .filter(
               (r: Review & { user_marked_helpful: number }) =>
