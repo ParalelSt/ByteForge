@@ -226,10 +226,12 @@ router.delete("/:id", async (req, res) => {
 
     const image = rows[0].image;
 
-    // Delete image from folder
+    // Delete image from Supabase Storage
     if (image) {
-      const imgPath = path.join("images/product_images", image);
-      if (fs.existsSync(imgPath)) fs.unlinkSync(imgPath);
+      await supabase.storage
+        .from("product_images")
+        .remove([`product_images/${image}`])
+        .catch(() => {}); // Ignore errors if file doesn't exist
     }
 
     const { error } = await supabase

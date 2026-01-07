@@ -6,7 +6,7 @@ import path from "path";
 
 const router = express.Router();
 
-const upload = multer({ dest: "uploads/" });
+const upload = multer({ storage: multer.memoryStorage() });
 
 router.get("/", async (req, res) => {
   try {
@@ -34,13 +34,15 @@ router.post("/", upload.single("image"), async (req, res) => {
     let imageFileName = null;
 
     if (req.file) {
-      const promoImagesDir = path.join(process.cwd(), "images/promo_images");
-      if (!fs.existsSync(promoImagesDir)) {
-        fs.mkdirSync(promoImagesDir, { recursive: true });
-      }
       const newFileName = Date.now() + ".png";
-      const outPutPath = path.join(promoImagesDir, newFileName);
-      fs.renameSync(req.file.path, outPutPath);
+      // Upload to Supabase Storage
+      const { data, error: uploadError } = await supabase.storage
+        .from("promo_images")
+        .upload(`promo_images/${newFileName}`, req.file.buffer, {
+          contentType: "image/png",
+          upsert: false,
+        });
+      if (uploadError) throw uploadError;
       imageFileName = newFileName;
     }
 
@@ -119,23 +121,22 @@ router.put("/:id", upload.single("image"), async (req, res) => {
 
     if (req.file) {
       if (existing[0].image) {
-        const oldImagePath = path.join(
-          process.cwd(),
-          "images/promo_images",
-          existing[0].image
-        );
-        if (fs.existsSync(oldImagePath)) {
-          fs.unlinkSync(oldImagePath);
-        }
+        // Delete old image from Supabase Storage
+        await supabase.storage
+          .from("promo_images")
+          .remove([`promo_images/${existing[0].image}`])
+          .catch(() => {}); // Ignore errors if file doesn't exist
       }
 
-      const promoImagesDir = path.join(process.cwd(), "images/promo_images");
-      if (!fs.existsSync(promoImagesDir)) {
-        fs.mkdirSync(promoImagesDir, { recursive: true });
-      }
       const newFileName = Date.now() + ".png";
-      const outputPath = path.join(promoImagesDir, newFileName);
-      fs.renameSync(req.file.path, outputPath);
+      // Upload to Supabase Storage
+      const { data, error: uploadError } = await supabase.storage
+        .from("promo_images")
+        .upload(`promo_images/${newFileName}`, req.file.buffer, {
+          contentType: "image/png",
+          upsert: false,
+        });
+      if (uploadError) throw uploadError;
       imageFileName = newFileName;
     }
 
@@ -177,14 +178,11 @@ router.delete("/:id", async (req, res) => {
     }
 
     if (existing[0].image) {
-      const imagePath = path.join(
-        process.cwd(),
-        "images/promo_images",
-        existing[0].image
-      );
-      if (fs.existsSync(imagePath)) {
-        fs.unlinkSync(imagePath);
-      }
+      // Delete image from Supabase Storage
+      await supabase.storage
+        .from("promo_images")
+        .remove([`promo_images/${existing[0].image}`])
+        .catch(() => {}); // Ignore errors if file doesn't exist
     }
 
     const { error } = await supabase.from("promos").delete().eq("id", promoId);

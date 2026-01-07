@@ -9,7 +9,7 @@ import supabase from "../supabase.js";
 dotenv.config();
 const router = express.Router();
 
-const upload = multer({ dest: "uploads/" });
+const upload = multer({ storage: multer.memoryStorage() });
 
 router.post("/add-product", upload.single("image"), async (req, res) => {
   try {
@@ -19,26 +19,27 @@ router.post("/add-product", upload.single("image"), async (req, res) => {
       return res.status(400).json({ error: "Name and price are required." });
     }
 
-    const inputPath = req.file.path;
-    const outputFilename = req.file.filename + ".png";
-    const outputPath = path.join("images/product_images", outputFilename);
+    const outputFilename = Date.now() + ".png";
 
     // Remove background
     const response = await axios({
       method: "post",
       url: "https://api.remove.bg/v1.0/removebg",
-      data: {
-        image_file: fs.createReadStream(inputPath),
-        size: "auto",
-      },
+      data: req.file.buffer,
       headers: {
         "X-Api-Key": process.env.REMOVE_BG_KEY,
       },
       responseType: "arraybuffer",
     });
 
-    fs.writeFileSync(outputPath, response.data);
-    fs.unlinkSync(inputPath);
+    // Upload to Supabase Storage
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from("product_images")
+      .upload(`product_images/${outputFilename}`, response.data, {
+        contentType: "image/png",
+        upsert: false,
+      });
+    if (uploadError) throw uploadError;
 
     // Insert into Supabase
     const { data, error } = await supabase
