@@ -1,7 +1,5 @@
 import express from "express";
 import axios from "axios";
-import fs from "fs";
-import path from "path";
 import multer from "multer";
 import dotenv from "dotenv";
 import supabase from "../supabase.js";
@@ -17,7 +15,9 @@ const upload = multer({ storage: multer.memoryStorage() });
 router.post("/upload-product", upload.single("image"), async (req, res) => {
   try {
     if (!req.file) {
-      return res.status(400).json({ success: false, message: "No file uploaded" });
+      return res
+        .status(400)
+        .json({ success: false, message: "No file uploaded" });
     }
 
     const filename = `${Date.now()}-${req.file.originalname}`;
