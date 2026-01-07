@@ -111,7 +111,8 @@ app.use("/products", productRoute);
 // Supabase connection test
 supabase
   .from("products")
-  .select("count")
+  .select()
+  .limit(1)
   .then(() => console.log("✅ Supabase connected successfully!"))
   .catch((err) => console.error("❌ Supabase connection failed:", err));
 
