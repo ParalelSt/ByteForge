@@ -21,7 +21,7 @@ router.get("/", async (req, res) => {
 
     // Attach discount info to products
     const productsWithDiscounts = products.map((product) => {
-      const discount = discounts.find((d) => d.productId === product.id);
+      const discount = discounts.find((d) => d.productid === product.id);
       return {
         ...product,
         discount: discount || null,
@@ -56,7 +56,7 @@ router.get("/:id", async (req, res) => {
     const { data: discounts, error: discountsError } = await supabase
       .from("discounts")
       .select("*")
-      .eq("productId", product.id)
+      .eq("productid", product.id)
       .eq("active", true)
       .limit(1);
 
@@ -109,7 +109,7 @@ router.get("/:id/recommendations", async (req, res) => {
     if (discountsError) throw discountsError;
 
     const productsWithDiscounts = recommendedProducts.map((prod) => {
-      const discount = discounts.find((d) => d.productId === prod.id);
+      const discount = discounts.find((d) => d.productid === prod.id);
       return {
         ...prod,
         discount: discount || null,

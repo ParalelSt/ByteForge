@@ -103,10 +103,10 @@ console.log("Registering /cart route");
 app.use("/cart", cartRoute);
 console.log("Registering /reviews route");
 app.use("/", reviewsRoute);
-console.log("Registering product recommendations route");
-app.use("/products", productRecommendations);
 console.log("Registering product detail route");
 app.use("/products", productRoute);
+console.log("Registering product recommendations route");
+app.use("/products", productRecommendations);
 
 // Supabase connection test
 supabase
