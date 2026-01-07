@@ -12,7 +12,7 @@ router.get("/:userId", async (req, res) => {
       .from("cart_items")
       .select(
         `
-        id as cart_item_id,
+        id,
         product_id,
         quantity,
         products(name, image, price)
@@ -24,7 +24,7 @@ router.get("/:userId", async (req, res) => {
 
     // Format response to match old format
     const formattedCart = cartItems.map((item) => ({
-      cart_item_id: item.cart_item_id,
+      cart_item_id: item.id,
       product_id: item.product_id,
       quantity: item.quantity,
       name: item.products?.name,
