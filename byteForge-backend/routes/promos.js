@@ -25,10 +25,9 @@ router.get("/promo", async (req, res) => {
 
     const promo = rows[0];
     console.log("Promo row:", promo);
-    const backendUrl = req.protocol + "://" + req.get("host");
     const imageFile = promo.image || null;
     const imageUrl = imageFile
-      ? `${backendUrl}/images/promo_images/${imageFile}`
+      ? `${process.env.SUPABASE_URL}/storage/v1/object/public/promo_images/promo_images/${imageFile}`
       : null;
     res.json({
       id: promo.id,

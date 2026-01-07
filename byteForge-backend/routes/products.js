@@ -19,11 +19,15 @@ router.get("/", async (req, res) => {
 
     if (discountsError) throw discountsError;
 
-    // Attach discount info to products
+    // Attach discount info to products and add image URLs
     const productsWithDiscounts = products.map((product) => {
       const discount = discounts.find((d) => d.productid === product.id);
+      const imageUrl = product.image
+        ? `${process.env.SUPABASE_URL}/storage/v1/object/public/product_images/product_images/${product.image}`
+        : null;
       return {
         ...product,
+        imageUrl,
         discount: discount || null,
       };
     });
