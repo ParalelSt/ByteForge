@@ -1,5 +1,5 @@
 import express from "express";
-import db from "../db.js";
+import supabase from "../supabase.js";
 
 const router = express.Router();
 
@@ -7,7 +7,12 @@ router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
-    const [rows] = await db.query("SELECT * FROM products WHERE id = ?", [id]);
+    const { data: rows, error } = await supabase
+      .from("products")
+      .select("*")
+      .eq("id", id);
+
+    if (error) throw error;
     if (!rows || rows.length === 0) {
       return res.status(404).json({ error: "Product not found" });
     }

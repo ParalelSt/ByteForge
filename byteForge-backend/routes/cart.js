@@ -1,5 +1,5 @@
 import express from "express";
-import db from "../db.js";
+import supabase from "../supabase.js";
 
 const router = express.Router();
 
@@ -8,21 +8,31 @@ router.get("/:userId", async (req, res) => {
   try {
     const { userId } = req.params;
 
-    const [cartItems] = await db.query(
-      `SELECT 
-        c.id as cart_item_id,
-        c.product_id,
-        c.quantity,
-        p.name,
-        p.image,
-        p.price
-      FROM cart_items c
-      JOIN products p ON c.product_id = p.id
-      WHERE c.user_id = ?`,
-      [userId]
-    );
+    const { data: cartItems, error } = await supabase
+      .from("cart_items")
+      .select(
+        `
+        id as cart_item_id,
+        product_id,
+        quantity,
+        products(name, image, price)
+      `
+      )
+      .eq("user_id", userId);
 
-    res.json(cartItems);
+    if (error) throw error;
+
+    // Format response to match old format
+    const formattedCart = cartItems.map((item) => ({
+      cart_item_id: item.cart_item_id,
+      product_id: item.product_id,
+      quantity: item.quantity,
+      name: item.products?.name,
+      image: item.products?.image,
+      price: item.products?.price,
+    }));
+
+    res.json(formattedCart);
   } catch (error) {
     console.error("Error fetching cart:", error);
     res.status(500).json({ error: "Failed to fetch cart items" });
@@ -39,23 +49,31 @@ router.post("/", async (req, res) => {
     }
 
     // Check if item already exists in cart
-    const [existing] = await db.query(
-      "SELECT * FROM cart_items WHERE user_id = ? AND product_id = ?",
-      [userId, productId]
-    );
+    const { data: existing, error: checkError } = await supabase
+      .from("cart_items")
+      .select("*")
+      .eq("user_id", userId)
+      .eq("product_id", productId);
 
-    if (existing.length > 0) {
+    if (checkError) throw checkError;
+
+    if (existing && existing.length > 0) {
       // Update quantity
-      await db.query(
-        "UPDATE cart_items SET quantity = quantity + ? WHERE user_id = ? AND product_id = ?",
-        [quantity, userId, productId]
-      );
+      const currentQuantity = existing[0].quantity;
+      const { error: updateError } = await supabase
+        .from("cart_items")
+        .update({ quantity: currentQuantity + quantity })
+        .eq("user_id", userId)
+        .eq("product_id", productId);
+
+      if (updateError) throw updateError;
     } else {
       // Insert new item
-      await db.query(
-        "INSERT INTO cart_items (user_id, product_id, quantity) VALUES (?, ?, ?)",
-        [userId, productId, quantity]
-      );
+      const { error: insertError } = await supabase
+        .from("cart_items")
+        .insert([{ user_id: userId, product_id: productId, quantity }]);
+
+      if (insertError) throw insertError;
     }
 
     res.json({ success: true, message: "Item added to cart" });
@@ -73,15 +91,21 @@ router.patch("/:userId/:productId", async (req, res) => {
 
     if (quantity < 1) {
       // If quantity is 0 or negative, delete the item
-      await db.query(
-        "DELETE FROM cart_items WHERE user_id = ? AND product_id = ?",
-        [userId, productId]
-      );
+      const { error } = await supabase
+        .from("cart_items")
+        .delete()
+        .eq("user_id", userId)
+        .eq("product_id", productId);
+
+      if (error) throw error;
     } else {
-      await db.query(
-        "UPDATE cart_items SET quantity = ? WHERE user_id = ? AND product_id = ?",
-        [quantity, userId, productId]
-      );
+      const { error } = await supabase
+        .from("cart_items")
+        .update({ quantity })
+        .eq("user_id", userId)
+        .eq("product_id", productId);
+
+      if (error) throw error;
     }
 
     res.json({ success: true, message: "Cart updated" });
@@ -96,7 +120,12 @@ router.delete("/clear/:userId", async (req, res) => {
   try {
     const { userId } = req.params;
 
-    await db.query("DELETE FROM cart_items WHERE user_id = ?", [userId]);
+    const { error } = await supabase
+      .from("cart_items")
+      .delete()
+      .eq("user_id", userId);
+
+    if (error) throw error;
 
     res.json({ success: true, message: "Cart cleared" });
   } catch (error) {
@@ -110,10 +139,13 @@ router.delete("/:userId/:productId", async (req, res) => {
   try {
     const { userId, productId } = req.params;
 
-    await db.query(
-      "DELETE FROM cart_items WHERE user_id = ? AND product_id = ?",
-      [userId, productId]
-    );
+    const { error } = await supabase
+      .from("cart_items")
+      .delete()
+      .eq("user_id", userId)
+      .eq("product_id", productId);
+
+    if (error) throw error;
 
     res.json({ success: true, message: "Item removed from cart" });
   } catch (error) {

@@ -21,11 +21,14 @@ const AdminDashboard = () => {
 
   const handleLogin = async () => {
     try {
-      const res = await fetch("http://192.168.1.105:3000/admin/admin-login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ password: adminPassword }),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/admin/admin-login`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ password: adminPassword }),
+        }
+      );
 
       const data = await res.json();
 

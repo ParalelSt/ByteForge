@@ -42,9 +42,8 @@ export const ReviewProvider: React.FC<{ children: React.ReactNode }> = ({
     try {
       setLoading(true);
       setError(null);
-      const response = await fetch(
-        `http://192.168.1.105:3000/products/${productId}/reviews`
-      );
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const response = await fetch(`${apiUrl}/products/${productId}/reviews`);
       if (!response.ok) throw new Error("Failed to fetch reviews");
       const data = await response.json();
       setReviews(data);
@@ -64,7 +63,8 @@ export const ReviewProvider: React.FC<{ children: React.ReactNode }> = ({
     text: string
   ) => {
     try {
-      const response = await fetch("http://192.168.1.105:3000/reviews", {
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const response = await fetch(`${apiUrl}/reviews`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -85,10 +85,10 @@ export const ReviewProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const updateHelpful = async (reviewId: number) => {
     try {
-      const response = await fetch(
-        `http://192.168.1.105:3000/reviews/${reviewId}/helpful`,
-        { method: "PATCH" }
-      );
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const response = await fetch(`${apiUrl}/reviews/${reviewId}/helpful`, {
+        method: "PATCH",
+      });
       if (!response.ok) throw new Error("Failed to update helpful count");
       setReviews(
         reviews.map((r) =>
@@ -102,14 +102,12 @@ export const ReviewProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const deleteReview = async (reviewId: number, userId: number) => {
     try {
-      const response = await fetch(
-        `http://192.168.1.105:3000/reviews/${reviewId}`,
-        {
-          method: "DELETE",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ user_id: userId }),
-        }
-      );
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const response = await fetch(`${apiUrl}/reviews/${reviewId}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_id: userId }),
+      });
       if (!response.ok) throw new Error("Failed to delete review");
       setReviews(reviews.filter((r) => r.id !== reviewId));
     } catch (err) {

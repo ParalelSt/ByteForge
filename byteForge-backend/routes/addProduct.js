@@ -4,7 +4,7 @@ import axios from "axios";
 import fs from "fs";
 import path from "path";
 import dotenv from "dotenv";
-import db from "../db.js";
+import supabase from "../supabase.js";
 
 dotenv.config();
 const router = express.Router();
@@ -40,23 +40,27 @@ router.post("/add-product", upload.single("image"), async (req, res) => {
     fs.writeFileSync(outputPath, response.data);
     fs.unlinkSync(inputPath);
 
-    // Insert into MySQL
-    const [result] = await db.execute(
-      "INSERT INTO products (name, description, price, image, category, subcategory) VALUES (?, ?, ?, ?, ?, ?)",
-      [
-        name,
-        description ?? "",
-        price,
-        outputFilename,
-        category ?? "",
-        subcategory ?? "",
-      ]
-    );
+    // Insert into Supabase
+    const { data, error } = await supabase
+      .from("products")
+      .insert([
+        {
+          name,
+          description: description ?? "",
+          price,
+          image: outputFilename,
+          category: category ?? "",
+          subcategory: subcategory ?? "",
+        },
+      ])
+      .select();
+
+    if (error) throw error;
 
     return res.json({
       success: true,
       product: {
-        id: result.insertId,
+        id: data[0].id,
         name,
         description,
         price,

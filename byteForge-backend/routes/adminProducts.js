@@ -3,7 +3,7 @@ import multer from "multer";
 import fs from "fs";
 import path from "path";
 import axios from "axios";
-import db from "../db.js";
+import supabase from "../supabase.js";
 import dotenv from "dotenv";
 import FormData from "form-data";
 
@@ -64,22 +64,26 @@ router.post("/", upload.single("image"), async (req, res) => {
       imageFilename = newFileName;
     }
 
-    const [result] = await db.query(
-      "INSERT INTO products (name, description, price, image, category, subcategory) VALUES (?, ?, ?, ?, ?, ?)",
-      [
-        name,
-        description ?? "",
-        price,
-        imageFilename,
-        category ?? null,
-        subcategory ?? null,
-      ]
-    );
+    const { data, error } = await supabase
+      .from("products")
+      .insert([
+        {
+          name,
+          description: description ?? "",
+          price,
+          image: imageFilename,
+          category: category ?? null,
+          subcategory: subcategory ?? null,
+        },
+      ])
+      .select();
+
+    if (error) throw error;
 
     res.json({
       success: true,
       message: "Product created",
-      productId: result.insertId,
+      productId: data[0].id,
     });
   } catch (err) {
     console.error(err);
@@ -94,7 +98,12 @@ router.post("/", upload.single("image"), async (req, res) => {
 */
 router.get("/", async (req, res) => {
   try {
-    const [rows] = await db.query("SELECT * FROM products ORDER BY id DESC");
+    const { data: rows, error } = await supabase
+      .from("products")
+      .select("*")
+      .order("id", { ascending: false });
+
+    if (error) throw error;
     res.json(rows);
   } catch (err) {
     console.error(err);
@@ -109,11 +118,14 @@ router.get("/", async (req, res) => {
 */
 router.get("/:id", async (req, res) => {
   try {
-    const [rows] = await db.query("SELECT * FROM products WHERE id = ?", [
-      req.params.id,
-    ]);
+    const { data: rows, error } = await supabase
+      .from("products")
+      .select("*")
+      .eq("id", req.params.id);
 
-    if (rows.length === 0)
+    if (error) throw error;
+
+    if (!rows || rows.length === 0)
       return res.status(404).json({ error: "Product not found" });
 
     res.json(rows[0]);
@@ -136,12 +148,14 @@ router.put("/:id", upload.single("image"), async (req, res) => {
     const productId = req.params.id;
 
     // Fetch old image
-    const [oldProduct] = await db.query(
-      "SELECT image FROM products WHERE id = ?",
-      [productId]
-    );
+    const { data: oldProduct, error: fetchError } = await supabase
+      .from("products")
+      .select("image")
+      .eq("id", productId);
 
-    if (!oldProduct.length)
+    if (fetchError) throw fetchError;
+
+    if (!oldProduct || oldProduct.length === 0)
       return res.status(404).json({ error: "Product not found" });
 
     let newImage = oldProduct[0].image;
@@ -162,18 +176,19 @@ router.put("/:id", upload.single("image"), async (req, res) => {
       newImage = newFileName;
     }
 
-    await db.query(
-      "UPDATE products SET name = ?, description = ?, price = ?, image = ?, category = ?, subcategory = ? WHERE id = ?",
-      [
+    const { error } = await supabase
+      .from("products")
+      .update({
         name,
         description,
         price,
-        newImage,
-        category ?? null,
-        subcategory ?? null,
-        productId,
-      ]
-    );
+        image: newImage,
+        category: category ?? null,
+        subcategory: subcategory ?? null,
+      })
+      .eq("id", productId);
+
+    if (error) throw error;
 
     res.json({ success: true, message: "Product updated" });
   } catch (err) {
@@ -193,11 +208,14 @@ router.delete("/:id", async (req, res) => {
   try {
     const productId = req.params.id;
 
-    const [rows] = await db.query("SELECT image FROM products WHERE id = ?", [
-      productId,
-    ]);
+    const { data: rows, error: fetchError } = await supabase
+      .from("products")
+      .select("image")
+      .eq("id", productId);
 
-    if (!rows.length)
+    if (fetchError) throw fetchError;
+
+    if (!rows || !rows.length)
       return res.status(404).json({ error: "Product not found" });
 
     const image = rows[0].image;
@@ -208,7 +226,12 @@ router.delete("/:id", async (req, res) => {
       if (fs.existsSync(imgPath)) fs.unlinkSync(imgPath);
     }
 
-    await db.query("DELETE FROM products WHERE id = ?", [productId]);
+    const { error } = await supabase
+      .from("products")
+      .delete()
+      .eq("id", productId);
+
+    if (error) throw error;
 
     res.json({ success: true, message: "Product deleted" });
   } catch (err) {
@@ -233,14 +256,12 @@ router.patch("/:id/featured", async (req, res) => {
       return res.status(400).json({ error: "Featured must be a boolean" });
     }
 
-    const [result] = await db.query(
-      "UPDATE products SET featured = ? WHERE id = ?",
-      [featured, productId]
-    );
+    const { error } = await supabase
+      .from("products")
+      .update({ featured })
+      .eq("id", productId);
 
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ error: "Product not found" });
-    }
+    if (error) throw error;
 
     res.json({ success: true, message: "Featured status updated", featured });
   } catch (err) {

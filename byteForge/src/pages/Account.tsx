@@ -18,9 +18,8 @@ const Account = () => {
 
     const fetchOrders = async () => {
       try {
-        const response = await fetch(
-          `http://192.168.1.105:3000/orders/${user.id}`
-        );
+        const apiUrl = import.meta.env.VITE_API_URL;
+        const response = await fetch(`${apiUrl}/orders/${user.id}`);
         const data = await response.json();
         setOrders(data);
         setProfilePicture(user.name[0]);

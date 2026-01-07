@@ -29,7 +29,8 @@ const AdminPromo = () => {
           if (image) formData.append("image", image);
 
           try {
-            const res = await fetch("http://192.168.1.105:3000/admin/promos", {
+            const apiUrl = import.meta.env.VITE_API_URL;
+            const res = await fetch(`${apiUrl}/admin/promos`, {
               method: "POST",
               body: formData,
             });

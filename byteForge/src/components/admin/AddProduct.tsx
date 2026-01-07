@@ -60,10 +60,13 @@ const AddProduct = ({ onProductAdded }: AddProductProps) => {
         hasImage: !!image,
       });
 
-      const res = await fetch("http://192.168.1.105:3000/admin/products", {
-        method: "POST",
-        body: formData,
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/admin/products`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       console.log("Response status:", res.status);
       const data = await res.json();

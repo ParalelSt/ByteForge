@@ -1,6 +1,8 @@
 import express from "express";
 import multer from "multer";
-import db from "../db.js";
+import supabase from "../supabase.js";
+import fs from "fs";
+import path from "path";
 
 const router = express.Router();
 
@@ -8,18 +10,18 @@ const upload = multer({ dest: "uploads/" });
 
 router.get("/", async (req, res) => {
   try {
-    const [rows] = await db.query(
-      "SELECT * FROM promos ORDER BY created_at DESC"
-    );
+    const { data: rows, error } = await supabase
+      .from("promos")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
     res.json(rows);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Failed to fetch promos" });
   }
 });
-
-import fs from "fs";
-import path from "path";
 
 router.post("/", upload.single("image"), async (req, res) => {
   try {
@@ -42,17 +44,29 @@ router.post("/", upload.single("image"), async (req, res) => {
       imageFileName = newFileName;
     }
 
-    await db.query("UPDATE promos SET is_active = FALSE");
+    // Deactivate all other promos
+    await supabase.from("promos").update({ is_active: false }).neq("id", 0);
 
-    const [result] = await db.query(
-      "INSERT INTO promos (title, description, image, link, is_active, created_at) VALUES (?, ?, ?, ?, TRUE, NOW())",
-      [title, description, imageFileName, link]
-    );
+    const { data: result, error } = await supabase
+      .from("promos")
+      .insert([
+        {
+          title,
+          description,
+          image: imageFileName,
+          link,
+          is_active: true,
+          created_at: new Date().toISOString(),
+        },
+      ])
+      .select();
+
+    if (error) throw error;
 
     res.json({
       success: true,
       message: "Promo created and set as active",
-      promoId: result.insertId,
+      promoId: result[0].id,
     });
   } catch (err) {
     console.error(err);
@@ -64,12 +78,18 @@ router.patch("/:id/activate", async (req, res) => {
   try {
     const promoId = req.params.id;
 
-    await db.query("UPDATE promos SET is_active = FALSE");
-    const [result] = await db.query(
-      "UPDATE promos SET is_active = TRUE WHERE id = ?",
-      [promoId]
-    );
-    if (result.affectedRows === 0) {
+    // Deactivate all
+    await supabase.from("promos").update({ is_active: false }).neq("id", 0);
+
+    // Activate this one
+    const { data, error } = await supabase
+      .from("promos")
+      .update({ is_active: true })
+      .eq("id", promoId)
+      .select();
+
+    if (error) throw error;
+    if (!data || data.length === 0) {
       return res.status(404).json({ error: "Promo not found" });
     }
 
@@ -83,13 +103,15 @@ router.patch("/:id/activate", async (req, res) => {
 router.put("/:id", upload.single("image"), async (req, res) => {
   try {
     const promoId = req.params.id;
-
     const { title, description, link } = req.body;
 
-    const [existing] = await db.query("SELECT * FROM promos WHERE id = ?", [
-      promoId,
-    ]);
-    if (existing.length === 0) {
+    const { data: existing, error: fetchError } = await supabase
+      .from("promos")
+      .select("*")
+      .eq("id", promoId);
+
+    if (fetchError) throw fetchError;
+    if (!existing || existing.length === 0) {
       return res.status(404).json({ error: "Promo not found" });
     }
 
@@ -117,10 +139,17 @@ router.put("/:id", upload.single("image"), async (req, res) => {
       imageFileName = newFileName;
     }
 
-    await db.query(
-      "UPDATE promos SET title = ?, description = ?, image = ?, link = ? WHERE id = ?",
-      [title, description, imageFileName, link, promoId]
-    );
+    const { error } = await supabase
+      .from("promos")
+      .update({
+        title,
+        description,
+        image: imageFileName,
+        link,
+      })
+      .eq("id", promoId);
+
+    if (error) throw error;
 
     res.json({
       success: true,
@@ -137,10 +166,13 @@ router.delete("/:id", async (req, res) => {
   try {
     const promoId = req.params.id;
 
-    const [existing] = await db.query("SELECT * FROM promos WHERE id = ?", [
-      promoId,
-    ]);
-    if (existing.length === 0) {
+    const { data: existing, error: fetchError } = await supabase
+      .from("promos")
+      .select("*")
+      .eq("id", promoId);
+
+    if (fetchError) throw fetchError;
+    if (!existing || existing.length === 0) {
       return res.status(404).json({ error: "Promo not found" });
     }
 
@@ -155,7 +187,9 @@ router.delete("/:id", async (req, res) => {
       }
     }
 
-    await db.query("DELETE FROM promos WHERE id = ?", [promoId]);
+    const { error } = await supabase.from("promos").delete().eq("id", promoId);
+
+    if (error) throw error;
 
     res.json({ success: true, message: "Promo deleted successfully" });
   } catch (error) {

@@ -1,5 +1,6 @@
 export async function fetchProducts() {
-  const response = await fetch("http://192.168.1.105:3000/products");
+  const apiUrl = import.meta.env.VITE_API_URL;
+  const response = await fetch(`${apiUrl}/products`);
   if (!response.ok) {
     throw new Error("Failed to fetch products");
   }

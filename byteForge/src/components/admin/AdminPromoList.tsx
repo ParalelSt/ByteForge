@@ -25,7 +25,8 @@ const AdminPromoList = () => {
   const fetchPromos = async () => {
     try {
       setLoading(true);
-      const res = await fetch("http://192.168.1.105:3000/admin/promos");
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const res = await fetch(`${apiUrl}/admin/promos`);
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to load promos");
       setPromos(data);
@@ -54,12 +55,10 @@ const AdminPromoList = () => {
 
   const handleActivate = async (id: number) => {
     try {
-      const res = await fetch(
-        `http://192.168.1.105:3000/admin/promos/${id}/activate`,
-        {
-          method: "PATCH",
-        }
-      );
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const res = await fetch(`${apiUrl}/admin/promos/${id}/activate`, {
+        method: "PATCH",
+      });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to activate promo");
       fetchPromos();
@@ -105,7 +104,8 @@ const AdminPromoList = () => {
       formData.append("link", editLink);
       if (editImage) formData.append("image", editImage);
 
-      const res = await fetch(`http://192.168.1.105:3000/admin/promos/${id}`, {
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const res = await fetch(`${apiUrl}/admin/promos/${id}`, {
         method: "PUT",
         body: formData,
       });
@@ -129,7 +129,8 @@ const AdminPromoList = () => {
     if (!window.confirm("Are you sure you want to delete this promo?")) return;
 
     try {
-      const res = await fetch(`http://192.168.1.105:3000/admin/promos/${id}`, {
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const res = await fetch(`${apiUrl}/admin/promos/${id}`, {
         method: "DELETE",
       });
 

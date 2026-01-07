@@ -18,7 +18,8 @@ const Promo = () => {
   useEffect(() => {
     let isMounted = true;
     const fetchPromo = () => {
-      fetch("http://192.168.1.105:3000/promos/promo")
+      const apiUrl = import.meta.env.VITE_API_URL;
+      fetch(`${apiUrl}/promos/promo`)
         .then((res) => {
           if (!res.ok) throw new Error("Failed to fetch promo");
           return res.json();

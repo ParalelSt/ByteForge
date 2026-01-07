@@ -1,14 +1,20 @@
 import express from "express";
-import db from "../db.js";
+import supabase from "../supabase.js";
 
 const router = express.Router();
 
 router.get("/promo", async (req, res) => {
   console.log("Received GET /promos/promo");
   try {
-    const [rows] = await db.query(
-      "SELECT * FROM promos WHERE is_active = 1 ORDER BY created_at DESC LIMIT 1"
-    );
+    const { data: rows, error } = await supabase
+      .from("promos")
+      .select("*")
+      .eq("is_active", true)
+      .order("created_at", { ascending: false })
+      .limit(1);
+
+    if (error) throw error;
+
     console.log(
       "Promos query rows length:",
       Array.isArray(rows) ? rows.length : "non-array"

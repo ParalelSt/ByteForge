@@ -27,7 +27,7 @@ const ContactContent = () => {
     }
 
     try {
-      const res = await fetch("http://192.168.1.105:3000/contact", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, subject, messageContent }),

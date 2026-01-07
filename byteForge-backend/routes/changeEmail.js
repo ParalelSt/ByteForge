@@ -1,5 +1,5 @@
 import express from "express";
-import db from "../db.js";
+import supabase from "../supabase.js";
 import bcrypt from "bcryptjs";
 
 const router = express.Router();
@@ -20,27 +20,30 @@ router.put("/", async (req, res) => {
       });
     }
 
-    const [rows] = await db.query(
-      "SELECT email, password FROM users WHERE id = ?",
-      [user_id]
-    );
+    // Get user by id
+    const { data: users, error: getUserError } = await supabase
+      .from("users")
+      .select("email, password")
+      .eq("id", user_id)
+      .limit(1);
 
-    if (!rows.length) {
+    if (getUserError) throw getUserError;
+
+    if (!users || users.length === 0) {
       return res.status(404).json({
         message: "User not found",
       });
     }
 
-    if (rows[0].email !== currentEmail) {
+    const user = users[0];
+
+    if (user.email !== currentEmail) {
       return res.status(400).json({
         message: "Current email does not match the old email",
       });
     }
 
-    const passwordMatch = await bcrypt.compare(
-      currentPassword,
-      rows[0].password
-    );
+    const passwordMatch = await bcrypt.compare(currentPassword, user.password);
     if (!passwordMatch) {
       return res.status(401).json({ message: "Incorrect password" });
     }
@@ -51,21 +54,28 @@ router.put("/", async (req, res) => {
       });
     }
 
-    const [existingEmail] = await db.query(
-      "SELECT id FROM users WHERE email = ?",
-      [newEmail]
-    );
+    // Check if new email already exists
+    const { data: existingEmail, error: checkEmailError } = await supabase
+      .from("users")
+      .select("id")
+      .eq("email", newEmail)
+      .limit(1);
 
-    if (existingEmail > 0) {
+    if (checkEmailError) throw checkEmailError;
+
+    if (existingEmail && existingEmail.length > 0) {
       return res.status(400).json({
         message: "Email already in use",
       });
     }
 
-    await db.query("UPDATE users SET email = ? WHERE id = ?", [
-      newEmail,
-      user_id,
-    ]);
+    // Update email
+    const { error: updateError } = await supabase
+      .from("users")
+      .update({ email: newEmail })
+      .eq("id", user_id);
+
+    if (updateError) throw updateError;
 
     res.json({
       message: "Email changed successfully",

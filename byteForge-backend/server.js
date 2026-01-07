@@ -4,7 +4,7 @@ import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
 
-import db from "./db.js";
+import supabase from "./supabase.js";
 import productsRoute from "./routes/products.js";
 import productUpload from "./routes/uploadProducts.js";
 import adminRoutes from "./routes/admin.js";
@@ -108,10 +108,12 @@ app.use("/products", productRecommendations);
 console.log("Registering product detail route");
 app.use("/products", productRoute);
 
-// DB connection test
-db.query("SELECT 1")
-  .then(() => console.log("✅ Database connected successfully!"))
-  .catch((err) => console.error("❌ Database connection failed:", err));
+// Supabase connection test
+supabase
+  .from("products")
+  .select("count")
+  .then(() => console.log("✅ Supabase connected successfully!"))
+  .catch((err) => console.error("❌ Supabase connection failed:", err));
 
 // Global error handler (always returns JSON)
 app.use((err, req, res, next) => {

@@ -1,5 +1,5 @@
 import express from "express";
-import db from "../db.js";
+import supabase from "../supabase.js";
 import bcrypt from "bcryptjs";
 
 const router = express.Router();
@@ -22,26 +22,21 @@ router.put("/", async (req, res) => {
       });
     }
 
-    const [rows] = await db.query("SELECT password FROM users WHERE id = ?", [
-      user_id,
-    ]);
-    if (!rows.length) {
+    // Get user
+    const { data: users, error: getUserError } = await supabase
+      .from("users")
+      .select("password")
+      .eq("id", user_id)
+      .limit(1);
+
+    if (getUserError) throw getUserError;
+
+    if (!users || users.length === 0) {
       return res.status(404).json({ message: "Failed to find user" });
     }
 
-    const [existingPassword] = await db.query(
-      "SELECT id FROM users WHERE password = ?",
-      [newPassword]
-    );
-
-    if (existingPassword > 0) {
-      return res.status(400).json({
-        message: "New password can not be the same as the old password",
-      });
-    }
-
-    const ok = await bcrypt.compare(oldPassword, rows[0].password);
-
+    // Check if new password is the same as old password
+    const ok = await bcrypt.compare(oldPassword, users[0].password);
     if (!ok) {
       return res.status(401).json({
         message:
@@ -49,12 +44,16 @@ router.put("/", async (req, res) => {
       });
     }
 
+    // Hash new password
     const hashed = await bcrypt.hash(newPassword, 10);
 
-    await db.execute("UPDATE users SET password = ? WHERE id = ?", [
-      hashed,
-      user_id,
-    ]);
+    // Update password
+    const { error: updateError } = await supabase
+      .from("users")
+      .update({ password: hashed })
+      .eq("id", user_id);
+
+    if (updateError) throw updateError;
 
     res.json({ message: "Password changed successfully" });
   } catch (error) {

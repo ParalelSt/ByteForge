@@ -23,13 +23,15 @@ const AdminDiscounts = () => {
   }, []);
 
   const fetchProducts = async () => {
-    const res = await fetch("http://192.168.1.105:3000/admin/products");
+    const apiUrl = import.meta.env.VITE_API_URL;
+    const res = await fetch(`${apiUrl}/admin/products`);
     const data = await res.json();
     setProducts(data.map((p: any) => ({ id: p.id, name: p.name })));
   };
 
   const fetchDiscounts = async () => {
-    const res = await fetch("http://192.168.1.105:3000/admin/discounts");
+    const apiUrl = import.meta.env.VITE_API_URL;
+    const res = await fetch(`${apiUrl}/admin/discounts`);
     const data = await res.json();
     setDiscounts(data);
   };
@@ -39,7 +41,8 @@ const AdminDiscounts = () => {
     setLoading(true);
     setMessage("");
     try {
-      const res = await fetch("http://192.168.1.105:3000/admin/discounts", {
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const res = await fetch(`${apiUrl}/admin/discounts`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -62,7 +65,8 @@ const AdminDiscounts = () => {
   };
 
   const handleToggleActive = async (id: number, active: boolean) => {
-    await fetch(`http://192.168.1.105:3000/admin/discounts/${id}/active`, {
+    const apiUrl = import.meta.env.VITE_API_URL;
+    await fetch(`${apiUrl}/admin/discounts/${id}/active`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ active: !active }),
@@ -72,7 +76,8 @@ const AdminDiscounts = () => {
 
   const handleDelete = async (id: number) => {
     if (!window.confirm("Delete this discount?")) return;
-    await fetch(`http://192.168.1.105:3000/admin/discounts/${id}`, {
+    const apiUrl = import.meta.env.VITE_API_URL;
+    await fetch(`${apiUrl}/admin/discounts/${id}`, {
       method: "DELETE",
     });
     fetchDiscounts();

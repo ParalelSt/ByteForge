@@ -1,5 +1,5 @@
 import express from "express";
-import db from "../db.js";
+import supabase from "../supabase.js";
 
 const router = express.Router();
 
@@ -10,35 +10,58 @@ router.get("/products/:productId/reviews", async (req, res) => {
     const { userId } = req.query;
     console.log(`Fetching reviews for product: ${productId}`);
 
-    const query = `
-      SELECT 
-        r.id,
-        r.product_id,
-        r.user_id,
-        r.rating,
-        r.title,
-        r.text,
-        r.helpful_count,
-        r.created_at,
-        COALESCE(u.name, u.email) as username,
-        NULL as profile_image,
-        CASE 
-          WHEN rh.user_id IS NOT NULL THEN 1 
-          ELSE 0 
-        END as user_marked_helpful
-      FROM reviews r
-      JOIN users u ON r.user_id = u.id
-      LEFT JOIN review_helpful rh ON r.id = rh.review_id AND rh.user_id = ?
-      WHERE r.product_id = ?
-      ORDER BY r.created_at DESC
-    `;
+    // Fetch reviews with user info
+    const { data: reviews, error: reviewsError } = await supabase
+      .from("reviews")
+      .select(
+        `
+        id,
+        product_id,
+        user_id,
+        rating,
+        title,
+        text,
+        helpful_count,
+        created_at,
+        users(name, email)
+      `
+      )
+      .eq("product_id", productId)
+      .order("created_at", { ascending: false });
 
-    const connection = await db.getConnection();
-    const [reviews] = await connection.query(query, [userId || 0, productId]);
-    connection.release();
+    if (reviewsError) throw reviewsError;
 
-    console.log(`Found ${reviews.length} reviews for product ${productId}`);
-    res.json(reviews);
+    // Check which reviews are marked as helpful by current user
+    let userHelpfulReviews = [];
+    if (userId) {
+      const { data: helpful, error: helpfulError } = await supabase
+        .from("review_helpful")
+        .select("review_id")
+        .eq("user_id", userId);
+      if (!helpfulError) {
+        userHelpfulReviews = helpful.map((h) => h.review_id);
+      }
+    }
+
+    // Format response to match MySQL version
+    const formattedReviews = reviews.map((review) => ({
+      id: review.id,
+      product_id: review.product_id,
+      user_id: review.user_id,
+      rating: review.rating,
+      title: review.title,
+      text: review.text,
+      helpful_count: review.helpful_count,
+      created_at: review.created_at,
+      username: review.users?.name || review.users?.email,
+      profile_image: null,
+      user_marked_helpful: userHelpfulReviews.includes(review.id) ? 1 : 0,
+    }));
+
+    console.log(
+      `Found ${formattedReviews.length} reviews for product ${productId}`
+    );
+    res.json(formattedReviews);
   } catch (error) {
     console.error("Error fetching reviews:", error);
     res
@@ -56,30 +79,23 @@ router.post("/reviews", async (req, res) => {
       return res.status(400).json({ message: "Missing required fields" });
     }
 
-    const query = `
-      INSERT INTO reviews (product_id, user_id, rating, title, text)
-      VALUES (?, ?, ?, ?, ?)
-    `;
+    const { data: newReview, error } = await supabase
+      .from("reviews")
+      .insert([{ product_id, user_id, rating, title, text }])
+      .select();
 
-    const connection = await db.getConnection();
-    const [result] = await connection.query(query, [
-      product_id,
-      user_id,
-      rating,
-      title,
-      text,
-    ]);
-    connection.release();
+    if (error) throw error;
 
+    const review = newReview[0];
     res.status(201).json({
-      id: result.insertId,
-      product_id,
-      user_id,
-      rating,
-      title,
-      text,
-      helpful_count: 0,
-      created_at: new Date(),
+      id: review.id,
+      product_id: review.product_id,
+      user_id: review.user_id,
+      rating: review.rating,
+      title: review.title,
+      text: review.text,
+      helpful_count: review.helpful_count || 0,
+      created_at: review.created_at,
     });
   } catch (error) {
     console.error("Error creating review:", error);
@@ -97,37 +113,61 @@ router.patch("/reviews/:reviewId/helpful", async (req, res) => {
       return res.status(400).json({ message: "userId is required" });
     }
 
-    const connection = await db.getConnection();
-
     // Check if user already marked this review as helpful
-    const [existing] = await connection.query(
-      "SELECT id FROM review_helpful WHERE review_id = ? AND user_id = ?",
-      [reviewId, userId]
-    );
+    const { data: existing, error: checkError } = await supabase
+      .from("review_helpful")
+      .select("id")
+      .eq("review_id", reviewId)
+      .eq("user_id", userId);
 
-    if (existing.length > 0) {
+    if (checkError) throw checkError;
+
+    if (existing && existing.length > 0) {
       // User already marked - remove the mark
-      await connection.query(
-        "DELETE FROM review_helpful WHERE review_id = ? AND user_id = ?",
-        [reviewId, userId]
-      );
-      await connection.query(
-        "UPDATE reviews SET helpful_count = helpful_count - 1 WHERE id = ?",
-        [reviewId]
-      );
+      const { error: deleteError } = await supabase
+        .from("review_helpful")
+        .delete()
+        .eq("review_id", reviewId)
+        .eq("user_id", userId);
+      if (deleteError) throw deleteError;
+
+      // Get current helpful_count
+      const { data: review, error: getError } = await supabase
+        .from("reviews")
+        .select("helpful_count")
+        .eq("id", reviewId)
+        .limit(1);
+      if (getError) throw getError;
+
+      const currentCount = review[0]?.helpful_count || 0;
+      const { error: updateError } = await supabase
+        .from("reviews")
+        .update({ helpful_count: Math.max(0, currentCount - 1) })
+        .eq("id", reviewId);
+      if (updateError) throw updateError;
     } else {
       // User hasn't marked - add the mark
-      await connection.query(
-        "INSERT INTO review_helpful (review_id, user_id) VALUES (?, ?)",
-        [reviewId, userId]
-      );
-      await connection.query(
-        "UPDATE reviews SET helpful_count = helpful_count + 1 WHERE id = ?",
-        [reviewId]
-      );
+      const { error: insertError } = await supabase
+        .from("review_helpful")
+        .insert([{ review_id: reviewId, user_id: userId }]);
+      if (insertError) throw insertError;
+
+      // Get current helpful_count
+      const { data: review, error: getError } = await supabase
+        .from("reviews")
+        .select("helpful_count")
+        .eq("id", reviewId)
+        .limit(1);
+      if (getError) throw getError;
+
+      const currentCount = review[0]?.helpful_count || 0;
+      const { error: updateError } = await supabase
+        .from("reviews")
+        .update({ helpful_count: currentCount + 1 })
+        .eq("id", reviewId);
+      if (updateError) throw updateError;
     }
 
-    connection.release();
     res.json({ message: "Helpful count updated" });
   } catch (error) {
     console.error("Error updating helpful count:", error);
@@ -142,18 +182,23 @@ router.delete("/reviews/:reviewId", async (req, res) => {
     const { user_id } = req.body;
 
     // Check if user is the review author
-    const checkQuery = "SELECT user_id FROM reviews WHERE id = ?";
-    const connection = await db.getConnection();
-    const [review] = await connection.query(checkQuery, [reviewId]);
+    const { data: review, error: getError } = await supabase
+      .from("reviews")
+      .select("user_id")
+      .eq("id", reviewId)
+      .limit(1);
 
-    if (!review.length || review[0].user_id !== user_id) {
-      connection.release();
+    if (getError) throw getError;
+    if (!review || review.length === 0 || review[0].user_id !== user_id) {
       return res.status(403).json({ message: "Unauthorized" });
     }
 
-    const deleteQuery = "DELETE FROM reviews WHERE id = ?";
-    await connection.query(deleteQuery, [reviewId]);
-    connection.release();
+    const { error: deleteError } = await supabase
+      .from("reviews")
+      .delete()
+      .eq("id", reviewId);
+
+    if (deleteError) throw deleteError;
 
     res.json({ message: "Review deleted successfully" });
   } catch (error) {

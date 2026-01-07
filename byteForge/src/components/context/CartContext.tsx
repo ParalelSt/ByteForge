@@ -24,7 +24,7 @@ interface CartContextValue {
   updateItemQuantity: (id: CartItem["id"], newQuantity: number) => void;
 }
 
-const API_URL = "http://192.168.1.105:3000";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const STORAGE_KEY = "byteforge:cart";

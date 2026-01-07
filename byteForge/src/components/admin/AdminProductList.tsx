@@ -55,7 +55,8 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
   // Fetch discounts
   const fetchDiscounts = async () => {
     try {
-      const res = await fetch("http://192.168.1.105:3000/admin/discounts");
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const res = await fetch(`${apiUrl}/admin/discounts`);
       if (!res.ok) {
         console.error("Failed to fetch discounts:", res.status);
         return;
@@ -76,7 +77,8 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
     setDiscountLoading(true);
     setDiscountMessage("");
     try {
-      const res = await fetch("http://192.168.1.105:3000/admin/discounts", {
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const res = await fetch(`${apiUrl}/admin/discounts`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -131,7 +133,8 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const res = await fetch("http://192.168.1.105:3000/admin/products");
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const res = await fetch(`${apiUrl}/admin/products`);
       const data = await res.json();
 
       if (!res.ok) {
@@ -172,12 +175,10 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
     if (!confirm("Delete this product?")) return;
 
     try {
-      const res = await fetch(
-        `http://192.168.1.105:3000/admin/products/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const res = await fetch(`${apiUrl}/admin/products/${id}`, {
+        method: "DELETE",
+      });
 
       const data = await res.json();
 
@@ -232,7 +233,7 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
       }
 
       const res = await fetch(
-        `http://192.168.1.105:3000/admin/products/${id}`,
+        `${import.meta.env.VITE_API_URL}/admin/products/${id}`,
         {
           method: "PUT",
           body: formData,
@@ -255,14 +256,12 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
 
   const handleToggleFeatured = async (id: number, currentFeatured: boolean) => {
     try {
-      const res = await fetch(
-        `http://192.168.1.105:3000/admin/products/${id}/featured`,
-        {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ featured: !currentFeatured }),
-        }
-      );
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const res = await fetch(`${apiUrl}/admin/products/${id}/featured`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ featured: !currentFeatured }),
+      });
 
       const data = await res.json();
 

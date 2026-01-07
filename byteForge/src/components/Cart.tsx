@@ -40,7 +40,7 @@ const Cart = ({ cartOpen, setCartOpen }: CartProps) => {
         price: item.price,
       }));
 
-      const response = await fetch("http://192.168.1.105:3000/orders", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/orders`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user_id: user.id, items }),

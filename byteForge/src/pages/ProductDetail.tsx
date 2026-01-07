@@ -83,9 +83,8 @@ const ProductDetail = () => {
     const fetchProduct = async () => {
       try {
         setProductLoading(true);
-        const response = await fetch(
-          `http://192.168.1.105:3000/products/${id}`
-        );
+        const apiUrl = import.meta.env.VITE_API_URL;
+        const response = await fetch(`${apiUrl}/products/${id}`);
 
         if (!response.ok) {
           throw new Error("Product not found");
@@ -107,8 +106,9 @@ const ProductDetail = () => {
     const fetchRecommendations = async () => {
       try {
         setRecommendationLoading(true);
+        const apiUrl = import.meta.env.VITE_API_URL;
         const response = await fetch(
-          `http://192.168.1.105:3000/products/${id}/recommendations`
+          `${apiUrl}/products/${id}/recommendations`
         );
 
         if (!response.ok) {

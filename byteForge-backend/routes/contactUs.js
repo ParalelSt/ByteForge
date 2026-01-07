@@ -1,5 +1,5 @@
 import express from "express";
-import db from "../db.js";
+import supabase from "../supabase.js";
 
 const router = express.Router();
 
@@ -13,10 +13,11 @@ router.post("/", async (req, res) => {
       });
     }
 
-    await db.query(
-      "INSERT INTO contact_messages (name, email, subject, message) VALUES (?, ?, ?, ?)",
-      [name, email, subject, messageContent]
-    );
+    const { error } = await supabase
+      .from("contact_messages")
+      .insert([{ name, email, subject, message: messageContent }]);
+
+    if (error) throw error;
 
     res.json({
       message:

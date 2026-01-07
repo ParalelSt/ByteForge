@@ -1,5 +1,5 @@
 import express from "express";
-import db from "../db.js";
+import supabase from "../supabase.js";
 
 const router = express.Router();
 
@@ -17,19 +17,28 @@ router.post("/", async (req, res) => {
       return sum + item.price * item.quantity;
     }, 0);
 
-    const [result] = await db.execute(
-      "INSERT INTO orders (user_id, total) VALUES (? , ?)",
-      [user_id, total]
-    );
+    const { data: orderData, error: orderError } = await supabase
+      .from("orders")
+      .insert([{ user_id, total }])
+      .select();
 
-    const orderId = result.insertId;
+    if (orderError) throw orderError;
 
-    for (const item of items) {
-      await db.execute(
-        "INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)",
-        [orderId, item.id, item.quantity, item.price]
-      );
-    }
+    const orderId = orderData[0].id;
+
+    // Insert order items
+    const orderItems = items.map((item) => ({
+      order_id: orderId,
+      product_id: item.id,
+      quantity: item.quantity,
+      price: item.price,
+    }));
+
+    const { error: itemsError } = await supabase
+      .from("order_items")
+      .insert(orderItems);
+
+    if (itemsError) throw itemsError;
 
     res.status(201).json({
       message: "Order created successfully",
@@ -50,10 +59,13 @@ router.get("/:user_id", async (req, res) => {
   try {
     const { user_id } = req.params;
 
-    const [orders] = await db.query(
-      "SELECT * FROM orders WHERE user_id = ? ORDER BY created_at DESC",
-      [user_id]
-    );
+    const { data: orders, error } = await supabase
+      .from("orders")
+      .select("*")
+      .eq("user_id", user_id)
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
 
     res.json(orders);
   } catch (error) {

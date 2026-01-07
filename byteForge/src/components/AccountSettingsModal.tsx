@@ -61,7 +61,7 @@ const AccountSettingsModal = ({ mode, setMode }: AccountSettingsModalProps) => {
 
     try {
       const res = await fetch(
-        "http://192.168.1.105:3000/auth/change-password",
+        `${import.meta.env.VITE_API_URL}/auth/change-password`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -129,16 +129,19 @@ const AccountSettingsModal = ({ mode, setMode }: AccountSettingsModalProps) => {
     setLoading(true);
 
     try {
-      const res = await fetch("http://192.168.1.105:3000/auth/change-email", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          user_id: user?.id,
-          currentEmail: currentEmail,
-          newEmail: newEmail,
-          currentPassword: currentPassword,
-        }),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/auth/change-email`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            user_id: user?.id,
+            currentEmail: currentEmail,
+            newEmail: newEmail,
+            currentPassword: currentPassword,
+          }),
+        }
+      );
 
       const data = await res.json();
 
@@ -190,7 +193,7 @@ const AccountSettingsModal = ({ mode, setMode }: AccountSettingsModalProps) => {
 
     try {
       const res = await fetch(
-        "http://192.168.1.105:3000/auth/change-username",
+        `${import.meta.env.VITE_API_URL}/auth/change-username`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

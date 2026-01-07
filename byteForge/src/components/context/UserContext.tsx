@@ -62,7 +62,8 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
     remember = false
   ) => {
     try {
-      const res = await fetch("http://192.168.1.105:3000/auth/register", {
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const res = await fetch(`${apiUrl}/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -90,7 +91,8 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
 
   const login = async (email: string, password: string, remember = false) => {
     try {
-      const res = await fetch("http://192.168.1.105:3000/auth/login", {
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const res = await fetch(`${apiUrl}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

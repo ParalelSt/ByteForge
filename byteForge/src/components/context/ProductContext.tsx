@@ -47,7 +47,8 @@ export const ProductProvider = ({
       setLoading(true);
       setError(null);
 
-      const res = await fetch("http://192.168.1.105:3000/products");
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const res = await fetch(`${apiUrl}/products`);
       if (!res.ok) throw new Error("Failed to fetch products");
       const data = await res.json();
       setProducts(data);

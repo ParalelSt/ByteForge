@@ -42,9 +42,8 @@ const ProductReviews = ({ productId }: ProductReviewsProps) => {
     const fetchReviews = async () => {
       try {
         setReviewsLoading(true);
-        const url = new URL(
-          `http://192.168.1.105:3000/products/${productId}/reviews`
-        );
+        const apiUrl = import.meta.env.VITE_API_URL;
+        const url = new URL(`${apiUrl}/products/${productId}/reviews`);
         if (user?.id) {
           url.searchParams.append("userId", user.id.toString());
         }
@@ -89,7 +88,8 @@ const ProductReviews = ({ productId }: ProductReviewsProps) => {
     }
 
     try {
-      const response = await fetch("http://192.168.1.105:3000/reviews", {
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const response = await fetch(`${apiUrl}/reviews`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -124,14 +124,12 @@ const ProductReviews = ({ productId }: ProductReviewsProps) => {
     setUpdatingReviewId(reviewId);
 
     try {
-      const response = await fetch(
-        `http://192.168.1.105:3000/reviews/${reviewId}/helpful`,
-        {
-          method: "PATCH",
-          body: JSON.stringify({ userId: user.id }),
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const response = await fetch(`${apiUrl}/reviews/${reviewId}/helpful`, {
+        method: "PATCH",
+        body: JSON.stringify({ userId: user.id }),
+        headers: { "Content-Type": "application/json" },
+      });
       if (!response.ok) throw new Error("Failed to update helpful count");
 
       if (isMarked) {
