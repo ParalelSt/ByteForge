@@ -1,8 +1,6 @@
 import express from "express";
 import multer from "multer";
 import supabase from "../supabase.js";
-import fs from "fs";
-import path from "path";
 
 const router = express.Router();
 
