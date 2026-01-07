@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 import GIcon from "@/assets/icons/GIcon.svg";
-import "@/styles/header.scss";
+import "@/styles/Header.scss";
 import { Link, useLocation } from "react-router-dom";
 import Cart from "@/components/Cart";
 import MobileNavigation from "@/components/MobileNavigation";
