@@ -7,6 +7,7 @@ import { useCart } from "@/components/context/CartContext";
 import { useProducts } from "@/components/context/ProductContext";
 import { useUser } from "@/components/context/UserContext";
 import { FaDollarSign } from "react-icons/fa6";
+import { getImageUrl } from "@/utils/imageUrl";
 
 interface CartProps {
   cartOpen: boolean;
@@ -131,7 +132,11 @@ const Cart = ({ cartOpen, setCartOpen }: CartProps) => {
                   id={String(product.id)}
                   name={product.name}
                   price={item.price}
-                  image={`http://192.168.1.105:3000/images/product_images/${product.image}`}
+                  image={getImageUrl(
+                    product.imageUrl,
+                    product.image,
+                    "product"
+                  )}
                   count={item.quantity}
                   alt={item.alt}
                 />

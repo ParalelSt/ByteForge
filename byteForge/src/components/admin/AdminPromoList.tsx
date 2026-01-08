@@ -77,7 +77,9 @@ const AdminPromoList = () => {
     setEditLink(promo.link || "");
     setImagePreview(
       promo.image
-        ? `http://192.168.1.105:3000/images/promo_images/${promo.image}`
+        ? `${
+            import.meta.env.VITE_SUPABASE_URL
+          }/storage/v1/object/public/promo_images/promo_images/${promo.image}`
         : ""
     );
   };

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useCart } from "@/components/context/CartContext";
+import { getImageUrl } from "@/utils/imageUrl";
 import "@/styles/admin/adminProductList.scss";
 
 interface Discount {
@@ -440,7 +441,7 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
                 />
                 {p.image && (
                   <img
-                    src={`http://192.168.1.105:3000/images/product_images/${p.image}`}
+                    src={getImageUrl(p.imageUrl, p.image, "product")}
                     alt={p.name}
                     className="current-image"
                   />
@@ -462,7 +463,7 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
                 <img
                   src={
                     p.image
-                      ? `http://192.168.1.105:3000/images/product_images/${p.image}`
+                      ? getImageUrl(p.imageUrl, p.image, "product")
                       : "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23141414' width='100' height='100'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23666' font-family='Arial' font-size='12'%3ENo Image%3C/text%3E%3C/svg%3E"
                   }
                   alt={p.name}

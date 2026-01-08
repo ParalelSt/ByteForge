@@ -69,11 +69,16 @@ const Promo = () => {
   }
 
   let imageSrc = promo.imageUrl;
-  if (imageSrc && !imageSrc.startsWith("http")) {
-    imageSrc = `http://192.168.1.105:3000/images/promo_images/${imageSrc.replace(
-      /^.*[\\/]/,
-      ""
-    )}`;
+  if (!imageSrc || !imageSrc.startsWith("http")) {
+    if (promo.image) {
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+      imageSrc = `${supabaseUrl}/storage/v1/object/public/promo_images/promo_images/${promo.image.replace(
+        /^.*[\\/]/,
+        ""
+      )}`;
+    } else {
+      imageSrc = "/placeholder.png";
+    }
   }
 
   return (

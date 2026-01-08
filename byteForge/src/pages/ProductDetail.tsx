@@ -136,9 +136,11 @@ const ProductDetail = () => {
 
   const prod = product;
   const recs = recommendations;
-  const imageSrc = prod.image.startsWith("http")
-    ? prod.image
-    : `http://192.168.1.105:3000/images/product_images/${prod.image}`;
+  const imageSrc =
+    prod.imageUrl ||
+    (prod.image && prod.image.startsWith("http")
+      ? prod.image
+      : "/placeholder.png");
   const visibleRecs = recs.slice(0, productCount);
 
   const pricePerUnit = prod.discount

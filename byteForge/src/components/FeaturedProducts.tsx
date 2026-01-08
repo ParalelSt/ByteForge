@@ -1,4 +1,5 @@
 import ProductCard from "@/components/ProductCard";
+import { getImageUrl } from "@/utils/imageUrl";
 import "@/styles/featuredProducts.scss";
 import { useProducts } from "@/components/context/ProductContext";
 import { useEffect, useState } from "react";
@@ -54,7 +55,7 @@ const FeaturedProducts = () => {
         {featuredProducts.map((product) => (
           <Link to={`/products/${product.id}`} key={product.id}>
             <ProductCard
-              image={`http://192.168.1.105:3000/images/product_images/${product.image}`}
+              image={getImageUrl(product.imageUrl, product.image, "product")}
               name={product.name}
               price={product.price}
               discount={product.discount || null}

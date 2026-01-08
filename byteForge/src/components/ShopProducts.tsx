@@ -1,5 +1,6 @@
 import { useCart } from "@/components/context/CartContext";
 import { useProducts } from "@/components/context/ProductContext";
+import { getImageUrl } from "@/utils/imageUrl";
 import "@/styles/shopProducts.scss";
 import "@/styles/skeletonCard.scss";
 import { FaCartShopping } from "react-icons/fa6";
@@ -55,7 +56,7 @@ const ShopProducts = ({ category, subcategory }: shopProductsProps) => {
           >
             <div className="product-card-top">
               <img
-                src={`http://192.168.1.105:3000/images/product_images/${p.image}`}
+                src={getImageUrl(p.imageUrl, p.image, "product")}
                 alt={p.name}
                 className={"product-card-image"}
               />
