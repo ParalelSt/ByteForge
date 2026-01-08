@@ -10,6 +10,7 @@ interface Product {
   id: string;
   name: string;
   image: string;
+  imageUrl?: string;
   price: number;
   alt?: string;
   description?: string;

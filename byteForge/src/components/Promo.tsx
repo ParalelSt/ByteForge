@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 type PromoType = {
   title: string;
   description: string;
+  image?: string;
   imageUrl: string;
   link?: string;
 };

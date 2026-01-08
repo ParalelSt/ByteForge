@@ -34,6 +34,7 @@ interface AdminProduct {
   description: string | null;
   price: number;
   image: string | null;
+  imageUrl?: string;
   category?: string;
   subcategory?: string;
   featured?: boolean;
