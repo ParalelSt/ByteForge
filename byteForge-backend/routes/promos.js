@@ -27,7 +27,7 @@ router.get("/promo", async (req, res) => {
     console.log("Promo row:", promo);
     const imageFile = promo.image || null;
     const imageUrl = imageFile
-      ? `${process.env.SUPABASE_URL}/storage/v1/object/public/promo_images/promo_images/${imageFile}`
+      ? `${process.env.SUPABASE_URL}/storage/v1/object/public/promo_images/${imageFile}`
       : null;
     res.json({
       id: promo.id,

@@ -12,7 +12,7 @@ export const getImageUrl = (
     const filename = imageName.replace(/^.*[\\/]/, "");
     const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
     if (supabaseUrl) {
-      return `${supabaseUrl}/storage/v1/object/public/${imageType}_images/${imageType}_images/${filename}`;
+      return `${supabaseUrl}/storage/v1/object/public/${imageType}_images/${filename}`;
     }
   }
 

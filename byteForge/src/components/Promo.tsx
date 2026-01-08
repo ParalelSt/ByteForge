@@ -73,7 +73,7 @@ const Promo = () => {
   if (!imageSrc || !imageSrc.startsWith("http")) {
     if (promo.image) {
       const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-      imageSrc = `${supabaseUrl}/storage/v1/object/public/promo_images/promo_images/${promo.image.replace(
+      imageSrc = `${supabaseUrl}/storage/v1/object/public/promo_images/${promo.image.replace(
         /^.*[\\/]/,
         ""
       )}`;
