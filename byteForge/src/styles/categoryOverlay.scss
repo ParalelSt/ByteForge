@@ -28,15 +28,14 @@
 }
 
 .overlay-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-
+  position: fixed;
+  top: 5rem;
+  
   @include m.flexColLeft;
 
   padding: 0.5rem;
 
-  width: 100%;
+  width: 20rem;
   max-height: 30rem;
 
   z-index: 10000;
@@ -45,6 +44,11 @@
   border-radius: 0.5rem;
 
   background-color: v.$bg-color;
+
+  @media (min-width: v.$desktop) {
+    position: relative;
+    top: 14rem;
+  }
 
   .overlay-top {
     @include m.flexColLeft;
@@ -130,7 +134,7 @@
   }
 
   @media (min-width: v.$desktop) {
-    top: 10.5rem;
+    top: 1rem;
     left: 0;
 
     max-width: 20rem;

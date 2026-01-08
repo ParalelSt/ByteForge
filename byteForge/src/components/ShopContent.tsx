@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import CategoryAccordion from "@/components/CategoryAccordion";
 import CategoryHeader from "@/components/CategoryHeader";
 import "@/styles/shopContent.scss";
+import "@/styles/categoryStack.scss";
 import CategoryOverlay from "@/components/CategoryOverlay";
 import type { CategoryKey } from "@/api/categoryData";
 import { CATEGORY_TO_DB } from "@/api/categoryData";
@@ -82,36 +83,38 @@ const ShopContent = () => {
 
   return (
     <div className="shop-content-container">
-      <CategoryHeader
-        onToggle={handleHeaderToggle}
-        selectedCategory={selectedCategory}
-        selectedSubCategory={selectedSubCategory}
-        onClearCategory={handleClearCategory}
-      />
-      {accordionOpen && (
-        <>
-          {!isDesktop && (
-            <div
-              className="accordion-backdrop"
-              onClick={() => setAccordionOpen(false)}
+      <div className="category-stack-container">
+        <CategoryHeader
+          onToggle={handleHeaderToggle}
+          selectedCategory={selectedCategory}
+          selectedSubCategory={selectedSubCategory}
+          onClearCategory={handleClearCategory}
+        />
+        {accordionOpen && (
+          <>
+            {!isDesktop && (
+              <div
+                className="accordion-backdrop"
+                onClick={() => setAccordionOpen(false)}
+              />
+            )}
+            <CategoryAccordion
+              onSelectCategory={handleSelectCategory}
+              onClearCategory={handleClearCategory}
+              selectedCategory={selectedCategory}
+              selectedSubCategory={selectedSubCategory}
             />
-          )}
-          <CategoryAccordion
-            onSelectCategory={handleSelectCategory}
-            onClearCategory={handleClearCategory}
-            selectedCategory={selectedCategory}
-            selectedSubCategory={selectedSubCategory}
-          />
-        </>
-      )}
-      <CategoryOverlay
-        category={activeCategory}
-        isOpen={overlayOpen}
-        onBack={handleBack}
-        onClose={handleClose}
-        onSelectSubCategory={handleSelectSubCategory}
-        onSelectMainCategory={handleSelectMainCategory}
-      />
+          </>
+        )}
+        <CategoryOverlay
+          category={activeCategory}
+          isOpen={overlayOpen}
+          onBack={handleBack}
+          onClose={handleClose}
+          onSelectSubCategory={handleSelectSubCategory}
+          onSelectMainCategory={handleSelectMainCategory}
+        />
+      </div>
       <ShopProducts
         category={selectedCategory ? CATEGORY_TO_DB[selectedCategory] : null}
         subcategory={selectedSubCategory}

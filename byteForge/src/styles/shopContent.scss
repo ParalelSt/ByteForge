@@ -2,16 +2,14 @@
 @use "@/styles/variables" as v;
 
 .shop-content-container {
-  position: relative;
-
-  @include m.flexCenter;
+  display: flex;
   flex-direction: column;
 
   width: 100%;
 
   @media (min-width: v.$desktop) {
     flex-direction: row;
-    align-items: baseline;
+    align-items: flex-start;
   }
 }
 

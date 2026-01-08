@@ -66,19 +66,17 @@
   }
 
   @media (min-width: v.$desktop) {
-    position: absolute;
-    top: 10.5rem;
-    left: 0;
+    top: 1rem;
+
+    width: 20rem;
+    height: auto;
 
     padding: 0.5rem;
 
-    max-width: 20rem;
-    height: 36.25rem;
-
-    
     border: 1px solid v.$accent;
-    
     border-radius: 0.5rem;
+    
+    z-index: 101;
   }
 }
 
