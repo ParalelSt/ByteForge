@@ -1,0 +1,23 @@
+@use "@/styles/mixins/mixins" as m;
+@use "@/styles/variables" as v;
+
+.scroll-to-top-btn {
+    position: fixed;
+    top: 85%;
+    right: 3rem;
+
+    @include m.flexCenter;
+
+    padding: 1rem;
+
+    border-radius: 100%;
+
+    background-color: v.$accent-hover;
+
+    svg {
+        width: 1.5rem;
+        height: 1.5rem;
+
+        color: white;
+    }
+}

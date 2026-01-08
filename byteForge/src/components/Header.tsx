@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
-import GIcon from "@/assets/icons/GIcon.svg";
 import "@/styles/Header.scss";
 import { Link, useLocation } from "react-router-dom";
 import Cart from "@/components/Cart";
 import MobileNavigation from "@/components/MobileNavigation";
 import DesktopNavigation from "./DesktopNavigation";
+import { BiSolidShoppingBag } from "react-icons/bi";
 
 const Header = () => {
   const [hamburgerOpen, setHamburgerOpen] = useState<boolean>(false);
@@ -51,7 +51,7 @@ const Header = () => {
             setCartOpen(!cartOpen);
           }}
         >
-          <img src={GIcon} alt="Cart icon" loading="lazy" />
+          <BiSolidShoppingBag />
         </button>
       </div>
       {cartOpen && <Cart cartOpen={cartOpen} setCartOpen={setCartOpen} />}

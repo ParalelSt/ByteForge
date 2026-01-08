@@ -2,6 +2,8 @@
 @use "@/styles/variables" as v;
 
 .shop-content-container {
+  position: relative;
+
   display: flex;
   flex-direction: column;
 

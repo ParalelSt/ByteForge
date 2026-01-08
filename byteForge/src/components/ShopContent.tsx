@@ -8,6 +8,7 @@ import type { CategoryKey } from "@/api/categoryData";
 import { CATEGORY_TO_DB } from "@/api/categoryData";
 import ShopProducts from "@/components/ShopProducts";
 import { useProducts } from "@/components/context/ProductContext";
+import ScrollToTop from "./ScrollToTop";
 
 const ShopContent = () => {
   const { refetch } = useProducts();
@@ -119,6 +120,8 @@ const ShopContent = () => {
         category={selectedCategory ? CATEGORY_TO_DB[selectedCategory] : null}
         subcategory={selectedSubCategory}
       />
+
+      <ScrollToTop />
     </div>
   );
 };
