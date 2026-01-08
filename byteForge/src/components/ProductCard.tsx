@@ -1,5 +1,6 @@
 import CardContainer from "@/components/CardContainer";
 import "@/styles/productCard.scss";
+import { FaEuroSign } from "react-icons/fa6";
 
 interface Discount {
   id: number;
@@ -39,10 +40,12 @@ const ProductCard = ({
       <h3 className="name">{name || "Product name"}</h3>
       <div className="price-container">
         <p className="price">
-          ${discountedPrice || (price ? Number(price).toFixed(2) : "0.00")}
+          <FaEuroSign />
+          {discountedPrice || (price ? Number(price).toFixed(2) : "0.00")}
         </p>
         <p className={`original-price ${!discount ? "hidden" : ""}`}>
-          ${Number(price).toFixed(2)}
+          <FaEuroSign />
+          {Number(price).toFixed(2)}
         </p>
       </div>
     </CardContainer>

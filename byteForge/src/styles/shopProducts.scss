@@ -131,6 +131,10 @@
               visibility: hidden;
             }
           }
+
+            p {
+              @include m.flexCenter;
+            }
         }
 
         .add-to-cart-btn {

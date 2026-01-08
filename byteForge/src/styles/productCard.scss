@@ -74,6 +74,14 @@
         visibility: hidden;
       }
     }
+
+    p {
+      @include m.flexCenter;
+
+      svg {
+        height: 100%;
+      }
+    }
   }
 
   @media (min-width: v.$desktop) {

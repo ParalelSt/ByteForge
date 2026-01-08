@@ -65,6 +65,10 @@
                 visibility: hidden;
               }
             }
+
+            p {
+                @include m.flexCenter;
+            }
         }
 
          .product-count {

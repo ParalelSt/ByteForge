@@ -1,5 +1,5 @@
 import "@/styles/productContainer.scss";
-import { FaDollarSign, FaMinus, FaPlus, FaTrash } from "react-icons/fa6";
+import { FaEuroSign, FaMinus, FaPlus, FaTrash } from "react-icons/fa6";
 import { useCart } from "@/components/context/CartContext";
 import { useState, useEffect, useRef } from "react";
 
@@ -132,7 +132,7 @@ const ProductContainer = ({
       </div>
       <div className="price-container">
         <span className="product-price">
-          <FaDollarSign />
+          <FaEuroSign />
           {Number(price).toFixed(2)}
         </span>
       </div>

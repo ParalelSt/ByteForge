@@ -3,7 +3,7 @@ import { useProducts } from "@/components/context/ProductContext";
 import { getImageUrl } from "@/utils/imageUrl";
 import "@/styles/shopProducts.scss";
 import "@/styles/skeletonCard.scss";
-import { FaCartShopping } from "react-icons/fa6";
+import { FaCartShopping, FaEuroSign } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 
 interface shopProductsProps {
@@ -65,16 +65,18 @@ const ShopProducts = ({ category, subcategory }: shopProductsProps) => {
               <h3>{p.name}</h3>
               <div className="price-container">
                 <p>
+                  <FaEuroSign />
                   {p.discount
-                    ? `$${(
+                    ? `${(
                         Number(p.price) *
                         (1 - p.discount.percentage / 100)
                       ).toFixed(2)}`
-                    : `$${Number(p.price).toFixed(2)}`}
+                    : `${Number(p.price).toFixed(2)}`}
                 </p>
-                <p
-                  className={`original-price ${!p.discount ? "hidden" : ""}`}
-                >{`$${Number(p.price).toFixed(2)}`}</p>
+                <p className={`original-price ${!p.discount ? "hidden" : ""}`}>
+                  <FaEuroSign />
+                  {`${Number(p.price).toFixed(2)}`}
+                </p>
               </div>
 
               <button

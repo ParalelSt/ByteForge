@@ -72,6 +72,12 @@
     width: 100%;
   }
 
+  .subtotal-container {
+    .subtotal, .subtotal-number {
+      font-size: v.$fs-sub;
+    }
+  }
+
   .checkout-message {
   position: absolute;
   top: 25%;

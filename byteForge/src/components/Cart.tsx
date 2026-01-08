@@ -6,8 +6,8 @@ import { useEffect, useRef, useState } from "react";
 import { useCart } from "@/components/context/CartContext";
 import { useProducts } from "@/components/context/ProductContext";
 import { useUser } from "@/components/context/UserContext";
-import { FaDollarSign } from "react-icons/fa6";
 import { getImageUrl } from "@/utils/imageUrl";
+import { FaEuroSign } from "react-icons/fa6";
 
 interface CartProps {
   cartOpen: boolean;
@@ -152,7 +152,7 @@ const Cart = ({ cartOpen, setCartOpen }: CartProps) => {
             <div className="subtotal-container">
               <span className="subtotal">Subtotal:</span>
               <span className="subtotal-number">
-                <FaDollarSign />
+                <FaEuroSign />
                 {subtotal.toFixed(2)}
               </span>
             </div>

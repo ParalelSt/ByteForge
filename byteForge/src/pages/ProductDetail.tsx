@@ -3,7 +3,7 @@ import ProductReviews from "@/components/ProductReviews";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useCart } from "@/components/context/CartContext";
-import { FaMinus, FaPlus } from "react-icons/fa6";
+import { FaEuroSign, FaMinus, FaPlus } from "react-icons/fa6";
 import "@/styles/productDetail.scss";
 
 interface Product {
@@ -164,15 +164,17 @@ const ProductDetail = () => {
         <h2>{prod.name}</h2>
         <div className="price-container">
           <p className="product-price">
+            <FaEuroSign />
             {prod.discount
-              ? `$${(
+              ? `${(
                   Number(prod.price) *
                   (1 - prod.discount.percentage / 100)
                 ).toFixed(2)}`
-              : `$${prod.price}`}
+              : `${prod.price}`}
           </p>
           <p className={`original-price ${!prod.discount ? "hidden" : ""}`}>
-            ${Number(prod.price).toFixed(2)}
+            <FaEuroSign />
+            {Number(prod.price).toFixed(2)}
           </p>
         </div>
         <div className="product-count">
