@@ -156,7 +156,7 @@ router.get("/admin/check-categories", async (req, res) => {
 router.post("/admin/fix-gfuel", async (req, res) => {
   try {
     console.log("Starting GFuel fix...");
-    
+
     // First, fetch all products with "GFUEL" in the name
     const { data: products, error: fetchError } = await supabase
       .from("products")
@@ -172,7 +172,7 @@ router.post("/admin/fix-gfuel", async (req, res) => {
       return res.json({ success: false, message: "No GFuel products found" });
     }
 
-    const ids = products.map(p => p.id);
+    const ids = products.map((p) => p.id);
     console.log("IDs to update:", ids);
 
     // Update all GFuel products to category "GFuel"
@@ -186,10 +186,10 @@ router.post("/admin/fix-gfuel", async (req, res) => {
 
     if (error) throw error;
 
-    res.json({ 
-      success: true, 
+    res.json({
+      success: true,
       message: `Updated ${ids.length} GFuel products to category "GFuel"`,
-      updatedIds: ids 
+      updatedIds: ids,
     });
   } catch (err) {
     console.error("Error fixing GFuel:", err);
