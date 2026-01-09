@@ -1,5 +1,6 @@
 import { useCart } from "@/components/context/CartContext";
 import { useProducts } from "@/components/context/ProductContext";
+import { useToast } from "@/components/context/ToastContext";
 import { getImageUrl } from "@/utils/imageUrl";
 import "@/styles/shopProducts.scss";
 import "@/styles/skeletonCard.scss";
@@ -15,6 +16,7 @@ interface shopProductsProps {
 const ShopProducts = ({ category, subcategory }: shopProductsProps) => {
   const { products, loading, error } = useProducts();
   const { addItem } = useCart();
+  const { addToast } = useToast();
 
   const filteredProducts = products.filter((p) => {
     if (!category) return true;
@@ -100,6 +102,7 @@ const ShopProducts = ({ category, subcategory }: shopProductsProps) => {
                     alt: p.name,
                     image: p.image,
                   });
+                  addToast(`${p.name} added to cart!`, "success");
                 }}
               >
                 <div className="text-container">

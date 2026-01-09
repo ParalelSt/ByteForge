@@ -3,6 +3,7 @@ import ProductReviews from "@/components/ProductReviews";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useCart } from "@/components/context/CartContext";
+import { useToast } from "@/components/context/ToastContext";
 import { FaMinus, FaPlus } from "react-icons/fa6";
 import "@/styles/productDetail.scss";
 import { BsCurrencyEuro } from "react-icons/bs";
@@ -43,6 +44,7 @@ const ProductDetail = () => {
   const [productCount, setProductCount] = useState(8);
 
   const { addItem } = useCart();
+  const { addToast } = useToast();
 
   const handleIncreaseQuantity = () => {
     if (cooldown) return;
@@ -228,6 +230,7 @@ const ProductDetail = () => {
               },
               quantity
             );
+            addToast(`${prod.name} (×${quantity}) added to cart!`, "success");
             setQuantity(1);
           }}
         >
