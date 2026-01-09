@@ -127,4 +127,74 @@ router.get("/:id/recommendations", async (req, res) => {
   }
 });
 
+// TEMPORARY: Check categories in database
+router.get("/admin/check-categories", async (req, res) => {
+  try {
+    const { data: products, error } = await supabase
+      .from("products")
+      .select("id, name, category, subcategory");
+
+    if (error) throw error;
+
+    // Group by category
+    const grouped = {};
+    products.forEach((p) => {
+      if (!grouped[p.category]) {
+        grouped[p.category] = [];
+      }
+      grouped[p.category].push(p);
+    });
+
+    res.json(grouped);
+  } catch (err) {
+    console.error("Error checking categories:", err);
+    res.status(500).json({ error: "Database error" });
+  }
+});
+
+// TEMPORARY: Fix GFuel category
+router.post("/admin/fix-gfuel", async (req, res) => {
+  try {
+    console.log("Starting GFuel fix...");
+    
+    // First, fetch all products with "GFUEL" in the name
+    const { data: products, error: fetchError } = await supabase
+      .from("products")
+      .select("id")
+      .ilike("name", "%gfuel%");
+
+    console.log("Fetched products:", products);
+    console.log("Fetch error:", fetchError);
+
+    if (fetchError) throw fetchError;
+
+    if (!products || products.length === 0) {
+      return res.json({ success: false, message: "No GFuel products found" });
+    }
+
+    const ids = products.map(p => p.id);
+    console.log("IDs to update:", ids);
+
+    // Update all GFuel products to category "GFuel"
+    const { data, error } = await supabase
+      .from("products")
+      .update({ category: "GFuel" })
+      .in("id", ids);
+
+    console.log("Update response:", data);
+    console.log("Update error:", error);
+
+    if (error) throw error;
+
+    res.json({ 
+      success: true, 
+      message: `Updated ${ids.length} GFuel products to category "GFuel"`,
+      updatedIds: ids 
+    });
+  } catch (err) {
+    console.error("Error fixing GFuel:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 export default router;

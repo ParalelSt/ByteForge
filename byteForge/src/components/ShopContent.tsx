@@ -58,6 +58,8 @@ const ShopContent = () => {
   }, [location.pathname]);
 
   const handleHeaderToggle = () => {
+    // Don't toggle accordion if overlay is open
+    if (overlayOpen) return;
     setAccordionOpen(!accordionOpen);
   };
 
@@ -79,7 +81,6 @@ const ShopContent = () => {
   const handleBack = () => {
     setOverlayOpen(false);
     setActiveCategory(null);
-    setAccordionOpen(true);
   };
 
   const handleClose = () => {
