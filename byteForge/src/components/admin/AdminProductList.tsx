@@ -485,21 +485,21 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
                       ).toFixed(2);
                       return (
                         <span className="price-group">
-                          <span className="original-price">
+                          <span className="price-flex original-price">
                             {Number(p.price).toFixed(2)}
-                            <BsCurrencyEuro />
+                            <BsCurrencyEuro className="currency-icon" />
                           </span>
-                          <span className="discounted-price">
+                          <span className="price-flex discounted-price">
                             {discounted}
-                            <BsCurrencyEuro />
+                            <BsCurrencyEuro className="currency-icon" />
                           </span>
                         </span>
                       );
                     }
                     return (
-                      <span className="price">
+                      <span className="price-flex price">
                         {Number(p.price).toFixed(2)}
-                        <BsCurrencyEuro />
+                        <BsCurrencyEuro className="currency-icon" />
                       </span>
                     );
                   })()}
@@ -600,8 +600,10 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
                     )}
                   </p>
                   <p className="product-price">
-                    {Number(p.price || 0).toFixed(2)}
-                    <BsCurrencyEuro />
+                    <span className="price-flex">
+                      {Number(p.price || 0).toFixed(2)}
+                      <BsCurrencyEuro className="currency-icon" />
+                    </span>
                   </p>
                 </div>
               );

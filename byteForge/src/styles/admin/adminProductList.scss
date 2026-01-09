@@ -7,6 +7,7 @@
     align-items: center;
     gap: 0.5rem;
 }
+
 .original-price {
     color: v.$error-color;
     text-decoration: line-through;
@@ -315,6 +316,20 @@
 
                 font-size: v.$fs-body;
                 font-weight: 700;
+
+                .price-flex {
+                    @include m.flexCenter;
+                    flex-direction: row;
+                    gap: 0.1rem;
+                    
+                    .currency-icon {
+                        width: 1em;
+                        height: 1em;
+                        display: inline-block;
+                        flex-shrink: 0;
+                        margin-left: -0.05rem;
+                    }
+                }
             }
         }
     }
@@ -539,7 +554,8 @@
                     font-weight: 600;
                     font-size: v.$fs-small;
 
-                    display: block;
+                    display: flex;
+                    align-items: center;
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: nowrap;

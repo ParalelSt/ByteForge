@@ -156,6 +156,21 @@
                 color: v.$text-color;
 
                 font-size: v.$fs-body;
+
+                &.price-flex {
+                    @include m.flexCenter;
+                    flex-direction: row;
+                    gap: 0.25rem;
+                    overflow: visible;
+                    white-space: normal;
+                    
+                    .currency-icon {
+                        width: 1em;
+                        height: 1em;
+                        display: inline-block;
+                        flex-shrink: 0;
+                    }
+                }
             }
 
             button {
