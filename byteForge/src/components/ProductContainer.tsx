@@ -65,11 +65,11 @@ const ProductContainer = ({
     setTimeout(() => setCooldown(false), 150);
   };
 
-  const handleRemove = () => {
+  const handleRemove = async () => {
     if (cooldown) return;
     setCooldown(true);
 
-    removeItem(id);
+    await removeItem(id);
 
     setTimeout(() => setCooldown(false), 150);
   };
