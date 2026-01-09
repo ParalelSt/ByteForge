@@ -24,6 +24,11 @@ const ShopProducts = ({ category, subcategory }: shopProductsProps) => {
     return true;
   });
 
+  const handleProductClick = () => {
+    // Save scroll position to sessionStorage
+    sessionStorage.setItem("shopScrollPosition", window.scrollY.toString());
+  };
+
   if (loading) {
     return (
       <div className="shop-products-container">
@@ -54,6 +59,7 @@ const ShopProducts = ({ category, subcategory }: shopProductsProps) => {
             className="shop-product-card"
             key={p.id}
             to={`/products/${p.id}`}
+            onClick={handleProductClick}
           >
             <div className="product-card-top">
               <img

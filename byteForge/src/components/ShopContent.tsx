@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import CategoryAccordion from "@/components/CategoryAccordion";
 import CategoryHeader from "@/components/CategoryHeader";
 import "@/styles/shopContent.scss";
@@ -12,6 +13,7 @@ import ScrollToTop from "./ScrollToTop";
 
 const ShopContent = () => {
   const { refetch } = useProducts();
+  const location = useLocation();
   const [accordionOpen, setAccordionOpen] = useState(false);
   const [overlayOpen, setOverlayOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<CategoryKey | null>(
@@ -38,6 +40,22 @@ const ShopContent = () => {
   useEffect(() => {
     refetch();
   }, []);
+
+  // Restore scroll position when returning to this route
+  useEffect(() => {
+    const savedScrollPosition = sessionStorage.getItem("shopScrollPosition");
+    if (savedScrollPosition) {
+      const scrollPos = parseInt(savedScrollPosition, 10);
+      // Use a delay to ensure the page has rendered before scrolling
+      setTimeout(() => {
+        window.scrollTo(0, scrollPos);
+        document.documentElement.scrollTop = scrollPos;
+        document.body.scrollTop = scrollPos;
+      }, 300);
+
+      sessionStorage.removeItem("shopScrollPosition");
+    }
+  }, [location.pathname]);
 
   const handleHeaderToggle = () => {
     setAccordionOpen(!accordionOpen);
