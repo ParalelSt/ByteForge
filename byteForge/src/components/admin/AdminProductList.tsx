@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useCart } from "@/components/context/CartContext";
 import { getImageUrl } from "@/utils/imageUrl";
 import "@/styles/admin/adminProductList.scss";
+import { BsCurrencyEuro } from "react-icons/bs";
 
 interface Discount {
   id: number;
@@ -485,17 +486,20 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
                       return (
                         <span className="price-group">
                           <span className="original-price">
-                            ${Number(p.price).toFixed(2)}
+                            {Number(p.price).toFixed(2)}
+                            <BsCurrencyEuro />
                           </span>
                           <span className="discounted-price">
-                            ${discounted}
+                            {discounted}
+                            <BsCurrencyEuro />
                           </span>
                         </span>
                       );
                     }
                     return (
                       <span className="price">
-                        ${Number(p.price).toFixed(2)}
+                        {Number(p.price).toFixed(2)}
+                        <BsCurrencyEuro />
                       </span>
                     );
                   })()}
@@ -596,7 +600,8 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
                     )}
                   </p>
                   <p className="product-price">
-                    ${Number(p.price || 0).toFixed(2)}
+                    {Number(p.price || 0).toFixed(2)}
+                    <BsCurrencyEuro />
                   </p>
                 </div>
               );
