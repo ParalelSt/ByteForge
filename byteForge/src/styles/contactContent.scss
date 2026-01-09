@@ -126,10 +126,12 @@
         .send-button-container {
             @include m.flexCenter;
 
-
+            width: 100%;
 
             button {
                 padding: 0.6rem 2.5rem;
+
+                width: 100%;
 
                 color: v.$accent;
 
