@@ -104,6 +104,17 @@
             color: v.$accent;
             font-size: v.$fs-body;
 
+            /* Hide number input spinners */
+            &::-webkit-outer-spin-button,
+            &::-webkit-inner-spin-button {
+              -webkit-appearance: none;
+              margin: 0;
+            }
+
+            &[type="number"] {
+              -moz-appearance: textfield;
+            }
+
             &::-webkit-outer-spin-button,
             &::-webkit-inner-spin-button {
               -webkit-appearance: none;
