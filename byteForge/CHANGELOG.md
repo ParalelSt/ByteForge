@@ -2,6 +2,57 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.10](https://github.com/ParalelSt/ByteForge/compare/v0.0.9...v0.0.10) (2026-01-12)
+
+
+### Features
+
+* added cart count display ([db6efa7](https://github.com/ParalelSt/ByteForge/commit/db6efa754de03f2ebe460c87de7d55026fc37fbe))
+* added review section, writing and reading reviews ([ff4d5eb](https://github.com/ParalelSt/ByteForge/commit/ff4d5eb5fa8e02dc353a8b4e10f2b40ade36284f))
+* imageUrl util function for consistent IMG url handling ([b67528e](https://github.com/ParalelSt/ByteForge/commit/b67528efafc81ce52a7012ce6bbd2a683c89c757))
+* migration to Vercel and Supabase ([14b9653](https://github.com/ParalelSt/ByteForge/commit/14b96535785cc5efcb745d9781c05c70b668f1e5))
+* notif for product added to cart ([8132da7](https://github.com/ParalelSt/ByteForge/commit/8132da7d3d4dfebe6a783f56c23a9e59f9a60c2e))
+* product count buttons for cart and productdetail, product input and cart related styles ([1a6d3b1](https://github.com/ParalelSt/ByteForge/commit/1a6d3b1d24fa17342bba2717ee35d8ce98185773))
+* scroll to top button and bag icon for cart ([5a95dce](https://github.com/ParalelSt/ByteForge/commit/5a95dcee82c05a60093af6f33d8b24589f7e417e))
+* scrolling to the last row that a product was selected in on the shop page ([dbc9d19](https://github.com/ParalelSt/ByteForge/commit/dbc9d191e7fdc17cffff3f7c817cf486e585094e))
+
+
+### Bug Fixes
+
+* all filesystem operations moved to using only supabase storage ([b255771](https://github.com/ParalelSt/ByteForge/commit/b255771607a052d40affe64be5d62abb891a7587))
+* backend fixes ([11975a1](https://github.com/ParalelSt/ByteForge/commit/11975a17e55f6b9c1792455de44a0f10217a0767))
+* cart displaying old price, price display, discounted price display, admin dashboard styles, added count element ([afaa0e5](https://github.com/ParalelSt/ByteForge/commit/afaa0e59925cca204c5cc76fad3f4db7a4f3ccec))
+* cart styles related to count of one item ([f3a2c52](https://github.com/ParalelSt/ByteForge/commit/f3a2c52095f58d18812ca1a0db84e8a78ad5bb4a))
+* correct backend url ([1933601](https://github.com/ParalelSt/ByteForge/commit/19336012456363aa20154114d06f2f8dec5c0512))
+* correct vercel environment setup, page rewrites ([7609e19](https://github.com/ParalelSt/ByteForge/commit/7609e197c27eb916ceb19052eda547d4e317949e))
+* desktop position for category accordion set to sticky, now follows as you scroll ([05911b7](https://github.com/ParalelSt/ByteForge/commit/05911b79074b53dfada2de484b34817b7edda58c))
+* euro sign for price display ([23a7b54](https://github.com/ParalelSt/ByteForge/commit/23a7b54bbe86051f0223ddf06b31e6831b776dd6))
+* euro sign prices for admin pages ([d10db00](https://github.com/ParalelSt/ByteForge/commit/d10db004d10dac986fac8af07f4808968430df8d))
+* gfuel being displayed under wrong category ([b9090cf](https://github.com/ParalelSt/ByteForge/commit/b9090cfdae60efa8c12205b882b232cc1f799afc))
+* Handle serverless read-only filesystem with memory storage for multer ([b5acb22](https://github.com/ParalelSt/ByteForge/commit/b5acb226d5ec45d386185f9548bcf971d35daac8))
+* image typing, duplicate bucket names ([5c006dd](https://github.com/ParalelSt/ByteForge/commit/5c006dd8213353ec42caf461b64e3f27ff58c8b6))
+* layout fix for notif appearing in the wrong spot on tablets ([e876cac](https://github.com/ParalelSt/ByteForge/commit/e876cac5ff7e65860f36d7f0ec3dc0d3ad0f5b3a))
+* mapping for products ([15d124a](https://github.com/ParalelSt/ByteForge/commit/15d124a81c13ac9b3f03b04698d7f0098b89d496))
+* match scss import case with GitHub file (Header.scss) ([d47a130](https://github.com/ParalelSt/ByteForge/commit/d47a130786e62b18ed23981bc39061ed0e2a8a8d))
+* product bug fixes ([9e73a5a](https://github.com/ParalelSt/ByteForge/commit/9e73a5a70ee2ec2de4057f88836eb9c642551f92))
+* product count display/input behavior fixes ([857d1a5](https://github.com/ParalelSt/ByteForge/commit/857d1a5d0b9a86ec7bf5f5591ec52c7550956943))
+* redirect to supabase storage instead of backend server ([fc57a59](https://github.com/ParalelSt/ByteForge/commit/fc57a599f151dbcc26eaea7c07e300f7ae10542c))
+* Remove all filesystem operations, use only Supabase Storage ([d419f67](https://github.com/ParalelSt/ByteForge/commit/d419f67c402b5d63ab968e17ce44652f5df38623))
+* reroute to supabase storage for file uploads ([1be7756](https://github.com/ParalelSt/ByteForge/commit/1be7756a6c38f886e2aa7f95e19f81ca201eb83b))
+* server side issues causing it not to load products ([070216e](https://github.com/ParalelSt/ByteForge/commit/070216ed4cfac337ec553a561ab4a654ce12c5a0))
+* serverless and local development ([ff4feb5](https://github.com/ParalelSt/ByteForge/commit/ff4feb523dada536e4ce9cdae0fa3a8e2c7d97fa))
+* serverside rendering issues - prdoucts not displaying on productDetail route ([4b6076e](https://github.com/ParalelSt/ByteForge/commit/4b6076e5fbee43cc2fd182a549ef2c18d0f238bf))
+* switch to backend url for vercel ([d6b7861](https://github.com/ParalelSt/ByteForge/commit/d6b786157b15ed5f864f545d8aa24ff626a7c5b2))
+* type issues for product ([c6d2a49](https://github.com/ParalelSt/ByteForge/commit/c6d2a492fe8f3dcf904b70323bb1f22cf22615c4))
+* type mismatch in ProductReviews ([2c7f744](https://github.com/ParalelSt/ByteForge/commit/2c7f7447920c0ba00d888cd358e254a790c98c94))
+* typing for imageUrl and image in product type ([cb1b7e9](https://github.com/ParalelSt/ByteForge/commit/cb1b7e98a8e1ca63df9d0d1d9025ecee8f340cd1))
+* Update frontend API URL to correct backend domain ([144acde](https://github.com/ParalelSt/ByteForge/commit/144acde6d7c0b12667873b25a840f9f58f776667))
+* use memory storage in production ([035362c](https://github.com/ParalelSt/ByteForge/commit/035362c71eb6569d0e86912674ead4ab88db3af6))
+* Use stable backend project URL (never changes) ([3111e22](https://github.com/ParalelSt/ByteForge/commit/3111e22e50044843b494cd1100893b4531ec30d5))
+* use supabase storage for adminProducts route ([6bdcb99](https://github.com/ParalelSt/ByteForge/commit/6bdcb9902cfd44c16efb3d63ae939199b67cff02))
+* use supabase storage for file uploads ([f762d98](https://github.com/ParalelSt/ByteForge/commit/f762d985004e38a5f3f5a87aa824919efc681c0b))
+* wrong currency display ([ee86828](https://github.com/ParalelSt/ByteForge/commit/ee868282d55fa7607af93a954d60d26a110bf703))
+
 ### [0.0.9](https://github.com/ParalelSt/ByteForge/compare/v0.0.8...v0.0.9) (2026-01-02)
 
 
