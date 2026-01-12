@@ -190,23 +190,53 @@ const ProductDetail = () => {
             <FaMinus className="icon" />
           </button>
           <input
-            type="number"
+            type="text"
+            inputMode="numeric"
             className="count"
             value={quantity}
-            onChange={(e) => {
-              const value = parseInt(e.target.value, 10);
-              if (e.target.value === "" || isNaN(value)) {
-                setQuantity(1);
-              } else if (value >= 1) {
-                setQuantity(value);
+            onKeyDown={(e) => {
+              // Block non-numeric keys (except Backspace, Delete, Tab, Enter)
+              if (
+                !/[0-9]/.test(e.key) &&
+                ![
+                  "Backspace",
+                  "Delete",
+                  "Tab",
+                  "Enter",
+                  "ArrowLeft",
+                  "ArrowRight",
+                ].includes(e.key)
+              ) {
+                e.preventDefault();
               }
+            }}
+            onPaste={(e) => {
+              // Block pasting non-numeric content
+              const pastedText = e.clipboardData.getData("text");
+              if (!/^\d+$/.test(pastedText)) {
+                e.preventDefault();
+              }
+            }}
+            onChange={(e) => {
+              const input = e.target.value;
+              // Only process if input contains only digits
+              if (input === "") {
+                setQuantity(1); // Reset to 1 instead of 0
+              } else if (/^\d+$/.test(input)) {
+                const value = parseInt(input, 10);
+                if (value >= 1) {
+                  setQuantity(value);
+                } else {
+                  setQuantity(1); // Don't allow 0
+                }
+              }
+              // If input contains invalid characters, don't update state
             }}
             onBlur={(e) => {
-              if (e.target.value === "") {
+              if (quantity < 1 || quantity === 0 || e.target.value === "") {
                 setQuantity(1);
               }
             }}
-            min="1"
           />
           <button
             className="count-up"
