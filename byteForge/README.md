@@ -1,73 +1,140 @@
-# React + TypeScript + Vite
+# ByteForge Webshop
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack e-commerce webshop built for a web development course. Browse, filter, and purchase gaming gear with user authentication, reviews, and admin controls.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**Frontend:**
 
-## React Compiler
+- React 18+ with TypeScript
+- Vite (build tool)
+- SCSS (styling)
+- Context API (state management)
+- React Router (navigation)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**Backend:**
 
-## Expanding the ESLint configuration
+- Node.js with Express
+- Supabase (PostgreSQL database)
+- JWT authentication
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+**Deployment:**
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Vercel (frontend)
+- Supabase (database)
+- Git (version control)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Features
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Product catalog with category filtering
+- Shopping cart with checkout
+- User authentication & account management
+- Product reviews and ratings
+- Admin dashboard (product/promo/discount management)
+- Responsive design (mobile, tablet, desktop)
+- Toast notifications
+- Order history tracking
+
+## Project Structure
+
+```
+byteForge/
+├── src/
+│   ├── components/      # Organized by feature (category, product, shop, etc.)
+│   ├── pages/           # Route pages
+│   ├── context/         # State management
+│   ├── styles/          # SCSS organized by feature
+│   ├── api/             # API helpers
+│   ├── utils/           # Utility functions
+│   └── App.tsx
+├── public/              # Static assets
+└── index.html
+
+byteForge-backend/
+├── routes/              # API endpoints
+├── api/                 # Vercel serverless functions
+└── server.js            # Express server
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Setup
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Prerequisites
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Node.js 16+
+- npm or yarn
+
+### Installation
+
+**Frontend:**
+
+```bash
+cd byteForge
+npm install
 ```
+
+**Backend:**
+
+```bash
+cd byteForge-backend
+npm install
+```
+
+### Environment Variables
+
+Create `.env.local` in `byteForge/`:
+
+```
+VITE_API_URL=http://localhost:5000
+```
+
+Create `.env` in `byteForge-backend/`:
+
+```
+SUPABASE_URL=your_supabase_url
+SUPABASE_KEY=your_supabase_key
+ADMIN_PASSWORD=your_admin_password
+```
+
+## Build & Run
+
+### Development
+
+**Frontend (with Vite):**
+
+```bash
+cd byteForge
+npm run dev
+```
+
+**Backend (Express):**
+
+```bash
+cd byteForge-backend
+npm start
+```
+
+### Production
+
+**Build frontend:**
+
+```bash
+cd byteForge
+npm run build
+```
+
+**Deploy:**
+
+- Frontend: Push to GitHub → Vercel auto-deploys
+- Backend: Deploy to Vercel or your hosting platform
+
+## Notes
+
+- Components and styles are organized by feature (category, product, shop, etc.)
+- All 5 context providers handle state: Cart, Product, User, Toast, Review
+- Admin dashboard protected with password
+- Product images stored on Supabase
+- Cart persisted to localStorage and database
+
+---
+
+Built for learning purposes as part of a web development course.
