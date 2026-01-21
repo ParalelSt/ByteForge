@@ -2,6 +2,11 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useUser } from "./UserContext";
 import { useProducts } from "./ProductContext";
 
+/**
+ * CartContext - Manages shopping cart state
+ * Handles adding/removing items, quantity updates, and persistence to localStorage
+ */
+
 export interface CartItem {
   id: string;
   name: string;
@@ -26,6 +31,7 @@ interface CartContextValue {
 
 const API_URL = import.meta.env.VITE_API_URL;
 
+// Cart Provider Component
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const STORAGE_KEY = "byteforge:cart";
   const [cart, setCart] = useState<CartItem[]>([]);
@@ -33,7 +39,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const { user, isReady } = useUser();
   const { products } = useProducts();
 
-  // Helper function to apply discounts to cart items based on current product data
+  // Apply active discounts from product data to cart items
   const applyDiscountsToCart = (cartItems: CartItem[]): CartItem[] => {
     return cartItems.map((item) => {
       const product = products.find((p) => String(p.id) === String(item.id));
@@ -50,7 +56,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
-  // Load cart from database when user logs in, or from localStorage for guests
+  // Load cart from database (user) or localStorage (guest) on auth state change
   useEffect(() => {
     // Don't load cart until UserContext is ready and products are loaded
     if (!isReady || products.length === 0) {
@@ -155,7 +161,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
   const addItem = async (
     item: Omit<CartItem, "quantity">,
-    quantity: number = 1
+    quantity: number = 1,
   ) => {
     if (user) {
       // Add to database
@@ -177,7 +183,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
             return prev.map((p) =>
               String(p.id) === String(item.id)
                 ? { ...p, quantity: p.quantity + quantity }
-                : p
+                : p,
             );
           }
           return [...prev, { ...item, quantity: quantity }];
@@ -191,7 +197,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         const existing = prev.find((p) => p.id === item.id);
         if (existing) {
           return prev.map((p) =>
-            p.id === item.id ? { ...p, quantity: p.quantity + quantity } : p
+            p.id === item.id ? { ...p, quantity: p.quantity + quantity } : p,
           );
         }
         return [...prev, { ...item, quantity: quantity }];
@@ -219,8 +225,8 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
           prev.map((item) =>
             String(item.id) === String(id)
               ? { ...item, quantity: item.quantity + 1 }
-              : item
-          )
+              : item,
+          ),
         );
       } catch (error) {
         console.error("Failed to increase quantity:", error);
@@ -230,8 +236,8 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         prev.map((item) =>
           String(item.id) === String(id)
             ? { ...item, quantity: item.quantity + 1 }
-            : item
-        )
+            : item,
+        ),
       );
     }
   };
@@ -257,9 +263,9 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
             .map((item) =>
               String(item.id) === String(id)
                 ? { ...item, quantity: item.quantity - 1 }
-                : item
+                : item,
             )
-            .filter((item) => item.quantity > 0)
+            .filter((item) => item.quantity > 0),
         );
       } catch (error) {
         console.error("Failed to decrease quantity:", error);
@@ -270,9 +276,9 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
           .map((item) =>
             String(item.id) === String(id)
               ? { ...item, quantity: item.quantity - 1 }
-              : item
+              : item,
           )
-          .filter((item) => item.quantity > 0)
+          .filter((item) => item.quantity > 0),
       );
     }
   };
@@ -312,8 +318,8 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const updateItemPrice = (id: CartItem["id"], newPrice: number) => {
     setCart((prev) =>
       prev.map((item) =>
-        String(item.id) === String(id) ? { ...item, price: newPrice } : item
-      )
+        String(item.id) === String(id) ? { ...item, price: newPrice } : item,
+      ),
     );
   };
 
@@ -336,8 +342,8 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       prev.map((item) =>
         String(item.id) === String(id)
           ? { ...item, quantity: newQuantity }
-          : item
-      )
+          : item,
+      ),
     );
   };
 

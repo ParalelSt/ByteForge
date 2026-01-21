@@ -6,6 +6,11 @@ import {
   type ReactNode,
 } from "react";
 
+/**
+ * UserContext - Manages user authentication and profile
+ * Handles login, registration, logout, and user data persistence
+ */
+
 export interface User {
   id: string;
   email: string;
@@ -20,12 +25,12 @@ interface UserContextValue {
     name: string,
     email: string,
     password: string,
-    remember?: boolean
+    remember?: boolean,
   ) => Promise<boolean>;
   login: (
     email: string,
     password: string,
-    remember?: boolean
+    remember?: boolean,
   ) => Promise<boolean>;
   logout: () => void;
   setUser: (user: User) => void;
@@ -59,7 +64,7 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
     name: string,
     email: string,
     password: string,
-    remember = false
+    remember = false,
   ) => {
     try {
       const apiUrl = import.meta.env.VITE_API_URL;

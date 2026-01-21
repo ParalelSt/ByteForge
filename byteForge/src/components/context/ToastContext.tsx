@@ -1,6 +1,11 @@
 import { createContext, useContext, useState, useCallback } from "react";
 import type { ReactNode } from "react";
 
+/**
+ * ToastContext - Manages toast notifications
+ * Provides methods to add/remove toasts, auto-dismisses after specified duration
+ */
+
 export interface Toast {
   id: string;
   message: string;
@@ -13,7 +18,7 @@ interface ToastContextValue {
   addToast: (
     message: string,
     type?: "success" | "error" | "info",
-    duration?: number
+    duration?: number,
   ) => void;
   removeToast: (id: string) => void;
 }
@@ -27,7 +32,7 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
     (
       message: string,
       type: "success" | "error" | "info" = "success",
-      duration = 3000
+      duration = 3000,
     ) => {
       const id = Date.now().toString();
       const toast: Toast = { id, message, type, duration };
@@ -40,7 +45,7 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
         }, duration);
       }
     },
-    []
+    [],
   );
 
   const removeToast = useCallback((id: string) => {

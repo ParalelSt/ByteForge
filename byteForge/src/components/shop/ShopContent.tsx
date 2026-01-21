@@ -11,6 +11,10 @@ import ShopProducts from "@/components/shop/ShopProducts";
 import { useProducts } from "@/components/context/ProductContext";
 import ScrollToTop from "@/components/common/ScrollToTop";
 
+/**
+ * Shop page main component
+ * Manages category filtering and product display with accordion/overlay navigation
+ */
 const ShopContent = () => {
   const { refetch } = useProducts();
   const location = useLocation();
@@ -26,8 +30,9 @@ const ShopContent = () => {
     null,
   );
 
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024); // or whatever your desktop breakpoint is
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
 
+  // Handle window resize for responsive behavior
   useEffect(() => {
     const handleResize = () => {
       setIsDesktop(window.innerWidth >= 1024);
@@ -37,11 +42,12 @@ const ShopContent = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // Fetch products on mount
   useEffect(() => {
     refetch();
   }, []);
 
-  // Restore scroll position when returning to this route
+  // Restore scroll position when returning to shop page
   useEffect(() => {
     const savedScrollPosition = sessionStorage.getItem("shopScrollPosition");
     if (savedScrollPosition) {
@@ -57,6 +63,7 @@ const ShopContent = () => {
     }
   }, [location.pathname]);
 
+  // Category filtering handlers
   const handleHeaderToggle = () => {
     // Don't toggle accordion if overlay is open
     if (overlayOpen) return;

@@ -3,6 +3,11 @@ import { useUser } from "@/components/context/UserContext";
 import { FaStar, FaThumbsUp } from "react-icons/fa6";
 import "@/styles/product/productReviews.scss";
 
+/**
+ * Product reviews section
+ * Displays customer reviews, ratings, and allows authenticated users to post new reviews
+ */
+
 interface Review {
   id: number;
   product_id: number;
@@ -24,6 +29,7 @@ interface ProductReviewsProps {
 const ProductReviews = ({ productId }: ProductReviewsProps) => {
   const { user } = useUser();
 
+  // Review data and UI state
   const [reviews, setReviews] = useState<Review[]>([]);
   const [reviewsLoading, setReviewsLoading] = useState(true);
   const [showReviewForm, setShowReviewForm] = useState(false);
@@ -38,6 +44,7 @@ const ProductReviews = ({ productId }: ProductReviewsProps) => {
     text: "",
   });
 
+  // Fetch reviews for product on mount or when productId changes
   useEffect(() => {
     const fetchReviews = async () => {
       try {
@@ -79,6 +86,7 @@ const ProductReviews = ({ productId }: ProductReviewsProps) => {
     if (productId) fetchReviews();
   }, [productId, user?.id]);
 
+  // Submit new review or update existing review
   const handleSubmitReview = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) {

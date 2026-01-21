@@ -1,5 +1,10 @@
 import React, { createContext, useContext, useState } from "react";
 
+/**
+ * ReviewContext - Manages product reviews and ratings
+ * Handles fetching, creating, and managing product reviews
+ */
+
 export interface Review {
   id: number;
   product_id: number;
@@ -23,7 +28,7 @@ interface ReviewContextType {
     userId: number,
     rating: number,
     title: string,
-    text: string
+    text: string,
   ) => Promise<void>;
   updateHelpful: (reviewId: number) => Promise<void>;
   deleteReview: (reviewId: number, userId: number) => Promise<void>;
@@ -60,7 +65,7 @@ export const ReviewProvider: React.FC<{ children: React.ReactNode }> = ({
     userId: number,
     rating: number,
     title: string,
-    text: string
+    text: string,
   ) => {
     try {
       const apiUrl = import.meta.env.VITE_API_URL;
@@ -92,8 +97,8 @@ export const ReviewProvider: React.FC<{ children: React.ReactNode }> = ({
       if (!response.ok) throw new Error("Failed to update helpful count");
       setReviews(
         reviews.map((r) =>
-          r.id === reviewId ? { ...r, helpful_count: r.helpful_count + 1 } : r
-        )
+          r.id === reviewId ? { ...r, helpful_count: r.helpful_count + 1 } : r,
+        ),
       );
     } catch (err) {
       setError((err as Error).message);

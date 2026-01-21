@@ -2,6 +2,11 @@ import { CATEGORY_LABELS, type CategoryKey } from "@/api/categoryData";
 import "@/styles/category/categoryHeader.scss";
 import { RiArrowRightSLine } from "react-icons/ri";
 
+/**
+ * Category header component
+ * Displays current selected category/subcategory and toggles accordion visibility
+ */
+
 interface CategoryHeaderProps {
   selectedCategory: CategoryKey | null;
   selectedSubCategory: string | null;

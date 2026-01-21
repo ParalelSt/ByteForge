@@ -6,6 +6,11 @@ import {
 import "@/styles/category/categoryOverlay.scss";
 import { RiArrowLeftSLine, RiCloseLine } from "react-icons/ri";
 
+/**
+ * Category overlay modal
+ * Shows subcategories for selected category
+ */
+
 interface CategoryOverlayProps {
   category: CategoryKey | null;
   isOpen?: boolean;

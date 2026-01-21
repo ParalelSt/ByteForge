@@ -17,6 +17,11 @@ interface ProductCardProps {
   className?: string;
 }
 
+/**
+ * Product card component for displaying products in grid layouts
+ * Shows product image, name, price, and applies discount badge if applicable
+ */
+
 const ProductCard = ({
   image,
   name,

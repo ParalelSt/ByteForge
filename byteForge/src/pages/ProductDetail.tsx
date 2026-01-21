@@ -30,6 +30,7 @@ interface Product {
 const ProductDetail = () => {
   const { id } = useParams();
 
+  // State for product data and loading
   const [product, setProduct] = useState<Product | null>(null);
   const [recommendations, setRecommendations] = useState<Product[]>([]);
   const [productLoading, setProductLoading] = useState(true);
@@ -46,6 +47,7 @@ const ProductDetail = () => {
   const { addItem } = useCart();
   const { addToast } = useToast();
 
+  // Quantity adjustment handlers with cooldown to prevent spam
   const handleIncreaseQuantity = () => {
     if (cooldown) return;
     setCooldown(true);

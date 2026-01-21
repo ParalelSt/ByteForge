@@ -12,6 +12,11 @@ interface ProductContainerProps {
   id: string;
 }
 
+/**
+ * Product row component for shopping cart
+ * Allows users to adjust quantity, view price, and remove items
+ */
+
 const ProductContainer = ({
   image,
   name,

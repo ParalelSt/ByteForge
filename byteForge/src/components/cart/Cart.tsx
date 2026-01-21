@@ -14,7 +14,12 @@ interface CartProps {
   setCartOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+/**
+ * Shopping cart sidebar component
+ * Displays items in cart, calculates totals, and handles checkout
+ */
 const Cart = ({ cartOpen, setCartOpen }: CartProps) => {
+  // State and context for cart operations
   const [checkoutMessage, setCheckoutMessage] = useState<{
     type: "success" | "error";
     text: string;
@@ -28,6 +33,7 @@ const Cart = ({ cartOpen, setCartOpen }: CartProps) => {
     return sum + item.price * item.quantity;
   }, 0);
 
+  // Handle order submission
   const handleCheckout = async () => {
     if (!user) {
       setCheckoutMessage({ type: "error", text: "Please log in to checkout" });

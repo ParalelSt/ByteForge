@@ -13,6 +13,10 @@ interface shopProductsProps {
   subcategory: string | null;
 }
 
+/**
+ * Product grid display component
+ * Renders filtered products by category/subcategory with add-to-cart functionality
+ */
 const ShopProducts = ({ category, subcategory }: shopProductsProps) => {
   const { products, loading, error } = useProducts();
   const { addItem } = useCart();

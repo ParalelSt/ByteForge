@@ -6,6 +6,11 @@ import {
   useCallback,
 } from "react";
 
+/**
+ * ProductContext - Manages all product data and fetching
+ * Provides products, loading states, and refetch capability for the entire app
+ */
+
 interface Product {
   id: string;
   name: string;

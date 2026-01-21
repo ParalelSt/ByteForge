@@ -3,6 +3,11 @@ import "@/styles/category/categoryAccordion.scss";
 import SectionContainer from "@/components/common/SectionContainer";
 import { RiArrowRightSLine } from "react-icons/ri";
 
+/**
+ * Category filter accordion component
+ * Displays collapsible list of product categories for filtering
+ */
+
 interface CategoryAccordionProps {
   onSelectCategory: (category: CategoryKey) => void;
   onClearCategory: () => void;
