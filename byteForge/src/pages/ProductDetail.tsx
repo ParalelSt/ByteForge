@@ -1,11 +1,11 @@
-import ProductCard from "@/components/ProductCard";
-import ProductReviews from "@/components/ProductReviews";
+import ProductCard from "@/components/product/ProductCard";
+import ProductReviews from "@/components/product/ProductReviews";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useCart } from "@/components/context/CartContext";
 import { useToast } from "@/components/context/ToastContext";
 import { FaMinus, FaPlus } from "react-icons/fa6";
-import "@/styles/productDetail.scss";
+import "@/styles/product/productDetail.scss";
 import { BsCurrencyEuro } from "react-icons/bs";
 
 interface Product {
@@ -36,7 +36,7 @@ const ProductDetail = () => {
   const [recommendationLoading, setRecommendationLoading] = useState(true);
   const [productError, setProductError] = useState<string | null>(null);
   const [recommendationError, setRecommendationError] = useState<string | null>(
-    null
+    null,
   );
 
   const [quantity, setQuantity] = useState(1);
@@ -112,7 +112,7 @@ const ProductDetail = () => {
         setRecommendationLoading(true);
         const apiUrl = import.meta.env.VITE_API_URL;
         const response = await fetch(
-          `${apiUrl}/products/${id}/recommendations`
+          `${apiUrl}/products/${id}/recommendations`,
         );
 
         if (!response.ok) {
@@ -258,7 +258,7 @@ const ProductDetail = () => {
                 alt: prod.name,
                 image: prod.image,
               },
-              quantity
+              quantity,
             );
             addToast(`${prod.name} (×${quantity}) added to cart!`, "success");
             setQuantity(1);

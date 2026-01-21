@@ -8,14 +8,14 @@ import { ReviewProvider } from "@/components/context/ReviewContext";
 import { ToastProvider } from "@/components/context/ToastContext";
 import About from "@/pages/About";
 import Contact from "@/pages/Contact";
-import Layout from "@/components/Layout";
+import Layout from "@/components/layout/Layout";
 import AdminDashboard from "@/components/admin/AdminDashboard";
 import Authorization from "@/pages/Authorization";
 import UserProvider from "@/components/context/UserContext";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import Account from "./pages/Account";
 import ProductDetail from "./pages/ProductDetail";
-import Toast from "@/components/Toast";
+import Toast from "@/components/toast/Toast";
 
 function App() {
   return (

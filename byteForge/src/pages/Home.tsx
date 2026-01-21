@@ -1,6 +1,6 @@
-import FeaturedProducts from "@/components/FeaturedProducts";
-import Hero from "@/components/Hero";
-import Promo from "@/components/Promo";
+import FeaturedProducts from "@/components/home/FeaturedProducts";
+import Hero from "@/components/home/Hero";
+import Promo from "@/components/home/Promo";
 
 const Home = () => {
   return (

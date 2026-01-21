@@ -1,7 +1,7 @@
 import { useUser } from "@/components/context/UserContext";
 import { useEffect, useState } from "react";
-import "@/styles/account.scss";
-import AccountSettingsModal from "@/components/AccountSettingsModal";
+import "@/styles/account/account.scss";
+import AccountSettingsModal from "@/components/account/AccountSettingsModal";
 
 const Account = () => {
   const { user, logout } = useUser();
@@ -10,7 +10,7 @@ const Account = () => {
   >([]);
   const [profilePicture, setProfilePicture] = useState<string | null>("");
   const [mode, setMode] = useState<"email" | "username" | "password" | null>(
-    null
+    null,
   );
 
   useEffect(() => {
@@ -59,7 +59,7 @@ const Account = () => {
                             month: "long",
                             day: "numeric",
                             timeZone: "Europe/Belgrade",
-                          }
+                          },
                         )}
                       </span>
                     </div>
