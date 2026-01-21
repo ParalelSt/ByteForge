@@ -17,13 +17,13 @@ const ShopContent = () => {
   const [accordionOpen, setAccordionOpen] = useState(false);
   const [overlayOpen, setOverlayOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<CategoryKey | null>(
-    null
+    null,
   );
   const [selectedCategory, setSelectedCategory] = useState<CategoryKey | null>(
-    null
+    null,
   );
   const [selectedSubCategory, setSelectedSubCategory] = useState<string | null>(
-    null
+    null,
   );
 
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024); // or whatever your desktop breakpoint is
@@ -81,6 +81,7 @@ const ShopContent = () => {
   const handleBack = () => {
     setOverlayOpen(false);
     setActiveCategory(null);
+    setAccordionOpen(true);
   };
 
   const handleClose = () => {

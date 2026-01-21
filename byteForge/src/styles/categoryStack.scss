@@ -13,8 +13,13 @@
 
     align-items: flex-start;
 
-    min-width: 20rem;
-
     margin-right: 1rem;
+    padding-bottom: 5rem;
+
+    min-width: 20rem;
+    max-height: 100vh;
+
+    overflow-y: auto;
+    scrollbar-width: none;
   }
 }
