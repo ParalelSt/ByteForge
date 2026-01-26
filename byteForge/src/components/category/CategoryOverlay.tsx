@@ -58,27 +58,15 @@ const CategoryOverlay = ({
           >
             All {CATEGORY_LABELS[category]}
           </button>
-            return (
-              <button
-                key={item}
-                className="overlay-list-item"
-                onClick={() => {
-                  onSelectSubCategory(item);
-                }}
-              >
-                {item}
-              </button>
-            );
-          })}
-            {CATEGORY_ITEMS[category].map((item: string) => (
-              <button
-                key={item}
-                className="overlay-list-item"
-                onClick={() => onSelectSubCategory(item)}
-              >
-                {item}
-              </button>
-            ))}
+          {CATEGORY_ITEMS[category].map((item: string) => (
+            <button
+              key={item}
+              className="overlay-list-item"
+              onClick={() => onSelectSubCategory(item)}
+            >
+              {item}
+            </button>
+          ))}
         </div>
       </div>
     </>
