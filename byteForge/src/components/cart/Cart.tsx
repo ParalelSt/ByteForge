@@ -128,7 +128,6 @@ const Cart = ({ cartOpen, setCartOpen }: CartProps) => {
                 (p) => String(p.id) === String(item.id),
               );
               if (!product) {
-                console.log("Product not found for cart item:", item);
                 return null;
               }
 

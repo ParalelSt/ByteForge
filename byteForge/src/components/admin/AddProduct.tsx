@@ -53,16 +53,7 @@ const AddProduct = ({ onProductAdded }: AddProductProps) => {
         formData.append("image", image);
       }
 
-      console.log("Submitting product:", {
-        name,
-        description,
-        price,
-        stock,
-        category,
-        subcategory,
-        hasImage: !!image,
-      });
-
+      // submit product
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/admin/products`,
         {
@@ -71,9 +62,7 @@ const AddProduct = ({ onProductAdded }: AddProductProps) => {
         },
       );
 
-      console.log("Response status:", res.status);
       const data = await res.json();
-      console.log("Response data:", data);
 
       if (data.success) {
         setMessage("Product successfully added!");
@@ -91,7 +80,6 @@ const AddProduct = ({ onProductAdded }: AddProductProps) => {
         ) as HTMLInputElement;
         if (fileInput) fileInput.value = "";
 
-        console.log("Product added, calling onProductAdded");
         onProductAdded?.();
       } else {
         setMessage("Failed to add product.");

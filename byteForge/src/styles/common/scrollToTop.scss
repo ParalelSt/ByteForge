@@ -3,8 +3,8 @@
 
 .scroll-to-top-btn {
     position: fixed;
-    top: 85%;
-    right: 3rem;
+    top: 75%;
+    right: 2rem;
 
     @include m.flexCenter;
 
@@ -19,5 +19,10 @@
         height: 1.5rem;
 
         color: white;
+    }
+
+    @media (min-width: v.$desktop) {
+        top: 80%;
+        right: 3rem;
     }
 }

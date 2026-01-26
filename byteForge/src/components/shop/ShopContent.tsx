@@ -8,16 +8,16 @@ import CategoryOverlay from "@/components/category/CategoryOverlay";
 import type { CategoryKey } from "@/api/categoryData";
 import { CATEGORY_TO_DB } from "@/api/categoryData";
 import ShopProducts from "@/components/shop/ShopProducts";
-import { useProducts } from "@/components/context/ProductContext";
 import ScrollToTop from "@/components/common/ScrollToTop";
+import { useProducts } from "@/components/context/ProductContext";
 
 /**
  * Shop page main component
  * Manages category filtering and product display with accordion/overlay navigation
  */
 const ShopContent = () => {
-  const { refetch } = useProducts();
   const location = useLocation();
+  const { products, loading } = useProducts();
   const [accordionOpen, setAccordionOpen] = useState(false);
   const [overlayOpen, setOverlayOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<CategoryKey | null>(
@@ -40,11 +40,6 @@ const ShopContent = () => {
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  // Fetch products on mount
-  useEffect(() => {
-    refetch();
   }, []);
 
   // Restore scroll position when returning to shop page
@@ -108,6 +103,28 @@ const ShopContent = () => {
     setSelectedSubCategory(null);
     setAccordionOpen(false);
   };
+
+  useEffect(() => {
+    if (!selectedSubCategory || loading) return;
+    // Only scroll if not already at the top
+    const scrollY =
+      window.scrollY ||
+      document.body.scrollTop ||
+      document.documentElement.scrollTop;
+    if (scrollY > 0) {
+      // Try multiple times for reliability, with longer delays
+      for (let i = 0; i < 5; i++) {
+        setTimeout(
+          () => {
+            window.scrollTo(0, 0);
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+          },
+          200 * (i + 1),
+        );
+      }
+    }
+  }, [selectedSubCategory, loading]);
 
   return (
     <div className="shop-content-container">

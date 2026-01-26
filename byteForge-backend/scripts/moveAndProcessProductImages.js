@@ -16,7 +16,7 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY,
 );
 
-const SRC_DIR = path.join(process.cwd(), "images", "productImages");
+const SRC_DIR = path.join(process.cwd(), "images", "product_images");
 const DEST_DIR = path.join(process.cwd(), "images", "product_images");
 
 // Remove.bg API
@@ -51,10 +51,6 @@ async function uploadToSupabase(imageBuffer, filename) {
 async function main() {
   // List all files in SRC_DIR
   const srcFiles = fs.readdirSync(SRC_DIR);
-  // List all files in DEST_DIR
-  const destFiles = new Set(fs.readdirSync(DEST_DIR));
-
-  let moved = 0;
   let processed = 0;
   let uploaded = 0;
   let failed = [];
@@ -62,45 +58,29 @@ async function main() {
   for (const file of srcFiles) {
     const baseName = path.basename(file, path.extname(file));
     const destPngName = baseName + ".png";
-    if (!destFiles.has(destPngName)) {
-      const srcPath = path.join(SRC_DIR, file);
-      const destPath = path.join(DEST_DIR, destPngName);
-      const buffer = fs.readFileSync(srcPath);
+    const srcPath = path.join(SRC_DIR, file);
+    const destPath = path.join(DEST_DIR, destPngName);
+    const buffer = fs.readFileSync(srcPath);
+    try {
+      let pngBuffer;
       if (path.extname(file).toLowerCase() !== ".png") {
-        try {
-          // Try remove.bg first (optional, can be commented out)
-          // If remove.bg fails, convert to PNG locally
-          let pngBuffer;
-          try {
-            pngBuffer = await removeBgConvertToPng(buffer);
-          } catch (err) {
-            // If remove.bg fails, convert locally
-            pngBuffer = await sharp(buffer).png().toBuffer();
-            console.log(`Converted to PNG locally: ${file}`);
-          }
-          fs.writeFileSync(destPath, pngBuffer);
-          await uploadToSupabase(pngBuffer, destPngName);
-          processed++;
-          uploaded++;
-          console.log(`Processed and uploaded: ${destPngName}`);
-        } catch (err) {
-          console.error(`Error converting/uploading ${file}:`, err.message);
-          failed.push(file);
-        }
+        pngBuffer = await sharp(buffer).png().toBuffer();
+        console.log(`Converted to PNG locally: ${file}`);
       } else {
-        // Already PNG, just copy and upload
-        fs.copyFileSync(srcPath, destPath);
-        await uploadToSupabase(buffer, destPngName);
-        moved++;
-        uploaded++;
-        console.log(`Moved and uploaded: ${destPngName}`);
+        pngBuffer = buffer;
       }
+      fs.writeFileSync(destPath, pngBuffer);
+      await uploadToSupabase(pngBuffer, destPngName);
+      processed++;
+      uploaded++;
+      console.log(`Processed and uploaded: ${destPngName}`);
+    } catch (err) {
+      console.error(`Error converting/uploading ${file}:`, err.message);
+      failed.push(file);
     }
   }
 
-  console.log(
-    `\nMoved: ${moved}, Processed: ${processed}, Uploaded: ${uploaded}`,
-  );
+  console.log(`\nProcessed: ${processed}, Uploaded: ${uploaded}`);
   if (failed.length) {
     console.log(`Failed to process: ${failed.length}`);
     failed.forEach((f) => console.log(`  - ${f}`));

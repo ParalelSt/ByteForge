@@ -12,11 +12,7 @@ const AdminDashboard = () => {
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const handleProductAdded = () => {
-    console.log("handleProductAdded called, current trigger:", refreshTrigger);
-    setRefreshTrigger((prev) => {
-      console.log("Setting refresh trigger from", prev, "to", prev + 1);
-      return prev + 1;
-    });
+    setRefreshTrigger((prev) => prev + 1);
   };
 
   const handleLogin = async () => {
@@ -27,7 +23,7 @@ const AdminDashboard = () => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ password: adminPassword }),
-        }
+        },
       );
 
       const data = await res.json();

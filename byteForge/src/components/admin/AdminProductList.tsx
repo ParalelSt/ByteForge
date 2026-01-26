@@ -146,7 +146,6 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
         throw new Error(data.error || "Failed to load products");
       }
 
-      console.log("Fetched products:", data);
       setProducts(data);
     } catch (err: any) {
       console.error(err);
@@ -157,10 +156,6 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
   };
 
   useEffect(() => {
-    console.log(
-      "AdminProductList useEffect triggered, refreshTrigger:",
-      refreshTrigger,
-    );
     fetchProducts();
   }, [refreshTrigger]);
 

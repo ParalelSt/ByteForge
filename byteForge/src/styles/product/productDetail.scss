@@ -21,14 +21,14 @@
         .product-detail-image-container {
             @include m.flexCenter;
 
-            width: 20rem;
-            height: 20rem;
+            width: 50rem;
+            height: 25rem;
 
             img {
                 width: 100%;
                 height: 100%;
 
-                object-fit: cover;
+                object-fit: contain;
                 object-position: center 25%;
             }
         }

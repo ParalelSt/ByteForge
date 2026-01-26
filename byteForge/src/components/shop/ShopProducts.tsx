@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useCart } from "@/components/context/CartContext";
 import { useProducts } from "@/components/context/ProductContext";
 import { useToast } from "@/components/context/ToastContext";
@@ -23,12 +24,32 @@ const ShopProducts = ({ category, subcategory }: shopProductsProps) => {
   const { addToast } = useToast();
 
   const filteredProducts = products.filter((p) => {
+    // Remove products missing images
+    if (!p.image && !p.imageUrl) return false;
     if (!category) return true;
     if (p.category !== category) return false;
     if (subcategory && p.subcategory !== subcategory) return false;
-
     return true;
   });
+
+  // When filtered products change (subcategory selection), ensure page scrolls to top
+  useEffect(() => {
+    // Only attempt when we actually have results and not loading
+    if (filteredProducts.length === 0) return;
+    // small delay to allow DOM to update
+    const t = setTimeout(() => {
+      // hard scroll for compatibility
+      try {
+        window.scrollTo(0, 0);
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+        // forced scroll after render
+      } catch (e) {
+        console.warn("ShopProducts: scroll attempt failed", e);
+      }
+    }, 150);
+    return () => clearTimeout(t);
+  }, [subcategory, filteredProducts.length]);
 
   const handleProductClick = () => {
     // Save scroll position to sessionStorage
