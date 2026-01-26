@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.11](https://github.com/ParalelSt/ByteForge/compare/v0.0.10...v0.0.11) (2026-01-26)
+
+
+### Features
+
+* added README ([48d7513](https://github.com/ParalelSt/ByteForge/commit/48d75135bf87f69968e5373661955d3e039f3299))
+
+
+### Bug Fixes
+
+* build error ([5bc81b8](https://github.com/ParalelSt/ByteForge/commit/5bc81b81f7e180c673c796818e15f4b1cea48aa3))
+* missing images for products ([68afa09](https://github.com/ParalelSt/ByteForge/commit/68afa09f7a6ffe47d82b41196db00365e3140322))
+* missing images, product duplicates, being in the wrong position on a page when changing between sub categories ([574d7f2](https://github.com/ParalelSt/ByteForge/commit/574d7f23cd36944121a1446cf9f70b24f1e3ff69))
+* number inputs having spin buttons on some browsers, fixed to have only + and - buttons ([6bf2f47](https://github.com/ParalelSt/ByteForge/commit/6bf2f47553f355e01fcac0236697125c46762c2c))
+* the category drop down on more scaled screens was going off screen ([c7a6bec](https://github.com/ParalelSt/ByteForge/commit/c7a6bec71d66f9cc669cb6539db5e4d67d5fd41b))
+
 ### [0.0.10](https://github.com/ParalelSt/ByteForge/compare/v0.0.9...v0.0.10) (2026-01-12)
 
 
