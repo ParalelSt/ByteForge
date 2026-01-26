@@ -39,6 +39,7 @@ interface AdminProduct {
   category?: string;
   subcategory?: string;
   featured?: boolean;
+  stock?: number;
 }
 
 interface AdminProductListProps {
@@ -121,6 +122,7 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
     name: "",
     description: "",
     price: "",
+    stock: "",
     category: "",
     subcategory: "",
   });
@@ -157,7 +159,7 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
   useEffect(() => {
     console.log(
       "AdminProductList useEffect triggered, refreshTrigger:",
-      refreshTrigger
+      refreshTrigger,
     );
     fetchProducts();
   }, [refreshTrigger]);
@@ -205,6 +207,7 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
       name: product.name,
       description: product.description || "",
       price: product.price.toString(),
+      stock: product.stock?.toString() || "0",
       category: product.category || "",
       subcategory: product.subcategory || "",
     });
@@ -217,6 +220,7 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
       name: "",
       description: "",
       price: "",
+      stock: "",
       category: "",
       subcategory: "",
     });
@@ -229,6 +233,7 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
       formData.append("name", editForm.name);
       formData.append("description", editForm.description);
       formData.append("price", editForm.price);
+      formData.append("stock", editForm.stock);
       formData.append("category", editForm.category);
       formData.append("subcategory", editForm.subcategory);
       if (editImage) {
@@ -240,7 +245,7 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
         {
           method: "PUT",
           body: formData,
-        }
+        },
       );
 
       const data = await res.json();
@@ -274,8 +279,8 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
 
       setProducts((prev) =>
         prev.map((p) =>
-          p.id === id ? { ...p, featured: !currentFeatured } : p
-        )
+          p.id === id ? { ...p, featured: !currentFeatured } : p,
+        ),
       );
     } catch (err: any) {
       console.error(err);
@@ -298,7 +303,7 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
 
     // Discount filter
     const hasDiscount = discounts.some(
-      (d) => d.productId === product.id && d.active
+      (d) => d.productId === product.id && d.active,
     );
     const matchesDiscount =
       !discountFilterHasDiscount ||
@@ -356,7 +361,7 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
                 <option key={sub} value={sub}>
                   {sub}
                 </option>
-              )
+              ),
             )}
         </select>
         <select
@@ -402,6 +407,15 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
                     setEditForm({ ...editForm, price: e.target.value })
                   }
                   placeholder="Price"
+                />
+                <input
+                  type="number"
+                  value={editForm.stock}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, stock: e.target.value })
+                  }
+                  placeholder="Stock"
+                  min="0"
                 />
                 <select
                   value={editForm.category}
@@ -476,7 +490,7 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
                   {/* Discounted price display layered on top */}
                   {(() => {
                     const discount = discounts.find(
-                      (d) => d.productId === p.id && d.active
+                      (d) => d.productId === p.id && d.active,
                     );
                     if (discount) {
                       const discounted = (
@@ -506,6 +520,7 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
                   {p.featured && (
                     <span className="featured-badge">⭐ Featured</span>
                   )}
+                  <span className="stock-info">Stock: {p.stock ?? 0}</span>
                 </div>
                 <div className="product-actions">
                   <button
@@ -561,7 +576,7 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
               const matchesSubcategory =
                 !filterSubcategory || p.subcategory === filterSubcategory;
               const hasDiscount = discounts.some(
-                (d) => d.productId === p.id && d.active
+                (d) => d.productId === p.id && d.active,
               );
               const matchesDiscountStatus =
                 !discountFilterHasDiscount ||
@@ -578,10 +593,10 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
             })
             .map((p) => {
               const hasDiscount = discounts.some(
-                (d) => d.productId === p.id && d.active
+                (d) => d.productId === p.id && d.active,
               );
               const discountInfo = discounts.find(
-                (d) => d.productId === p.id && d.active
+                (d) => d.productId === p.id && d.active,
               );
               return (
                 <div

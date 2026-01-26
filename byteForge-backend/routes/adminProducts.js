@@ -49,7 +49,7 @@ POST /admin/products
 */
 router.post("/", upload.single("image"), async (req, res) => {
   try {
-    const { name, description, price, category, subcategory } = req.body;
+    const { name, description, price, category, subcategory, stock } = req.body;
 
     if (!name || !price)
       return res.status(400).json({ error: "Name and price required" });
@@ -76,6 +76,7 @@ router.post("/", upload.single("image"), async (req, res) => {
           image: imageFilename,
           category: category ?? null,
           subcategory: subcategory ?? null,
+          stock: stock ? parseInt(stock) : 0,
         },
       ])
       .select();
@@ -146,7 +147,7 @@ PUT /admin/products/:id
 */
 router.put("/:id", upload.single("image"), async (req, res) => {
   try {
-    const { name, description, price, category, subcategory } = req.body;
+    const { name, description, price, category, subcategory, stock } = req.body;
     const productId = req.params.id;
 
     // Fetch old image
@@ -189,6 +190,7 @@ router.put("/:id", upload.single("image"), async (req, res) => {
         image: newImage,
         category: category ?? null,
         subcategory: subcategory ?? null,
+        stock: stock !== undefined ? parseInt(stock) : undefined,
       })
       .eq("id", productId);
 

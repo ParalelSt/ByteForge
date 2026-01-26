@@ -1,6 +1,8 @@
 import "@/styles/product/productContainer.scss";
 import { FaEuroSign, FaMinus, FaPlus, FaTrash } from "react-icons/fa6";
 import { useCart } from "@/components/context/CartContext";
+import { useProducts } from "@/components/context/ProductContext";
+import { useToast } from "@/components/context/ToastContext";
 import { useState, useEffect, useRef } from "react";
 
 interface ProductContainerProps {
@@ -26,6 +28,12 @@ const ProductContainer = ({
   id,
 }: ProductContainerProps) => {
   const { increase, decrease, removeItem, updateItemQuantity } = useCart();
+  const { products } = useProducts();
+  const { addToast } = useToast();
+
+  // Get stock for this product
+  const product = products.find((p) => String(p.id) === String(id));
+  const stock = product?.stock ?? 0;
 
   const [cooldown, setCooldown] = useState(false);
   const [quantity, setQuantity] = useState(count);
@@ -50,6 +58,10 @@ const ProductContainer = ({
 
   const handleIncrease = () => {
     if (cooldown) {
+      return;
+    }
+    if (quantity >= stock) {
+      addToast(`Only ${stock} in stock`, "error");
       return;
     }
     setCooldown(true);
@@ -131,9 +143,13 @@ const ProductContainer = ({
                 setQuantity(1); // Reset to 1 instead of 0
               } else if (/^\d+$/.test(input)) {
                 const value = parseInt(input, 10);
-                if (value >= 1) {
+                if (value >= 1 && value <= stock) {
                   setQuantity(value);
                   updateItemQuantity(id, value);
+                } else if (value > stock) {
+                  setQuantity(stock);
+                  updateItemQuantity(id, stock);
+                  addToast(`Only ${stock} in stock`, "error");
                 } else {
                   setQuantity(1); // Don't allow 0
                   updateItemQuantity(id, 1);

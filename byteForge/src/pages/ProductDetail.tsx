@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useCart } from "@/components/context/CartContext";
 import { useToast } from "@/components/context/ToastContext";
+import { getImageUrl } from "@/utils/imageUrl";
 import { FaMinus, FaPlus } from "react-icons/fa6";
 import "@/styles/product/productDetail.scss";
 import { BsCurrencyEuro } from "react-icons/bs";
@@ -19,6 +20,7 @@ interface Product {
   category: string;
   subcategory?: string;
   featured?: boolean;
+  stock?: number;
   discount?: {
     id: number;
     productId: number;
@@ -44,12 +46,25 @@ const ProductDetail = () => {
   const [cooldown, setCooldown] = useState(false);
   const [productCount, setProductCount] = useState(8);
 
-  const { addItem } = useCart();
+  const { addItem, cart } = useCart();
   const { addToast } = useToast();
 
-  // Quantity adjustment handlers with cooldown to prevent spam
+  // Get current quantity of this product in cart
+  const currentInCart =
+    cart.find((item) => String(item.id) === String(id))?.quantity || 0;
+
+  // Quantity adjustment handlers with cooldown and stock limit
   const handleIncreaseQuantity = () => {
     if (cooldown) return;
+    const stock = product?.stock ?? 0;
+    const maxAllowed = stock - currentInCart;
+    if (quantity >= maxAllowed) {
+      addToast(
+        `Only ${stock} in stock (${currentInCart} already in cart)`,
+        "error",
+      );
+      return;
+    }
     setCooldown(true);
     setQuantity((prev) => prev + 1);
     setTimeout(() => setCooldown(false), 150);
@@ -142,11 +157,7 @@ const ProductDetail = () => {
 
   const prod = product;
   const recs = recommendations;
-  const imageSrc =
-    prod.imageUrl ||
-    (prod.image && prod.image.startsWith("http")
-      ? prod.image
-      : "/placeholder.png");
+  const imageSrc = getImageUrl(prod.imageUrl, prod.image, "product");
   const visibleRecs = recs.slice(0, productCount);
 
   const pricePerUnit = prod.discount
@@ -221,13 +232,18 @@ const ProductDetail = () => {
             }}
             onChange={(e) => {
               const input = e.target.value;
+              const stock = product?.stock ?? 0;
+              const maxAllowed = stock - currentInCart;
               // Only process if input contains only digits
               if (input === "") {
                 setQuantity(1); // Reset to 1 instead of 0
               } else if (/^\d+$/.test(input)) {
                 const value = parseInt(input, 10);
-                if (value >= 1) {
+                if (value >= 1 && value <= maxAllowed) {
                   setQuantity(value);
+                } else if (value > maxAllowed) {
+                  setQuantity(maxAllowed > 0 ? maxAllowed : 1);
+                  addToast(`Only ${stock} in stock`, "error");
                 } else {
                   setQuantity(1); // Don't allow 0
                 }
@@ -252,6 +268,19 @@ const ProductDetail = () => {
         <button
           className="add-to-cart"
           onClick={() => {
+            const stock = prod.stock ?? 0;
+            const maxAllowed = stock - currentInCart;
+            if (quantity > maxAllowed) {
+              addToast(
+                `Only ${stock} in stock (${currentInCart} in cart)`,
+                "error",
+              );
+              return;
+            }
+            if (stock === 0) {
+              addToast("Out of stock", "error");
+              return;
+            }
             addItem(
               {
                 id: String(prod.id),
@@ -282,7 +311,7 @@ const ProductDetail = () => {
             style={{ textDecoration: "none", color: "inherit" }}
           >
             <ProductCard
-              image={`http://192.168.1.105:3000/images/product_images/${r.image}`}
+              image={getImageUrl(r.imageUrl, r.image, "product")}
               name={r.name}
               price={r.price}
               discount={r.discount || null}

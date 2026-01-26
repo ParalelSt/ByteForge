@@ -22,6 +22,7 @@ interface Product {
   category: string;
   subcategory?: string;
   featured?: boolean;
+  stock?: number;
   discount?: {
     id: number;
     productId: number;

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { getImageUrl } from "@/utils/imageUrl";
 import "@/styles/admin/adminPromoList.scss";
 
 interface Promo {
@@ -80,7 +81,7 @@ const AdminPromoList = () => {
         ? `${
             import.meta.env.VITE_SUPABASE_URL
           }/storage/v1/object/public/promo_images/promo_images/${promo.image}`
-        : ""
+        : "",
     );
   };
 
@@ -232,7 +233,7 @@ const AdminPromoList = () => {
                 <img
                   src={
                     promo.image
-                      ? `http://192.168.1.105:3000/images/promo_images/${promo.image}`
+                      ? getImageUrl(null, promo.image, "promo")
                       : "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23141414' width='100' height='100'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23666' font-family='Arial' font-size='12'%3ENo Image%3C/text%3E%3C/svg%3E"
                   }
                   alt={promo.title}

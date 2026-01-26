@@ -68,8 +68,14 @@ router.get("/:id", async (req, res) => {
 
     const discount = discounts && discounts.length > 0 ? discounts[0] : null;
 
+    // Add imageUrl
+    const imageUrl = product.image
+      ? `${process.env.SUPABASE_URL}/storage/v1/object/public/product_images/${product.image}`
+      : null;
+
     res.json({
       ...product,
+      imageUrl,
       discount,
     });
   } catch (err) {
@@ -114,8 +120,12 @@ router.get("/:id/recommendations", async (req, res) => {
 
     const productsWithDiscounts = recommendedProducts.map((prod) => {
       const discount = discounts.find((d) => d.productid === prod.id);
+      const imageUrl = prod.image
+        ? `${process.env.SUPABASE_URL}/storage/v1/object/public/product_images/${prod.image}`
+        : null;
       return {
         ...prod,
+        imageUrl,
         discount: discount || null,
       };
     });

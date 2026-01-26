@@ -17,7 +17,13 @@ router.get("/:id", async (req, res) => {
       return res.status(404).json({ error: "Product not found" });
     }
 
-    res.json(rows[0]);
+    const product = rows[0];
+    // Add imageUrl
+    const imageUrl = product.image
+      ? `${process.env.SUPABASE_URL}/storage/v1/object/public/product_images/${product.image}`
+      : null;
+
+    res.json({ ...product, imageUrl });
   } catch (error) {
     console.error("Error fetching product: ", error);
     res.status(500).json({ message: "Server error" });

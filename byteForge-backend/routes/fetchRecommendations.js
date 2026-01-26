@@ -26,7 +26,16 @@ router.get("/:id/recommendations", async (req, res) => {
       .limit(20);
 
     if (error) throw error;
-    res.json(recommendations);
+
+    // Add imageUrl to each recommendation
+    const recommendationsWithUrls = recommendations.map((prod) => ({
+      ...prod,
+      imageUrl: prod.image
+        ? `${process.env.SUPABASE_URL}/storage/v1/object/public/product_images/${prod.image}`
+        : null,
+    }));
+
+    res.json(recommendationsWithUrls);
   } catch (error) {
     console.error("Error fetching product recommendations: ", error);
     res.status(500).json({ message: "Server error" });

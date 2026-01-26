@@ -27,6 +27,7 @@ const AddProduct = ({ onProductAdded }: AddProductProps) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
+  const [stock, setStock] = useState("");
   const [image, setImage] = useState<File | null>(null);
   const [category, setCategory] = useState("");
   const [subcategory, setSubcategory] = useState("");
@@ -45,6 +46,7 @@ const AddProduct = ({ onProductAdded }: AddProductProps) => {
       formData.append("name", name);
       formData.append("description", description);
       formData.append("price", price);
+      formData.append("stock", stock);
       formData.append("category", category);
       formData.append("subcategory", subcategory);
       if (image) {
@@ -55,6 +57,7 @@ const AddProduct = ({ onProductAdded }: AddProductProps) => {
         name,
         description,
         price,
+        stock,
         category,
         subcategory,
         hasImage: !!image,
@@ -65,7 +68,7 @@ const AddProduct = ({ onProductAdded }: AddProductProps) => {
         {
           method: "POST",
           body: formData,
-        }
+        },
       );
 
       console.log("Response status:", res.status);
@@ -77,13 +80,14 @@ const AddProduct = ({ onProductAdded }: AddProductProps) => {
         setName("");
         setDescription("");
         setPrice("");
+        setStock("");
         setCategory("");
         setSubcategory("");
         setImage(null);
 
         // Reset file input
         const fileInput = document.querySelector(
-          'input[type="file"]'
+          'input[type="file"]',
         ) as HTMLInputElement;
         if (fileInput) fileInput.value = "";
 
@@ -120,6 +124,14 @@ const AddProduct = ({ onProductAdded }: AddProductProps) => {
         placeholder="Price"
         value={price}
         onChange={(e) => setPrice(e.target.value)}
+      />
+
+      <input
+        type="number"
+        placeholder="Stock"
+        value={stock}
+        onChange={(e) => setStock(e.target.value)}
+        min="0"
       />
 
       <select

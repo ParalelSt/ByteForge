@@ -22,6 +22,7 @@ import productRoute from "./routes/fetchProduct.js";
 import productRecommendations from "./routes/fetchRecommendations.js";
 import discountsRoute from "./routes/discounts.js";
 import reviewsRoute from "./routes/reviews.js";
+import bulkUploadRoute from "./routes/bulkUpload.js";
 
 dotenv.config();
 
@@ -47,7 +48,7 @@ app.use(
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "x-admin-password"],
-  })
+  }),
 );
 
 app.use(express.json());
@@ -59,7 +60,7 @@ app.use(
     res.header("Access-Control-Allow-Origin", "*");
     next();
   },
-  express.static(path.join(__dirname, "images/product_images"))
+  express.static(path.join(__dirname, "images/product_images")),
 );
 
 app.use(
@@ -69,7 +70,7 @@ app.use(
     res.header("Access-Control-Allow-Origin", "*");
     next();
   },
-  express.static(path.join(__dirname, "images/promo_images"))
+  express.static(path.join(__dirname, "images/promo_images")),
 );
 
 // Routes
@@ -105,6 +106,8 @@ console.log("Registering /cart route");
 app.use("/cart", cartRoute);
 console.log("Registering /reviews route");
 app.use("/", reviewsRoute);
+console.log("Registering /bulk-upload route");
+app.use("/bulk-upload", bulkUploadRoute);
 console.log("Registering product detail route");
 app.use("/products", productRoute);
 console.log("Registering product recommendations route");
