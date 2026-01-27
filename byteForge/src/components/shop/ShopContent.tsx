@@ -17,7 +17,7 @@ import { useProducts } from "@/components/context/ProductContext";
  */
 const ShopContent = () => {
   const location = useLocation();
-  const { products, loading } = useProducts();
+  const { loading } = useProducts();
   const [accordionOpen, setAccordionOpen] = useState(false);
   const [overlayOpen, setOverlayOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<CategoryKey | null>(
