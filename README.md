@@ -136,10 +136,12 @@ npm run build
 ### Images & Assets
 
 **Local Development:**
+
 - Product images are stored locally in `byteForge-backend/images/product_images/`
 - Used for development and testing purposes
 
 **Production:**
+
 - Product images are hosted on **Supabase Storage** in the `product_images` bucket
 - Images are served from the Supabase CDN (https://ljspsrjfvannbfvwoiyy.supabase.co/storage/v1/object/public/product_images/)
 - This keeps the repository clean and uses cloud storage best practices
