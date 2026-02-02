@@ -106,15 +106,23 @@
 
     .promo-item {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) auto auto;
+        grid-template-columns: auto 1fr auto;
+        grid-template-rows: auto auto;
         align-items: center;
-        gap: 0.75rem;
+        gap: 0.75rem 1rem;
 
         @include m.tablet {
-            gap: 1.25rem;
+            gap: 1rem 1.25rem;
+        }
+
+        .promo-image {
+            grid-row: 1 / 2;
+            grid-column: 1 / 2;
         }
 
         .promo-info {
+            grid-row: 1 / 2;
+            grid-column: 2 / 3;
             min-width: 0;
             overflow: hidden;
 
@@ -135,7 +143,13 @@
 
             .promo-date {
                 color: #aaa;
-                font-size: 0.9rem;
+                font-size: 0.75rem;
+                display: block;
+                margin-bottom: 0.25rem;
+
+                @include m.tablet {
+                    font-size: 0.85rem;
+                }
             }
 
             .active-badge {
@@ -143,9 +157,23 @@
                 color: #fff;
                 border-radius: 0.2rem;
                 padding: 0.2rem 0.5rem;
-                font-size: 0.8rem;
-                margin-left: 0.5rem;
+                font-size: 0.7rem;
+                display: inline-block;
+
+                @include m.tablet {
+                    font-size: 0.8rem;
+                }
             }
+        }
+
+        .promo-actions {
+            grid-row: 1 / 2;
+            grid-column: 3 / 4;
+        }
+
+        .promo-details {
+            grid-row: 2 / 3;
+            grid-column: 1 / -1;
         }
 
         .promo-image {
@@ -249,24 +277,40 @@
             }
         }
 
-        .promo-description {
-            color: #ccc;
-            font-size: 0.95rem;
-            margin-top: 0.3rem;
-            
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            line-height: 1.4;
-        }
+        .promo-details {
+            grid-row: 2 / 3;
+            grid-column: 1 / -1;
+            padding-top: 0.5rem;
+            border-top: 1px solid v.$border-color;
+            margin-top: 0.25rem;
 
-        .promo-link {
-            color: #2196f3;
-            font-size: 0.95rem;
-            text-decoration: underline;
-            margin-top: 0.2rem;
+            .promo-description {
+                color: #ccc;
+                font-size: 0.85rem;
+                margin-bottom: 0.5rem;
+                
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                line-height: 1.4;
+
+                @include m.tablet {
+                    font-size: 0.95rem;
+                }
+            }
+
+            .promo-link {
+                color: #2196f3;
+                font-size: 0.8rem;
+                text-decoration: underline;
+                word-break: break-all;
+
+                @include m.tablet {
+                    font-size: 0.9rem;
+                }
+            }
         }
     }
 

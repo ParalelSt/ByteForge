@@ -225,15 +225,6 @@ const AdminPromoList = ({ refreshTrigger }: AdminPromoListProps) => {
               </div>
             ) : (
               <div className="promo-item">
-                <div className="promo-info">
-                  <strong>{promo.title}</strong>
-                  <span className="promo-date">
-                    {new Date(promo.created_at).toLocaleString()}
-                  </span>
-                  {promo.is_active && (
-                    <span className="active-badge">Active</span>
-                  )}
-                </div>
                 <img
                   src={
                     promo.image
@@ -245,6 +236,15 @@ const AdminPromoList = ({ refreshTrigger }: AdminPromoListProps) => {
                   alt={promo.title}
                   className="promo-image"
                 />
+                <div className="promo-info">
+                  <strong>{promo.title}</strong>
+                  <span className="promo-date">
+                    {new Date(promo.created_at).toLocaleString()}
+                  </span>
+                  {promo.is_active && (
+                    <span className="active-badge">Active</span>
+                  )}
+                </div>
                 <div className="promo-actions">
                   {!promo.is_active && (
                     <button
@@ -267,21 +267,23 @@ const AdminPromoList = ({ refreshTrigger }: AdminPromoListProps) => {
                     Delete
                   </button>
                 </div>
-                <div className="promo-description">
-                  {promo.description.length > 100
-                    ? `${promo.description.substring(0, 100)}...`
-                    : promo.description}
+                <div className="promo-details">
+                  <div className="promo-description">
+                    {promo.description.length > 100
+                      ? `${promo.description.substring(0, 100)}...`
+                      : promo.description}
+                  </div>
+                  {promo.link && (
+                    <a
+                      href={promo.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="promo-link"
+                    >
+                      {promo.link}
+                    </a>
+                  )}
                 </div>
-                {promo.link && (
-                  <a
-                    href={promo.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="promo-link"
-                  >
-                    {promo.link}
-                  </a>
-                )}
               </div>
             )}
           </li>
