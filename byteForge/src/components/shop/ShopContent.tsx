@@ -9,7 +9,6 @@ import type { CategoryKey } from "@/api/categoryData";
 import { CATEGORY_TO_DB } from "@/api/categoryData";
 import ShopProducts from "@/components/shop/ShopProducts";
 import ScrollToTop from "@/components/common/ScrollToTop";
-import { useProducts } from "@/components/context/ProductContext";
 
 /**
  * Shop page main component
@@ -17,7 +16,6 @@ import { useProducts } from "@/components/context/ProductContext";
  */
 const ShopContent = () => {
   const location = useLocation();
-  const { loading } = useProducts();
   const [accordionOpen, setAccordionOpen] = useState(false);
   const [overlayOpen, setOverlayOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<CategoryKey | null>(
@@ -72,6 +70,11 @@ const ShopContent = () => {
   };
 
   const handleSelectMainCategory = (category: CategoryKey) => {
+    // Immediately reset scroll position before state change
+    window.scrollTo({ top: 0, behavior: "instant" });
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+
     // Select the main category directly without subcategory
     setSelectedCategory(category);
     setSelectedSubCategory(null);
@@ -92,6 +95,11 @@ const ShopContent = () => {
   };
 
   const handleSelectSubCategory = (sub: string) => {
+    // Immediately reset scroll position before state change to prevent glitchy scroll behavior
+    window.scrollTo({ top: 0, behavior: "instant" });
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+
     setSelectedCategory(activeCategory);
     setSelectedSubCategory(sub);
     setOverlayOpen(false);
@@ -99,32 +107,15 @@ const ShopContent = () => {
   };
 
   const handleClearCategory = () => {
+    // Immediately reset scroll position before state change
+    window.scrollTo({ top: 0, behavior: "instant" });
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+
     setSelectedCategory(null);
     setSelectedSubCategory(null);
     setAccordionOpen(false);
   };
-
-  useEffect(() => {
-    if (!selectedSubCategory || loading) return;
-    // Only scroll if not already at the top
-    const scrollY =
-      window.scrollY ||
-      document.body.scrollTop ||
-      document.documentElement.scrollTop;
-    if (scrollY > 0) {
-      // Try multiple times for reliability, with longer delays
-      for (let i = 0; i < 5; i++) {
-        setTimeout(
-          () => {
-            window.scrollTo(0, 0);
-            document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0;
-          },
-          200 * (i + 1),
-        );
-      }
-    }
-  }, [selectedSubCategory, loading]);
 
   return (
     <div className="shop-content-container">
