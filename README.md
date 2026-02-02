@@ -132,8 +132,19 @@ npm run build
 - Components and styles are organized by feature (category, product, shop, etc.)
 - All 5 context providers handle state: Cart, Product, User, Toast, Review
 - Admin dashboard protected with password
-- Product images stored on Supabase
-- Cart persisted to localStorage and database
+
+### Images & Assets
+
+**Local Development:**
+- Product images are stored locally in `byteForge-backend/images/product_images/`
+- Used for development and testing purposes
+
+**Production:**
+- Product images are hosted on **Supabase Storage** in the `product_images` bucket
+- Images are served from the Supabase CDN (https://ljspsrjfvannbfvwoiyy.supabase.co/storage/v1/object/public/product_images/)
+- This keeps the repository clean and uses cloud storage best practices
+
+**Note:** The `images/` folder is excluded from Git (`gitignore`) to keep the repository lightweight, but the images remain available locally for development and testing.
 
 ---
 

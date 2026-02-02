@@ -7,3 +7,6 @@
 addMissingProducts.js
 addPCComponents.js
 createDiscountsTable.js
+images/
+images_backup/
+uploads/
