@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.12](https://github.com/ParalelSt/ByteForge/compare/v0.0.11...v0.0.12) (2026-02-02)
+
+
+### Features
+
+* added check for page position so the return to top button would sit in the right position ([0ee2089](https://github.com/ParalelSt/ByteForge/commit/0ee20899858bfba3bc641264affa3c441875879b))
+
+
+### Bug Fixes
+
+* admin route images not loading, wrong URL for vercel deployment, fixed creating products, promos and discounts, added delete button for discount and related styles ([a24113d](https://github.com/ParalelSt/ByteForge/commit/a24113d05af50c29c46096036b3ddf95ff2207a4))
+* hero image not visible on build ([0b5becf](https://github.com/ParalelSt/ByteForge/commit/0b5becf2a5c6b949a5681718a17a451b77b10307))
+* removed products from destructuring because it was unused ([c4b897f](https://github.com/ParalelSt/ByteForge/commit/c4b897f1c3e788732537b45572141c6f2e264d3f))
+* scrolling glitch ([9247835](https://github.com/ParalelSt/ByteForge/commit/9247835498757ffdb63d5a6d4ce3d7891c324eab))
+* stopped the glitch that appeared during scrolling when changing subcategories and categories, deleted redundant scripts ([b9edb08](https://github.com/ParalelSt/ByteForge/commit/b9edb086e9043df81972a7b5587ebe43468c3f23))
+
 ### [0.0.11](https://github.com/ParalelSt/ByteForge/compare/v0.0.10...v0.0.11) (2026-01-26)
 
 
