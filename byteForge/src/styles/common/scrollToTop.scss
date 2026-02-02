@@ -3,7 +3,7 @@
 
 .scroll-to-top-btn {
     position: fixed;
-    top: 75%;
+    top: 85%;
     right: 2rem;
 
     @include m.flexCenter;
@@ -14,6 +14,8 @@
 
     background-color: v.$accent-hover;
 
+    transition: top 0.3s ease;
+
     svg {
         width: 1.5rem;
         height: 1.5rem;
@@ -21,8 +23,16 @@
         color: white;
     }
 
+    &.at-bottom {
+        top: 75%;
+    }
+
     @media (min-width: v.$desktop) {
-        top: 80%;
+        top: 85%;
         right: 3rem;
+
+        &.at-bottom {
+            top: 75%;
+        }
     }
 }
