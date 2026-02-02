@@ -1,43 +1,22 @@
 import express from "express";
 import multer from "multer";
-import axios from "axios";
 import supabase from "../supabase.js";
-import dotenv from "dotenv";
-import FormData from "form-data";
-
-dotenv.config();
 
 const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage() });
 
-// Utility: remove background and save to Supabase Storage
-async function processImage(imageBuffer, outputFilename) {
-  const form = new FormData();
-  form.append("size", "auto");
-  form.append("image_file", imageBuffer);
-
-  const response = await axios({
-    method: "post",
-    url: "https://api.remove.bg/v1.0/removebg",
-    data: form,
-    headers: {
-      ...form.getHeaders(),
-      "X-Api-Key": process.env.REMOVE_BG_KEY,
-    },
-    responseType: "arraybuffer",
-  });
-
-  // Upload to Supabase Storage
-  const { data, error } = await supabase.storage
-    .from("product_images")
-    .upload(`product_images/${outputFilename}`, response.data, {
-      contentType: "image/png",
-      upsert: false,
-    });
-
-  if (error) throw error;
-
-  return outputFilename;
+// Utility: get content type from file extension
+function getContentType(filename) {
+  const ext = filename.split(".").pop()?.toLowerCase();
+  const types = {
+    png: "image/png",
+    jpg: "image/jpeg",
+    jpeg: "image/jpeg",
+    webp: "image/webp",
+    gif: "image/gif",
+    svg: "image/svg+xml",
+  };
+  return types[ext] || "image/png";
 }
 
 /* 
@@ -57,12 +36,28 @@ router.post("/", upload.single("image"), async (req, res) => {
     let imageFilename = null;
 
     if (req.file) {
-      // Save as PNG
-      const newFileName = req.file.filename + ".png";
+      // Get extension from original filename
+      const originalExt =
+        req.file.originalname.split(".").pop()?.toLowerCase() || "png";
+      const validExts = ["png", "jpg", "jpeg", "webp", "gif"];
+      const ext = validExts.includes(originalExt) ? originalExt : "png";
 
-      // Background removal and Supabase upload
-      await processImage(req.file.buffer, newFileName);
+      const newFileName =
+        Date.now() +
+        "_" +
+        Math.random().toString(36).substring(2, 8) +
+        "." +
+        ext;
 
+      // Upload directly to Supabase Storage
+      const { error: uploadError } = await supabase.storage
+        .from("product_images")
+        .upload(`product_images/${newFileName}`, req.file.buffer, {
+          contentType: getContentType(newFileName),
+          upsert: false,
+        });
+
+      if (uploadError) throw uploadError;
       imageFilename = newFileName;
     }
 
@@ -89,8 +84,8 @@ router.post("/", upload.single("image"), async (req, res) => {
       productId: data[0].id,
     });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to create product" });
+    console.error("Product creation error:", err.message || err);
+    res.status(500).json({ error: err.message || "Failed to create product" });
   }
 });
 
@@ -163,12 +158,30 @@ router.put("/:id", upload.single("image"), async (req, res) => {
 
     let newImage = oldProduct[0].image;
 
-    // If new image uploaded → remove old one + process new one
+    // If new image uploaded → remove old one + upload new one
     if (req.file) {
-      const newFileName = req.file.filename + ".png";
+      // Get extension from original filename
+      const originalExt =
+        req.file.originalname.split(".").pop()?.toLowerCase() || "png";
+      const validExts = ["png", "jpg", "jpeg", "webp", "gif"];
+      const ext = validExts.includes(originalExt) ? originalExt : "png";
 
-      // Remove background + upload to Supabase
-      await processImage(req.file.buffer, newFileName);
+      const newFileName =
+        Date.now() +
+        "_" +
+        Math.random().toString(36).substring(2, 8) +
+        "." +
+        ext;
+
+      // Upload directly to Supabase Storage
+      const { error: uploadError } = await supabase.storage
+        .from("product_images")
+        .upload(`product_images/${newFileName}`, req.file.buffer, {
+          contentType: getContentType(newFileName),
+          upsert: false,
+        });
+
+      if (uploadError) throw uploadError;
 
       // Delete old file from Supabase if exists
       if (newImage) {

@@ -47,7 +47,44 @@
         margin-bottom: 1.5rem;
         gap: 1rem;
 
-        select,
+        select {
+            display: block;
+
+            flex: 1 1 150px;
+            min-width: 150px;
+
+            padding: 0.75rem 2.5rem 0.75rem 0.75rem;
+
+            border: 1px solid v.$accent-2;
+            border-radius: 0.5rem;
+
+            background-color: v.$card-container-bg-color;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="none" stroke="%2366cc66" stroke-width="2" stroke-linecap="round"><path d="M6 8l4 4 4-4"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 1.2em 1.2em;
+
+            color: v.$text-color;
+
+            font-size: v.$fs-body;
+            font-family: v.$font-body;
+
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+
+            transition: border-color 200ms;
+
+            &:focus {
+                outline: none;
+                border-color: v.$accent;
+            }
+
+            @include m.tablet {
+                min-width: 200px;
+            }
+        }
+        
         input[type="number"] {
             display: block;
 
@@ -65,6 +102,15 @@
 
             font-size: v.$fs-body;
             font-family: v.$font-body;
+
+            // Remove default number input spinners
+            -moz-appearance: textfield;
+            
+            &::-webkit-outer-spin-button,
+            &::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
 
             transition: border-color 200ms;
 

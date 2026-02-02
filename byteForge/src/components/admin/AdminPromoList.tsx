@@ -12,7 +12,11 @@ interface Promo {
   created_at: string;
 }
 
-const AdminPromoList = () => {
+interface AdminPromoListProps {
+  refreshTrigger?: number;
+}
+
+const AdminPromoList = ({ refreshTrigger }: AdminPromoListProps) => {
   const [promos, setPromos] = useState<Promo[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -40,7 +44,7 @@ const AdminPromoList = () => {
 
   useEffect(() => {
     fetchPromos();
-  }, []);
+  }, [refreshTrigger]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -233,7 +237,9 @@ const AdminPromoList = () => {
                 <img
                   src={
                     promo.image
-                      ? getImageUrl(null, promo.image, "promo")
+                      ? `${getImageUrl(null, promo.image, "promo")}?t=${Date.parse(
+                          promo.created_at,
+                        )}`
                       : "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23141414' width='100' height='100'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23666' font-family='Arial' font-size='12'%3ENo Image%3C/text%3E%3C/svg%3E"
                   }
                   alt={promo.title}

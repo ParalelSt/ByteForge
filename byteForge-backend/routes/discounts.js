@@ -13,7 +13,15 @@ router.get("/", async (req, res) => {
 
     if (error) throw error;
 
-    res.json(results);
+    // Map to camelCase for frontend
+    const mapped = results.map((d) => ({
+      id: d.id,
+      productId: d.productid,
+      percentage: d.percentage,
+      active: d.active,
+    }));
+
+    res.json(mapped);
   } catch (err) {
     console.error("Error fetching discounts:", err);
     res.status(500).json({ error: "Database error" });
@@ -29,7 +37,15 @@ router.get("/admin/all", async (req, res) => {
 
     if (error) throw error;
 
-    res.json(results);
+    // Map to camelCase for frontend
+    const mapped = results.map((d) => ({
+      id: d.id,
+      productId: d.productid,
+      percentage: d.percentage,
+      active: d.active,
+    }));
+
+    res.json(mapped);
   } catch (err) {
     console.error("Error fetching discounts:", err);
     res.status(500).json({ error: "Database error" });
@@ -51,7 +67,7 @@ router.post("/", async (req, res) => {
     const { data: existing, error: checkError } = await supabase
       .from("discounts")
       .select("*")
-      .eq("productId", productId)
+      .eq("productid", productId)
       .eq("active", true);
 
     if (checkError) throw checkError;
@@ -64,7 +80,7 @@ router.post("/", async (req, res) => {
 
     const { data: newDiscount, error: insertError } = await supabase
       .from("discounts")
-      .insert([{ productId, percentage, active: true }])
+      .insert([{ productid: productId, percentage, active: true }])
       .select();
 
     if (insertError) throw insertError;
@@ -74,7 +90,7 @@ router.post("/", async (req, res) => {
       success: true,
       discount: {
         id: discount.id,
-        productId: discount.productId,
+        productId: discount.productid,
         percentage: discount.percentage,
         active: discount.active ? 1 : 0,
       },

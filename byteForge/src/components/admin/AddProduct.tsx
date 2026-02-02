@@ -82,7 +82,8 @@ const AddProduct = ({ onProductAdded }: AddProductProps) => {
 
         onProductAdded?.();
       } else {
-        setMessage("Failed to add product.");
+        const serverMsg = data.error || data.message || JSON.stringify(data);
+        setMessage(`Failed to add product. ${serverMsg}`);
       }
     } catch (error) {
       console.error("Error adding product:", error);

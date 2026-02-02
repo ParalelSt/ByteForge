@@ -1,7 +1,11 @@
 import { useState } from "react";
 import "@/styles/admin/adminPromo.scss";
 
-const AdminPromo = () => {
+interface AdminPromoProps {
+  onPromoCreated?: () => void;
+}
+
+const AdminPromo = ({ onPromoCreated }: AdminPromoProps) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [link, setLink] = useState("");
@@ -42,6 +46,7 @@ const AdminPromo = () => {
             setDescription("");
             setLink("");
             setImage(null);
+            onPromoCreated?.();
           } catch (err) {
             setError((err as Error).message);
           } finally {

@@ -3,6 +3,7 @@ import { useCart } from "@/components/context/CartContext";
 import { getImageUrl } from "@/utils/imageUrl";
 import "@/styles/admin/adminProductList.scss";
 import { BsCurrencyEuro } from "react-icons/bs";
+import { FaX } from "react-icons/fa6";
 
 interface Discount {
   id: number;
@@ -53,6 +54,9 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
   const [selectedProduct, setSelectedProduct] = useState("");
   const [discountPercent, setDiscountPercent] = useState("");
   const [discountMessage, setDiscountMessage] = useState("");
+  const [discountMessageType, setDiscountMessageType] = useState<
+    "success" | "error" | ""
+  >("");
   const [discountLoading, setDiscountLoading] = useState(false);
   const [discountFilterHasDiscount, setDiscountFilterHasDiscount] =
     useState("");
@@ -75,6 +79,29 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
   useEffect(() => {
     fetchDiscounts();
   }, [refreshTrigger]);
+
+  // Remove discount handler
+  const handleRemoveDiscount = async (discountId: number) => {
+    if (!window.confirm("Remove this discount?")) return;
+    try {
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const res = await fetch(`${apiUrl}/admin/discounts/${discountId}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        setDiscountMessage("Discount removed!");
+        setDiscountMessageType("success");
+        fetchDiscounts();
+      } else {
+        setDiscountMessage("Failed to remove discount");
+        setDiscountMessageType("error");
+      }
+    } catch {
+      setDiscountMessage("Failed to remove discount");
+      setDiscountMessageType("error");
+    }
+  };
+
   // Add discount handler
   const handleAddDiscount = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -93,6 +120,7 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
       const data = await res.json();
       if (res.ok) {
         setDiscountMessage("Discount added!");
+        setDiscountMessageType("success");
         setSelectedProduct("");
         setDiscountPercent("");
         fetchDiscounts();
@@ -109,6 +137,7 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
         }
       } else {
         setDiscountMessage(data.error || "Failed to add discount");
+        setDiscountMessageType("error");
       }
     } finally {
       setDiscountLoading(false);
@@ -474,7 +503,7 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
                 <img
                   src={
                     p.image
-                      ? getImageUrl(p.imageUrl, p.image, "product")
+                      ? `${getImageUrl(p.imageUrl, p.image, "product")}?t=${Date.now()}`
                       : "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23141414' width='100' height='100'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23666' font-family='Arial' font-size='12'%3ENo Image%3C/text%3E%3C/svg%3E"
                   }
                   alt={p.name}
@@ -512,10 +541,12 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
                       </span>
                     );
                   })()}
-                  {p.featured && (
-                    <span className="featured-badge">⭐ Featured</span>
-                  )}
-                  <span className="stock-info">Stock: {p.stock ?? 0}</span>
+                  <div className="product-meta">
+                    {p.featured && (
+                      <span className="featured-badge">⭐ Featured</span>
+                    )}
+                    <span className="stock-info">Stock: {p.stock ?? 0}</span>
+                  </div>
                 </div>
                 <div className="product-actions">
                   <button
@@ -606,6 +637,17 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
                     {hasDiscount && (
                       <span className="discount-badge">
                         {discountInfo?.percentage}% OFF
+                        <button
+                          className="remove-discount-btn"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            if (discountInfo)
+                              handleRemoveDiscount(discountInfo.id);
+                          }}
+                          title="Remove discount"
+                        >
+                          <FaX />
+                        </button>
                       </span>
                     )}
                   </p>
@@ -634,7 +676,11 @@ const AdminProductList = ({ refreshTrigger }: AdminProductListProps) => {
           <button type="submit" disabled={discountLoading || !selectedProduct}>
             {discountLoading ? "Adding..." : "Add Discount"}
           </button>
-          {discountMessage && <p className="message">{discountMessage}</p>}
+          {discountMessage && (
+            <p className={`message ${discountMessageType}`}>
+              {discountMessage}
+            </p>
+          )}
         </form>
       </div>
     </div>

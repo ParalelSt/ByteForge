@@ -10,9 +10,14 @@ const AdminDashboard = () => {
   const [authorized, setAuthorized] = useState(false);
   const [error, setError] = useState("");
   const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const [promoRefreshTrigger, setPromoRefreshTrigger] = useState(0);
 
   const handleProductAdded = () => {
     setRefreshTrigger((prev) => prev + 1);
+  };
+
+  const handlePromoCreated = () => {
+    setPromoRefreshTrigger((prev) => prev + 1);
   };
 
   const handleLogin = async () => {
@@ -60,8 +65,8 @@ const AdminDashboard = () => {
 
       <AddProduct onProductAdded={handleProductAdded} />
       <AdminProductList refreshTrigger={refreshTrigger} />
-      <AdminPromo />
-      <AdminPromoList />
+      <AdminPromo onPromoCreated={handlePromoCreated} />
+      <AdminPromoList refreshTrigger={promoRefreshTrigger} />
     </div>
   );
 };

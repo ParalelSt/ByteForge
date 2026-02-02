@@ -76,7 +76,7 @@ const Promo = () => {
       imageSrc = `${supabaseUrl}/storage/v1/object/public/promo_images/${promo.image.replace(
         /^.*[\\/]/,
         "",
-      )}`;
+      )}?t=${Date.now()}`;
     } else {
       imageSrc = "/placeholder.png";
     }

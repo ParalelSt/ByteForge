@@ -43,6 +43,7 @@ app.use(
       "http://192.168.1.105",
       "http://192.168.1.105:3000",
       "https://byte-forge-9hno.vercel.app",
+      "https://byte-forge-rho.vercel.app",
       /\.vercel\.app$/,
     ],
     credentials: true,

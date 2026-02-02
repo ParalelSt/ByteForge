@@ -32,12 +32,28 @@ router.post("/", upload.single("image"), async (req, res) => {
     let imageFileName = null;
 
     if (req.file) {
-      const newFileName = Date.now() + ".png";
+      // Get the file extension from original filename, default to png
+      const originalExt =
+        req.file.originalname.split(".").pop()?.toLowerCase() || "png";
+      const validExts = ["png", "jpg", "jpeg", "webp", "gif", "svg"];
+      const ext = validExts.includes(originalExt) ? originalExt : "png";
+
+      // Determine content type
+      const contentTypes = {
+        png: "image/png",
+        jpg: "image/jpeg",
+        jpeg: "image/jpeg",
+        webp: "image/webp",
+        gif: "image/gif",
+        svg: "image/svg+xml",
+      };
+
+      const newFileName = Date.now() + "." + ext;
       // Upload to Supabase Storage
       const { data, error: uploadError } = await supabase.storage
         .from("promo_images")
         .upload(`promo_images/${newFileName}`, req.file.buffer, {
-          contentType: "image/png",
+          contentType: contentTypes[ext] || "image/png",
           upsert: false,
         });
       if (uploadError) throw uploadError;
@@ -126,12 +142,28 @@ router.put("/:id", upload.single("image"), async (req, res) => {
           .catch(() => {}); // Ignore errors if file doesn't exist
       }
 
-      const newFileName = Date.now() + ".png";
+      // Get the file extension from original filename, default to png
+      const originalExt =
+        req.file.originalname.split(".").pop()?.toLowerCase() || "png";
+      const validExts = ["png", "jpg", "jpeg", "webp", "gif", "svg"];
+      const ext = validExts.includes(originalExt) ? originalExt : "png";
+
+      // Determine content type
+      const contentTypes = {
+        png: "image/png",
+        jpg: "image/jpeg",
+        jpeg: "image/jpeg",
+        webp: "image/webp",
+        gif: "image/gif",
+        svg: "image/svg+xml",
+      };
+
+      const newFileName = Date.now() + "." + ext;
       // Upload to Supabase Storage
       const { data, error: uploadError } = await supabase.storage
         .from("promo_images")
         .upload(`promo_images/${newFileName}`, req.file.buffer, {
-          contentType: "image/png",
+          contentType: contentTypes[ext] || "image/png",
           upsert: false,
         });
       if (uploadError) throw uploadError;
