@@ -5,6 +5,7 @@
     position: fixed;
     top: 85%;
     right: 2rem;
+    z-index: 50;
 
     @include m.flexCenter;
 
