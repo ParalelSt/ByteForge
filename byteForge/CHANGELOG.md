@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.13](https://github.com/ParalelSt/ByteForge/compare/v0.0.12...v0.0.13) (2026-02-02)
+
+
+### Bug Fixes
+
+* promo link now leads to related product or similar product ([9066924](https://github.com/ParalelSt/ByteForge/commit/9066924dab46df9dba11169eb8f4ac74f1025df0))
+* remove temp.json and other scripts ([12cde4a](https://github.com/ParalelSt/ByteForge/commit/12cde4a70ff3d6cf0636ee130924d2ed62394288))
+* scroll to top button z-index ([d2ce520](https://github.com/ParalelSt/ByteForge/commit/d2ce52027f336cb0e52960cbcb5b333b05dddae1))
+
 ### [0.0.12](https://github.com/ParalelSt/ByteForge/compare/v0.0.11...v0.0.12) (2026-02-02)
 
 
