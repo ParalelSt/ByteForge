@@ -331,7 +331,9 @@ const AccountSettingsModal = ({ mode, setMode }: AccountSettingsModalProps) => {
 
         <div className="visibility-toggle">
           <label htmlFor="visibilityBtn">
-            {showPassword ? "Hide the passwords" : "Show the passwords"}
+            {showPassword
+              ? `Hide the ${mode === "password" ? "passwords" : "password"}`
+              : `Show the ${mode === "password" ? "passwords" : "password"}`}
           </label>
           <button
             className="visibility-btn"
