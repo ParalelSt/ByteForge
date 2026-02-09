@@ -6,7 +6,14 @@ const router = express.Router();
 
 router.put("/", async (req, res) => {
   try {
-    const { user_id, currentEmail, newEmail, currentPassword } = req.body;
+    const {
+      user_id,
+      currentEmail: rawCurrent,
+      newEmail: rawNew,
+      currentPassword,
+    } = req.body;
+    const currentEmail = rawCurrent?.toLowerCase().trim();
+    const newEmail = rawNew?.toLowerCase().trim();
 
     if (!user_id) {
       return res.status(400).json({
