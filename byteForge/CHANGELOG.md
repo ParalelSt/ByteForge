@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.14](https://github.com/ParalelSt/ByteForge/compare/v0.0.13...v0.0.14) (2026-02-09)
+
+
+### Bug Fixes
+
+* added toLowerCase to get rid of case sensitivity ([5e80ed1](https://github.com/ParalelSt/ByteForge/commit/5e80ed130fbb96922f6084688f5d5fbaa6f8dc78))
+* original price set to color red when discounted, smaller fix for reviews.js ([338e239](https://github.com/ParalelSt/ByteForge/commit/338e2398203de4af865a6d4924b772f0d0d632e5))
+
 ### [0.0.13](https://github.com/ParalelSt/ByteForge/compare/v0.0.12...v0.0.13) (2026-02-02)
 
 
