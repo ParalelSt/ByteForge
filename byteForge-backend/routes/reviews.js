@@ -24,7 +24,7 @@ router.get("/products/:productId/reviews", async (req, res) => {
         helpful_count,
         created_at,
         users(name, email)
-      `
+      `,
       )
       .eq("product_id", productId)
       .order("created_at", { ascending: false });
@@ -59,7 +59,7 @@ router.get("/products/:productId/reviews", async (req, res) => {
     }));
 
     console.log(
-      `Found ${formattedReviews.length} reviews for product ${productId}`
+      `Found ${formattedReviews.length} reviews for product ${productId}`,
     );
     res.json(formattedReviews);
   } catch (error) {
@@ -81,8 +81,17 @@ router.post("/reviews", async (req, res) => {
 
     const { data: newReview, error } = await supabase
       .from("reviews")
-      .insert([{ product_id, user_id, rating, title, text }])
-      .select();
+      .insert([{ product_id, user_id, rating, title, text }]).select(`
+        id,
+        product_id,
+        user_id,
+        rating,
+        title,
+        text,
+        helpful_count,
+        created_at,
+        users(name, email)
+      `);
 
     if (error) throw error;
 
@@ -96,6 +105,8 @@ router.post("/reviews", async (req, res) => {
       text: review.text,
       helpful_count: review.helpful_count || 0,
       created_at: review.created_at,
+      username: review.users?.name || review.users?.email,
+      profile_image: null,
     });
   } catch (error) {
     console.error("Error creating review:", error);

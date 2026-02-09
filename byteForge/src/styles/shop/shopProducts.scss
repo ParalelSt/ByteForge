@@ -121,7 +121,7 @@
             padding-bottom: 0.25rem;
 
             font-size: v.$fs-small;
-            color: gray;
+            color: v.$error-color;
             text-decoration: line-through;
 
             opacity: 0.8;
